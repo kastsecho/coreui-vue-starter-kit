@@ -1,0 +1,13 @@
+// Variables
+@forward 'variables';
+@forward 'utilities';
+
+// CoreUI
+@use '@coreui/coreui/scss/coreui' as * with (
+    $enable-deprecation-messages: false
+);
+@use 'components';
+
+// Fonts
+@import url('https://fonts.bunny.net/css?family=instrument-sans');
+@import 'bootstrap-icons/font/bootstrap-icons.css';
