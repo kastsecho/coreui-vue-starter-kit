@@ -21,7 +21,7 @@ const page = usePage<SharedData>();
 </script>
 
 <template>
-    <CToast :visible :autohide @close="$emit('close')">
+    <CToast :visible :autohide @close="emit('close')">
         <CToastHeader :close-button="!autohide" class="gap-3">
             <AppLogoIcon class="size-5 text-danger" />
             <strong class="me-auto">{{ page.props.name }}</strong>
