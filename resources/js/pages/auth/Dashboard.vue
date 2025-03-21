@@ -26,7 +26,7 @@ const breadcrumbs: BreadcrumbItem[] = [
         <Head title="Dashboard" />
 
         <template #toast>
-            <Toast v-if="status" class="fw-medium text-success">
+            <Toast v-if="status" body-class="fw-medium text-success">
                 {{ status }}
             </Toast>
         </template>

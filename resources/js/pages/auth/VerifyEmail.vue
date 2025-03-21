@@ -20,7 +20,7 @@ const submit = () => {
         <Head title="Email verification" />
 
         <template #toast>
-            <Toast v-if="status === 'verification-link-sent'" class="fw-medium text-success">
+            <Toast v-if="status === 'verification-link-sent'" body-class="fw-medium text-success">
                 A new verification link has been sent to the email address you provided during registration.
             </Toast>
         </template>

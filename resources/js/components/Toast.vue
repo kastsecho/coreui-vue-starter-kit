@@ -9,12 +9,13 @@ const emit = defineEmits(['close']);
 interface Props {
     autohide?: boolean;
     visible?: boolean;
-    class?: string;
+    bodyClass?: string;
 }
 
 withDefaults(defineProps<Props>(), {
     autohide: true,
     visible: true,
+    bodyClass: '',
 });
 
 const page = usePage<SharedData>();
@@ -27,7 +28,7 @@ const page = usePage<SharedData>();
             <strong class="me-auto">{{ page.props.name }}</strong>
         </CToastHeader>
 
-        <CToastBody :class>
+        <CToastBody :class="bodyClass">
             <slot />
         </CToastBody>
     </CToast>
