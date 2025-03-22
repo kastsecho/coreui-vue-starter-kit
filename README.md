@@ -8,14 +8,15 @@
 </p>
 
 ## Features
-* Responsive Design
-* Laravel Fortify
+* Authentication
   * Log in / Register
   * Email Verification
   * Password Confirmation
   * Update Profile
   * Update Password
-* Dark Mode
+* Design
+  * Responsive
+  * Dark Mode
 
 ## Upcoming Features
 * Laravel Fortify
@@ -23,10 +24,11 @@
   * 2FA Verification
 
 ## Tech Stack
-* CoreUI
-* CoreUI Vue
-* TypeScript
-* Vue 3
+* [Laravel](https://laravel.com)
+* [Laravel Fortify](https://laravel.com/docs/fortify)
+* [CoreUI for Vue](https://coreui.io/vue)
+* [Vite](https://vitejs.dev)
+* [Vue.js](https://vuejs.org)
 
 ## Installation
 
