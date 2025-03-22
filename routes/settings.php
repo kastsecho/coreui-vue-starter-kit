@@ -3,7 +3,6 @@
 use App\Http\Controllers\Settings\AppearanceController;
 use App\Http\Controllers\Settings\PasswordController;
 use App\Http\Controllers\Settings\ProfileController;
-use App\Http\Controllers\Settings\TwoFactorController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function () {
