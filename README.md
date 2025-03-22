@@ -15,7 +15,7 @@
   * Password Confirmation
   * Update Profile
   * Update Password
-  * Dark Mode
+* Dark Mode
 
 ## Upcoming Features
 * Laravel Fortify
