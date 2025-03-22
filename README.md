@@ -12,12 +12,28 @@
 * Laravel Fortify
   * Log in / Register
   * Email Verification
+  * Password Confirmation
   * Update Profile
   * Update Password
-* Dark Mode
-* TypeScript
+  * Dark Mode
 
 ## Upcoming Features
 * Laravel Fortify
-  * 2FA Settings (Enable / Disable)
-  * 2FA Log in
+  * 2FA Enable / Disable
+  * 2FA Verification
+
+## Tech Stack
+* CoreUI
+* CoreUI Vue
+* TypeScript
+* Vue 3
+
+## Installation
+
+```php
+laravel new project --using=kastsecho/coreui-vue-starter-kit
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+npm ci && npm run build
+```
