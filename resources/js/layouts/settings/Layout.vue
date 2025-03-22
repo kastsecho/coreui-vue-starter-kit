@@ -29,7 +29,7 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
 
     <CRow>
         <CCol md="4" lg="3">
-            <CListGroup as="nav">
+            <CListGroup as="nav" class="shadow-sm">
                 <Link
                     v-for="item in sidebarNavItems"
                     :key="item.href"
