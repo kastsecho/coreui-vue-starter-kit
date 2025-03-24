@@ -33,7 +33,7 @@ class ProfileUpdateTest extends TestCase
                 'email' => 'test@example.com',
             ]);
         $response
-            ->assertSessionHasNoErrors()
+            ->assertValid()
             ->assertRedirect();
 
         $user->refresh();
@@ -57,7 +57,7 @@ class ProfileUpdateTest extends TestCase
             ]);
 
         $response
-            ->assertSessionHasNoErrors()
+            ->assertValid()
             ->assertRedirect();
 
         $this->assertNotNull($user->refresh()->email_verified_at);
@@ -74,7 +74,7 @@ class ProfileUpdateTest extends TestCase
             ]);
 
         $response
-            ->assertSessionHasNoErrors()
+            ->assertValid()
             ->assertRedirect('/');
 
         $this->assertGuest();
@@ -93,7 +93,7 @@ class ProfileUpdateTest extends TestCase
             ]);
 
         $response
-            ->assertSessionHasErrors('password')
+            ->assertInvalid('password')
             ->assertRedirect('/settings/profile');
 
         $this->assertNotNull($user->fresh());

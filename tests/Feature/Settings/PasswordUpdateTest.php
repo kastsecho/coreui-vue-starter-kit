@@ -25,7 +25,7 @@ class PasswordUpdateTest extends TestCase
             ]);
 
         $response
-            ->assertSessionHasNoErrors()
+            ->assertValid()
             ->assertRedirect('/settings/password');
 
         $this->assertTrue(Hash::check('new-password', $user->refresh()->password));
@@ -45,7 +45,7 @@ class PasswordUpdateTest extends TestCase
             ]);
 
         $response
-            ->assertSessionHasErrors('current_password', errorBag: 'updatePassword')
+            ->assertInvalid('current_password', 'updatePassword')
             ->assertRedirect('/settings/password');
     }
 }
