@@ -18,11 +18,11 @@ const auth = page.props.auth as Auth;
     <CContainer class="d-grid align-items-center justify-content-center min-vh-100 py-4">
         <CRow class="align-items-center row-gap-3 row-gap-md-0">
             <CCol md="7" lg="5" class="d-flex flex-column align-items-center">
-                <CCard class="rounded-4 shadow-sm">
-                    <CCardBody class="d-flex flex-column">
+                <CCard class="rounded-4 shadow-sm w-100">
+                    <CCardBody>
                         <h1 class="card-title fs-2 fw-light">Let's get started</h1>
                         <CCardText class="small fw-medium text-muted">
-                            Your Laravel project is set up and styled with CoreUI components.
+                            Your Laravel project is set up and styled with CoreUI.
                             <br />We suggest starting with the following.
                         </CCardText>
 
@@ -62,7 +62,7 @@ const auth = page.props.auth as Auth;
             </CCol>
 
             <CCol md="5" lg="7" class="d-flex flex-column align-items-center">
-                <CCard class="rounded-4 shadow-sm">
+                <CCard class="rounded-4 shadow-sm w-100">
                     <CCardImage
                         orientation="top"
                         class="rounded-4 border border-secondary"
