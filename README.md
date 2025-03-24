@@ -18,6 +18,9 @@
   * Responsive
   * Dark Mode
 
+## Preview
+![Preview](/public/img/coreui-screenshot.png)
+
 ## Upcoming Features
 * Laravel Fortify
   * 2FA Enable / Disable
