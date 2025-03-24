@@ -18,7 +18,7 @@ const auth = page.props.auth as Auth;
     <CContainer class="d-grid align-items-center justify-content-center min-vh-100">
         <CRow>
             <CCol md="5">
-                <CCard class="rounded-4 shadow w-100 mb-4 h-100">
+                <CCard class="rounded-4 shadow-sm h-100">
                     <CCardBody class="d-flex flex-column">
                         <h1 class="card-title fs-2 fw-light">Let's get started</h1>
                         <CCardText class="small fw-medium text-muted">
@@ -42,6 +42,10 @@ const auth = page.props.auth as Auth;
                                 Watch video tutorials at
                                 <span class="text-danger">Laracasts</span>
                             </CListGroupItem>
+                            <CListGroupItem as="a" class="fw-medium" href="https://cloud.laravel.com" target="_blank">
+                                <span class="bi-box-arrow-up-right text-danger me-2"></span>
+                                <span class="text-danger">&nbsp;Deploy now</span>
+                            </CListGroupItem>
                         </CListGroup>
 
                         <div class="mt-auto" id="cta">
@@ -63,8 +67,8 @@ const auth = page.props.auth as Auth;
                     </CCardBody>
                 </CCard>
             </CCol>
-        </CRow>
 
-        <small class="text-center fw-medium text-muted">Laravel v{{ laravel }} &dotsquare; PHP v{{ php }}</small>
+            <small class="mt-5 text-center fw-medium text-muted">Laravel v{{ laravel }} &dotsquare; PHP v{{ php }}</small>
+        </CRow>
     </CContainer>
 </template>
