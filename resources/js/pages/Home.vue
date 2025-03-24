@@ -61,9 +61,9 @@ const auth = page.props.auth as Auth;
 
             <CCol md="7">
                 <CCard class="rounded-4 shadow-sm h-100">
-                    <CCardImage orientation="top" class="rounded-4" src="/img/coreui-screenshot.png" alt="Dashboard Preview" />
-                    <CCardBody class="card-body">
-                        <CCardText class="text-center text-muted"> Dashboard Preview </CCardText>
+                    <CCardImage orientation="top" class="rounded-4 border border-secondary" src="/img/coreui-screenshot.png" alt="Dashboard Preview" />
+                    <CCardBody class="text-center text-muted">
+                        <CCardText>Dashboard Preview</CCardText>
                     </CCardBody>
                 </CCard>
             </CCol>
