@@ -15,10 +15,10 @@ const auth = page.props.auth as Auth;
 <template>
     <Head title="Home" />
 
-    <CContainer class="d-grid align-items-center justify-content-center min-vh-100">
-        <CRow>
-            <CCol md="5">
-                <CCard class="rounded-4 shadow-sm h-100">
+    <CContainer class="d-grid align-items-center justify-content-center min-vh-100 py-4">
+        <CRow class="align-items-center row-gap-3 row-gap-md-0">
+            <CCol md="7" lg="5" class="d-flex flex-column align-items-center">
+                <CCard class="rounded-4 shadow-sm">
                     <CCardBody class="d-flex flex-column">
                         <h1 class="card-title fs-2 fw-light">Let's get started</h1>
                         <CCardText class="small fw-medium text-muted">
@@ -48,7 +48,7 @@ const auth = page.props.auth as Auth;
                             </CListGroupItem>
                         </CListGroup>
 
-                        <div class="mt-auto" id="cta">
+                        <div class="mt-3">
                             <Link v-if="auth.user" :href="route('dashboard')" class="btn btn-danger">Dashboard</Link>
                             <template v-else>
                                 <Link :href="route('login')" class="btn btn-danger">Log in</Link>
@@ -57,10 +57,12 @@ const auth = page.props.auth as Auth;
                         </div>
                     </CCardBody>
                 </CCard>
+
+                <small class="mt-2 d-none d-lg-block fw-medium text-muted">Laravel v{{ laravel }} &dotsquare; PHP v{{ php }}</small>
             </CCol>
 
-            <CCol md="7">
-                <CCard class="rounded-4 shadow-sm h-100">
+            <CCol md="5" lg="7" class="d-flex flex-column align-items-center">
+                <CCard class="rounded-4 shadow-sm">
                     <CCardImage
                         orientation="top"
                         class="rounded-4 border border-secondary"
@@ -71,9 +73,9 @@ const auth = page.props.auth as Auth;
                         <CCardText>Dashboard Preview</CCardText>
                     </CCardBody>
                 </CCard>
-            </CCol>
 
-            <small class="mt-5 text-center fw-medium text-muted">Laravel v{{ laravel }} &dotsquare; PHP v{{ php }}</small>
+                <small class="mt-2 d-lg-none fw-medium text-muted">Laravel v{{ laravel }} &dotsquare; PHP v{{ php }}</small>
+            </CCol>
         </CRow>
     </CContainer>
 </template>
