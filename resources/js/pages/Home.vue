@@ -1,73 +1,80 @@
 <script setup lang="ts">
 import type { Auth, SharedData } from '@/types';
-import { CCard, CCardBody, CCardHeader, CCol, CContainer, CRow } from '@coreui/vue';
+import { CCard, CCardBody, CCardImage, CCardText, CCol, CContainer, CListGroup, CListGroupItem, CRow } from '@coreui/vue';
 import { Head, Link, usePage } from '@inertiajs/vue3';
+
+defineProps<{
+    laravel?: string;
+    php?: string;
+}>();
 
 const page = usePage<SharedData>();
 const auth = page.props.auth as Auth;
-
-import LaravelLogo from '../../svg/laravelLogo.svg?raw';
-import LaravelVersion from '../../svg/laravelVersion.svg?raw';
 </script>
 
 <template>
     <Head title="Home" />
 
-    <CContainer class="py-4">
-        <CRow class="justify-content-center">
-            <CCol md="6" lg="10" class="d-grid gap-3">
-                <nav class="text-end">
-                    <Link v-if="auth.user" :href="route('dashboard')" class="btn btn-danger">Dashboard</Link>
-                    <template v-else>
-                        <Link :href="route('login')" class="btn btn-link link-danger text-decoration-none">Log in</Link>
-                        <Link :href="route('register')" class="btn btn-danger ms-3">Register</Link>
-                    </template>
-                </nav>
+    <CContainer class="d-grid align-items-center justify-content-center min-vh-100 py-4">
+        <CRow class="align-items-center row-gap-3 row-gap-md-0">
+            <CCol md="7" lg="5" class="d-flex flex-column align-items-center">
+                <CCard class="rounded-4 shadow-sm w-100">
+                    <CCardBody>
+                        <h1 class="card-title fs-2 fw-light">Let's get started</h1>
+                        <CCardText class="small fw-medium text-muted">
+                            Your Laravel project is set up and styled with CoreUI.
+                            <br />We suggest starting with the following.
+                        </CCardText>
 
-                <CCard class="rounded-3 shadow-sm">
-                    <CCardHeader class="rounded-3 d-lg-none text-danger overflow-hidden p-0 shadow-sm">
-                        <div v-html="LaravelLogo"></div>
-                        <div v-html="LaravelVersion"></div>
-                    </CCardHeader>
-                    <CCardBody class="p-lg-0">
-                        <div class="d-flex row-cols-1 row-cols-lg-2 h-100 w-100">
-                            <CCol class="d-flex flex-column justify-content-lg-center p-lg-4">
-                                <h1 class="fs-6 fw-medium mb-1">Let's get started</h1>
-                                <p class="small fw-medium mb-2 text-muted">
-                                    Laravel has an incredibly rich ecosystem.<br />We suggest starting with the following.
-                                </p>
-                                <ul>
-                                    <li class="fw-medium">
-                                        Read the
-                                        <a href="https://laravel.com/docs" target="_blank" class="link-danger">
-                                            <span>Documentation</span>
-                                            <span class="bi-box-arrow-up-right ms-2"></span>
-                                        </a>
-                                    </li>
-                                    <li class="fw-medium">
-                                        Watch video tutorials at
-                                        <a href="https://laracasts.com" target="_blank" class="link-danger">
-                                            <span>Laracasts</span>
-                                            <span class="bi-box-arrow-up-right ms-2"></span>
-                                        </a>
-                                    </li>
-                                </ul>
+                        <CListGroup as="nav" flush>
+                            <CListGroupItem as="a" class="fw-medium" href="https://coreui.io/docs" target="_blank">
+                                <span class="bi-box-arrow-up-right text-danger me-2"></span>
+                                Read the
+                                <span class="text-danger">CoreUI Documentation</span>
+                            </CListGroupItem>
+                            <CListGroupItem as="a" class="fw-medium" href="https://laravel.com/docs" target="_blank">
+                                <span class="bi-box-arrow-up-right text-danger me-2"></span>
+                                Read the
+                                <span class="text-danger">Laravel Documentation</span>
+                            </CListGroupItem>
+                            <CListGroupItem as="a" class="fw-medium" href="https://laracasts.com" target="_blank">
+                                <span class="bi-box-arrow-up-right text-danger me-2"></span>
+                                Watch video tutorials at
+                                <span class="text-danger">Laracasts</span>
+                            </CListGroupItem>
+                            <CListGroupItem as="a" class="fw-medium" href="https://cloud.laravel.com" target="_blank">
+                                <span class="bi-box-arrow-up-right text-danger me-2"></span>
+                                <span class="text-danger">&nbsp;Deploy now</span>
+                            </CListGroupItem>
+                        </CListGroup>
 
-                                <div>
-                                    <a href="https://cloud.laravel.com" target="_blank" class="btn btn-danger px-4">Deploy now</a>
-                                </div>
-                            </CCol>
-
-                            <CCol
-                                class="border-danger rounded-3 d-none d-lg-block text-danger overflow-hidden border shadow-sm"
-                                style="background-color: var(--bs-card-cap-bg)"
-                            >
-                                <div v-html="LaravelLogo"></div>
-                                <div v-html="LaravelVersion"></div>
-                            </CCol>
+                        <div class="mt-3">
+                            <Link v-if="auth.user" :href="route('dashboard')" class="btn btn-danger">Dashboard</Link>
+                            <template v-else>
+                                <Link :href="route('login')" class="btn btn-danger">Log in</Link>
+                                <Link :href="route('register')" class="btn btn-danger ms-3">Register</Link>
+                            </template>
                         </div>
                     </CCardBody>
                 </CCard>
+
+                <small class="mt-2 d-none d-lg-block fw-medium text-muted">Laravel v{{ laravel }} &dotsquare; PHP v{{ php }}</small>
+            </CCol>
+
+            <CCol md="5" lg="7" class="d-flex flex-column align-items-center">
+                <CCard class="rounded-4 shadow-sm w-100">
+                    <CCardImage
+                        orientation="top"
+                        class="rounded-4 border border-secondary"
+                        src="/img/coreui-screenshot.png"
+                        alt="Dashboard Preview"
+                    />
+                    <CCardBody class="text-center text-muted">
+                        <CCardText>Dashboard Preview</CCardText>
+                    </CCardBody>
+                </CCard>
+
+                <small class="mt-2 d-lg-none fw-medium text-muted">Laravel v{{ laravel }} &dotsquare; PHP v{{ php }}</small>
             </CCol>
         </CRow>
     </CContainer>
