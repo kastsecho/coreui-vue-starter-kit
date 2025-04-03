@@ -17,7 +17,7 @@ withDefaults(defineProps<Props>(), {
 });
 
 const page = usePage<SharedData>();
-const auth = page.props.auth as Auth;
+const auth = computed(() => page.props.auth as Auth);
 
 const headerClassNames = ref<string | null>(null);
 const sidebar = useSidebarStore();
@@ -92,10 +92,10 @@ onMounted(() => {
                     <!-- Settings Dropdown -->
                     <CDropdown alignment="end" variant="nav-item">
                         <CDropdownToggle :caret="false">
-                            <CAvatar v-if="!auth.user.avatar" color="secondary" text-color="white" status="success" shape="rounded-circle">
+                            <CAvatar v-if="!auth.user.avatar" color="secondary" shape="rounded-circle" status="success" text-color="white">
                                 {{ getInitials(auth.user.name) }}
                             </CAvatar>
-                            <CAvatar v-else shape="rounded-circle" :src="auth.user.avatar" :alt="auth.user.name" />
+                            <CAvatar v-else shape="rounded-circle" status="success" :src="auth.user.avatar" :alt="auth.user.name" />
                         </CDropdownToggle>
 
                         <CDropdownMenu class="min-w-50">

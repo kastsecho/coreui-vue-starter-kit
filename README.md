@@ -12,7 +12,7 @@
   * Log in / Register
   * Email Verification
   * Password Confirmation
-  * Update Profile
+  * Update Profile / Avatar
   * Update Password
 * Design
   * Responsive

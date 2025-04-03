@@ -5,6 +5,8 @@ namespace Tests\Feature\Settings;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProfileUpdateTest extends TestCase
@@ -97,5 +99,65 @@ class ProfileUpdateTest extends TestCase
             ->assertRedirect('/settings/profile');
 
         $this->assertNotNull($user->fresh());
+    }
+
+    public function test_profile_photo_can_be_uploaded()
+    {
+        $user = User::factory()->create();
+
+        Storage::fake('public');
+
+        $response = $this
+            ->actingAs($user)
+            ->from('/settings/profile')
+            ->put('/user/profile-information', [
+                'name' => $user->name,
+                'email' => $user->email,
+                'photo' => UploadedFile::fake()->image('photo.jpg'),
+            ]);
+
+        $response
+            ->assertValid()
+            ->assertRedirect('/settings/profile');
+
+        $user->refresh();
+
+        $this->assertNotNull($user->profile_photo_path);
+        $this->assertTrue(Storage::disk('public')->exists($user->profile_photo_path));
+    }
+
+    public function test_profile_photo_can_be_removed()
+    {
+        $user = User::factory()->create();
+
+        Storage::fake('public');
+
+        $response = $this->actingAs($user)
+            ->from('/settings/profile')
+            ->put('/user/profile-information', [
+                'name' => $user->name,
+                'email' => $user->email,
+                'photo' => UploadedFile::fake()->image('photo.jpg'),
+            ]);
+
+        $response->assertValid()
+                 ->assertRedirect('/settings/profile');
+
+        $user->refresh();
+
+        $this->assertNotNull($user->profile_photo_path);
+        $this->assertTrue(Storage::disk('public')->exists($user->profile_photo_path));
+
+        $oldPath = $user->profile_photo_path;
+
+        $response = $this->actingAs($user)
+            ->delete('/settings/profile-photo');
+
+        $response->assertValid()
+                 ->assertRedirect('/settings/profile');
+
+        $user->refresh();
+        $this->assertNull($user->profile_photo_path);
+        $this->assertFalse(Storage::disk('public')->exists($oldPath));
     }
 }

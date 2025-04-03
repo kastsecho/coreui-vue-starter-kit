@@ -4,9 +4,10 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import type { SharedData, User } from '@/types';
 import { CNavGroup, CNavTitle } from '@coreui/vue';
 import { usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 
 const page = usePage<SharedData>();
-const user = page.props.auth.user as User;
+const user = computed(() => page.props.auth.user as User);
 </script>
 
 <template>
