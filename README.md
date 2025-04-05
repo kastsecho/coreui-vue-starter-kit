@@ -12,7 +12,7 @@
   * Log in / Register
   * Email Verification
   * Password Confirmation
-  * Update Profile
+  * Update Profile / Avatar
   * Update Password
 * Design
   * Responsive
@@ -39,6 +39,7 @@
 laravel new project --using=kastsecho/coreui-vue-starter-kit
 cp .env.example .env
 php artisan key:generate
+php artisan storage:link
 php artisan migrate
 npm ci && npm run build
 ```

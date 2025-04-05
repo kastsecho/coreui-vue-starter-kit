@@ -29,7 +29,7 @@ withDefaults(defineProps<Props>(), {
 });
 
 const page = usePage<SharedData>();
-const auth = page.props.auth as Auth;
+const auth = computed(() => page.props.auth as Auth);
 
 const visible = ref<boolean>(false);
 

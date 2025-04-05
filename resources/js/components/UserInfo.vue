@@ -25,7 +25,7 @@ const showAvatar = computed(() => props.user.avatar && props.user.avatar !== '')
             <CAvatar v-if="!showAvatar" color="secondary" text-color="white" shape="rounded-circle" status="success" size="sm">
                 {{ getInitials(user.name) }}
             </CAvatar>
-            <CAvatar v-else shape="rounded-circle" size="sm" :src="user.avatar" :alt="user.name" />
+            <CAvatar v-else shape="rounded-circle" status="success" size="sm" :src="user.avatar" :alt="user.name" />
         </div>
         <span class="text-truncate" v-text="user.name"></span>
     </template>
