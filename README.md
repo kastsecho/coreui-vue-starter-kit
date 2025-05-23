@@ -14,17 +14,13 @@
   * Password Confirmation
   * Update Profile / Avatar
   * Update Password
+  * 2FA Verification
 * Design
   * Responsive
   * Dark Mode
 
 ## Preview
 ![Preview](/public/img/coreui-screenshot.png)
-
-## Upcoming Features
-* Laravel Fortify
-  * 2FA Enable / Disable
-  * 2FA Verification
 
 ## Tech Stack
 * [Laravel](https://laravel.com)

@@ -3,12 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
-use Laravel\Fortify\Events\PasswordUpdatedViaController;
 use Laravel\Fortify\Fortify;
 
 class InertiaServiceProvider extends ServiceProvider
@@ -26,6 +23,10 @@ class InertiaServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (! class_exists(Inertia::class)) {
+            return;
+        }
+
         $this->configureViews();
     }
 
@@ -35,41 +36,41 @@ class InertiaServiceProvider extends ServiceProvider
     protected function configureViews(): void
     {
         Fortify::loginView(function () {
-            return Inertia::render('auth/Login', [
+            return inertia('auth/Login', [
                 'canResetPassword' => Route::has('password.request'),
                 'status' => session('status'),
             ]);
         });
 
         Fortify::requestPasswordResetLinkView(function () {
-            return Inertia::render('auth/ForgotPassword', [
+            return inertia('auth/ForgotPassword', [
                 'status' => session('status'),
             ]);
         });
 
         Fortify::resetPasswordView(function (Request $request) {
-            return Inertia::render('auth/ResetPassword', [
+            return inertia('auth/ResetPassword', [
                 'email' => $request->input('email'),
                 'token' => $request->route('token'),
             ]);
         });
 
         Fortify::registerView(function () {
-            return Inertia::render('auth/Register');
+            return inertia('auth/Register');
         });
 
         Fortify::verifyEmailView(function () {
-            return Inertia::render('auth/VerifyEmail', [
+            return inertia('auth/VerifyEmail', [
                 'status' => session('status'),
             ]);
         });
 
         Fortify::twoFactorChallengeView(function () {
-            return Inertia::render('auth/TwoFactorChallenge');
+            return inertia('auth/TwoFactorChallenge');
         });
 
         Fortify::confirmPasswordView(function () {
-            return Inertia::render('auth/ConfirmPassword');
+            return inertia('auth/ConfirmPassword');
         });
     }
 }

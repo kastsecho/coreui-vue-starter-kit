@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import { useSidebar } from '@/components/ui/sidebar/utils';
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { getInitials } from '@/composables/useInitials';
-import { useSidebarStore } from '@/composables/useSidebarStore';
 import type { Auth, BreadcrumbItem, NavItem, SharedData } from '@/types';
 import { CAvatar, CContainer, CDropdown, CDropdownMenu, CDropdownToggle, CHeader, CHeaderNav, CHeaderToggler, CNavItem } from '@coreui/vue';
 import { Link, usePage } from '@inertiajs/vue3';
@@ -20,7 +20,7 @@ const page = usePage<SharedData>();
 const auth = computed(() => page.props.auth as Auth);
 
 const headerClassNames = ref<string | null>(null);
-const sidebar = useSidebarStore();
+const sidebar = useSidebar();
 
 const isCurrentRoute = computed(() => (url: string) => page.url === url);
 
@@ -38,6 +38,8 @@ onMounted(() => {
     document.addEventListener('scroll', () => {
         headerClassNames.value = document.documentElement.scrollTop > 0 ? 'shadow-sm' : null;
     });
+
+    sidebar.setOpen(usePage<SharedData>().props.sidebarOpen);
 });
 </script>
 
@@ -45,7 +47,7 @@ onMounted(() => {
     <CHeader position="sticky" class="mb-4 p-0" :class="headerClassNames">
         <CContainer class="border-bottom px-4" fluid>
             <!-- Hamburger -->
-            <CHeaderToggler @click="sidebar.toggleVisible()" style="margin-inline-start: -14px">
+            <CHeaderToggler @click="sidebar.toggleOpen()" style="margin-inline-start: -14px">
                 <span class="icon icon-lg bi-list" />
             </CHeaderToggler>
 

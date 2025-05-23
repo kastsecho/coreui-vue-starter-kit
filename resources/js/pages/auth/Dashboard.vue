@@ -2,7 +2,7 @@
 import Toast from '@/components/Toast.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { BreadcrumbItem } from '@/types';
-import { CCard, CCardBody, CCardHeader, CCol, CContainer, CRow } from '@coreui/vue';
+import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/vue';
 import { Head } from '@inertiajs/vue3';
 
 defineProps<{
@@ -31,16 +31,14 @@ const breadcrumbs: BreadcrumbItem[] = [
             </Toast>
         </template>
 
-        <CContainer>
-            <CRow class="justify-content-center">
-                <CCol md="8">
-                    <CCard class="rounded-3 shadow-sm">
-                        <CCardHeader>Dashboard</CCardHeader>
+        <CRow class="justify-content-center">
+            <CCol md="8">
+                <CCard class="rounded-3 shadow-sm">
+                    <CCardHeader>Dashboard</CCardHeader>
 
-                        <CCardBody>You are logged in!</CCardBody>
-                    </CCard>
-                </CCol>
-            </CRow>
-        </CContainer>
+                    <CCardBody>You are logged in!</CCardBody>
+                </CCard>
+            </CCol>
+        </CRow>
     </AppLayout>
 </template>

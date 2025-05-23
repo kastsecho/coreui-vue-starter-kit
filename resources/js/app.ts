@@ -8,8 +8,8 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 
+// @ts-ignore
 // Extend ImportMeta interface for Vite...
-// @ts-expect-error PHPStorm seems to throw an error here.
 declare module 'vite/client' {
     interface ImportMetaEnv {
         readonly VITE_APP_NAME: string;
