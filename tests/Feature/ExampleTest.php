@@ -11,10 +11,10 @@ class ExampleTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function test_returns_a_successful_response(): void
+    public function the_application_returns_a_successful_response(): void
     {
         $response = $this->get('/');
 
-        $response->assertOk();
+        $response->assertStatus(200);
     }
 }
