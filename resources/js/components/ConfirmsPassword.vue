@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
-import { CButton, CFormInput, CFormLabel, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from '@coreui/vue';
+import {
+    CButton,
+    CFormInput,
+    CFormLabel,
+    CModal,
+    CModalBody,
+    CModalFooter,
+    CModalHeader,
+    CModalTitle
+} from '@coreui/vue';
 import type { InertiaForm } from '@inertiajs/vue3';
+import { toRef } from 'vue';
 
 const emit = defineEmits(['confirming', 'close']);
 
@@ -13,11 +23,13 @@ interface Props {
     visible: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     button: 'Confirm',
     buttonColor: 'primary',
     title: 'Confirm Password',
 });
+
+const password = toRef(props.form, 'password');
 
 const closeModal = () => emit('close');
 
@@ -31,7 +43,7 @@ const startConfirmingPassword = () => emit('confirming');
         <CModal teleport :visible @close="closeModal">
             <form @submit.prevent="startConfirmingPassword">
                 <CModalHeader>
-                    <CModalTitle class="fs-6" v-text="title" />
+                    <CModalTitle class="fs-6">{{ title }}</CModalTitle>
                 </CModalHeader>
 
                 <CModalBody>
@@ -48,7 +60,7 @@ const startConfirmingPassword = () => emit('confirming');
                                 type="password"
                                 required
                                 name="password"
-                                v-model="form.password"
+                                v-model="password"
                                 placeholder="Password"
                                 :invalid="!!form.errors.password"
                             />
@@ -60,7 +72,7 @@ const startConfirmingPassword = () => emit('confirming');
                 <CModalFooter>
                     <CButton type="button" color="secondary" @click="closeModal">Cancel</CButton>
 
-                    <CButton type="submit" :color="buttonColor" :disabled="form.processing" v-text="button" />
+                    <CButton type="submit" :color="buttonColor" :disabled="form.processing">{{ button }}</CButton>
                 </CModalFooter>
             </form>
         </CModal>
