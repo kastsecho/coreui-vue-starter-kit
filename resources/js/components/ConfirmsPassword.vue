@@ -1,15 +1,6 @@
 <script setup lang="ts">
 import InputError from '@/components/InputError.vue';
-import {
-    CButton,
-    CFormInput,
-    CFormLabel,
-    CModal,
-    CModalBody,
-    CModalFooter,
-    CModalHeader,
-    CModalTitle
-} from '@coreui/vue';
+import { CButton, CFormInput, CFormLabel, CModal, CModalBody, CModalFooter, CModalHeader, CModalTitle } from '@coreui/vue';
 import type { InertiaForm } from '@inertiajs/vue3';
 import { toRef } from 'vue';
 
