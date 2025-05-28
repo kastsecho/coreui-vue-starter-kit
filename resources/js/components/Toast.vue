@@ -19,10 +19,12 @@ withDefaults(defineProps<Props>(), {
 });
 
 const page = usePage<SharedData>();
+
+const closeToast = () => emit('close');
 </script>
 
 <template>
-    <CToast :visible :autohide @close="emit('close')">
+    <CToast :visible :autohide @close="closeToast">
         <CToastHeader :close-button="!autohide" class="gap-3">
             <AppLogoIcon class="size-5 text-danger" />
             <strong class="me-auto">{{ page.props.name }}</strong>

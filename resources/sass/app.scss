@@ -1,13 +1,24 @@
-// Variables
-@forward 'variables';
-@forward 'utilities';
-
 // CoreUI
-@use '@coreui/coreui/scss/coreui' as * with (
-    $enable-deprecation-messages: false
+@use '@coreui/coreui/scss/coreui' with (
+    $enable-deprecation-messages: false,
+    $font-family-sans-serif: (
+        Instrument Sans,
+        ui-sans-serif,
+        system-ui,
+        sans-serif,
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+        'Noto Color Emoji',
+    ),
+    $font-size-base: 0.9rem,
+    $line-height-base: 1.6
 );
+@use 'utilities';
 @use 'components';
 
 // Fonts
+@use 'bootstrap-icons/font/bootstrap-icons' with (
+    $bootstrap-icons-font-dir: 'bootstrap-icons/font/fonts'
+);
 @import url('https://fonts.bunny.net/css?family=instrument-sans');
-@import 'bootstrap-icons/font/bootstrap-icons.css';

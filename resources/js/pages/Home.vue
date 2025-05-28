@@ -57,8 +57,6 @@ const auth = page.props.auth as Auth;
                         </div>
                     </CCardBody>
                 </CCard>
-
-                <small class="mt-2 d-none d-lg-block fw-medium text-muted">Laravel v{{ laravel }} &dotsquare; PHP v{{ php }}</small>
             </CCol>
 
             <CCol md="5" lg="7" class="d-flex flex-column align-items-center">
@@ -69,12 +67,10 @@ const auth = page.props.auth as Auth;
                         src="/img/coreui-screenshot.png"
                         alt="Dashboard Preview"
                     />
-                    <CCardBody class="text-center text-muted">
-                        <CCardText>Dashboard Preview</CCardText>
+                    <CCardBody class="text-center text-danger">
+                        <CCardText class="small fw-semibold"> Laravel v{{ laravel }} &mdash; PHP v{{ php }} </CCardText>
                     </CCardBody>
                 </CCard>
-
-                <small class="mt-2 d-lg-none fw-medium text-muted">Laravel v{{ laravel }} &dotsquare; PHP v{{ php }}</small>
             </CCol>
         </CRow>
     </CContainer>

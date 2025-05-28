@@ -41,13 +41,13 @@ jobs:
         run: cp .env.example .env
 
       - name: Generate Application Key
-        run: php artisan key:generate
+        run: php artisan key:generate --ansi
 
       - name: Publish Ziggy Configuration
-        run: php artisan ziggy:generate
+        run: php artisan ziggy:generate --ansi
 
       - name: Build Assets
         run: npm run build
 
       - name: Tests
-        run: ./vendor/bin/phpunit
+        run: php artisan test --compact --ansi

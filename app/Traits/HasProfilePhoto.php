@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Storage;
 
 trait HasProfilePhoto
 {
+    /**
+     * Boot the trait.
+     */
     protected static function bootHasProfilePhoto(): void
     {
         static::deleting(fn(self $model)  => $model->deleteProfilePhoto());

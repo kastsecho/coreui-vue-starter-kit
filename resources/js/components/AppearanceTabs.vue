@@ -12,14 +12,13 @@ const tabs = [
 
 <template>
     <div>
-        <CButtonGroup class="bg-body border border-primary rounded-3" role="group">
+        <CButtonGroup class="bg-body border rounded-3 shadow-sm" role="group">
             <template v-for="{ value, Icon, label } in tabs" :key="value">
                 <CFormCheck
                     :id="value"
                     type="radio"
-                    name="appearance"
                     :button="{}"
-                    autocomplete="off"
+                    name="appearance"
                     :checked="appearance === value"
                     @click="updateAppearance(value)"
                 />

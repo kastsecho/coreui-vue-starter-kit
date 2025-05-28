@@ -66,8 +66,6 @@ export function useAppearance() {
     const appearance = ref<Appearance>('auto');
 
     onMounted(() => {
-        initializeTheme();
-
         const savedAppearance = localStorage.getItem('appearance') as Appearance | null;
 
         if (savedAppearance) {

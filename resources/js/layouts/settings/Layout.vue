@@ -14,6 +14,10 @@ const sidebarNavItems: NavItem[] = [
         href: '/settings/password',
     },
     {
+        title: 'Two-Factor Auth',
+        href: '/settings/two-factor',
+    },
+    {
         title: 'Appearance',
         href: '/settings/appearance',
     },
@@ -42,7 +46,7 @@ const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.locati
             </CListGroup>
         </CCol>
 
-        <CCol md="8" lg="6">
+        <CCol class="mt-4 mt-md-0" md="8" lg="6">
             <slot />
         </CCol>
     </CRow>
