@@ -20,7 +20,7 @@
   * Dark Mode
 
 ## Preview
-![Preview](/public/img/coreui-screenshot.png)
+![Preview](/public/img/coreui-screenshot.jpg)
 
 ## Tech Stack
 * [Laravel](https://laravel.com)

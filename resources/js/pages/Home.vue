@@ -64,7 +64,7 @@ const auth = page.props.auth as Auth;
                     <CCardImage
                         orientation="top"
                         class="rounded-4 border border-secondary"
-                        src="/img/coreui-screenshot.png"
+                        src="/img/coreui-screenshot.jpg"
                         alt="Dashboard Preview"
                     />
                     <CCardBody class="text-center text-danger">
