@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request): Response
     {
-        return inertia('Welcome', [
+        return inertia('Home', [
             'canRegister' => Features::enabled(Features::registration()),
         ]);
     }
