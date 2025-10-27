@@ -23,7 +23,7 @@ This Vue starter kit includes the following features:
   * Email Verification
   * Password Confirmation
   * Password Reset
-* Settings Update 
+* Profile Management
   * Update Profile / Avatar
   * Update Password
   * 2FA Verification

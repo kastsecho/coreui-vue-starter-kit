@@ -4,6 +4,8 @@ namespace Tests\Feature\Settings;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Fortify\Features;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -124,5 +126,79 @@ class ProfileUpdateTest extends TestCase
             ->assertRedirect(route('profile.edit'));
 
         $this->assertModelExists($user);
+    }
+
+    #[Test]
+    public function profile_photo_can_be_uploaded(): void
+    {
+        if (! Features::canUpdateProfileInformation()) {
+            $this->markTestSkipped('Profile management is not enabled.');
+        }
+
+        $user = User::factory()->create();
+
+        Storage::fake('public');
+
+        $response = $this
+            ->actingAs($user)
+            ->from(route('profile.edit'))
+            ->put(route('user-profile-information.update'), [
+                'name' => $user->name,
+                'email' => $user->email,
+                'photo' => UploadedFile::fake()->image('photo.jpg'),
+            ]);
+
+        $response
+            ->assertValid()
+            ->assertRedirect(route('profile.edit'));
+
+        $user->refresh();
+
+        $this->assertNotNull($user->profile_photo_path);
+        $this->assertTrue(Storage::disk('public')->exists($user->profile_photo_path));
+    }
+
+    #[Test]
+    public function profile_photo_can_be_removed(): void
+    {
+        if (! Features::canUpdateProfileInformation()) {
+            $this->markTestSkipped('Profile management is not enabled.');
+        }
+
+        $user = User::factory()->create();
+
+        Storage::fake('public');
+
+        $response = $this->actingAs($user)
+            ->from(route('profile.edit'))
+            ->put(route('user-profile-information.update'), [
+                'name' => $user->name,
+                'email' => $user->email,
+                'photo' => UploadedFile::fake()->image('photo.jpg'),
+            ]);
+
+        $response
+            ->assertValid()
+            ->assertRedirect(route('profile.edit'));
+
+        $user->refresh();
+
+        $this->assertNotNull($user->profile_photo_path);
+        $this->assertTrue(Storage::disk('public')->exists($user->profile_photo_path));
+
+        $oldPath = $user->profile_photo_path;
+
+        $response = $this
+            ->actingAs($user)
+            ->delete(route('profile-photo.destroy'));
+
+        $response
+            ->assertValid()
+            ->assertRedirect(route('profile.edit'));
+
+        $user->refresh();
+
+        $this->assertNull($user->profile_photo_path);
+        $this->assertFalse(Storage::disk('public')->exists($oldPath));
     }
 }
