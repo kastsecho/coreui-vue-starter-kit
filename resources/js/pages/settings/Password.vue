@@ -7,7 +7,7 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { edit as editPassword } from '@/routes/password';
 import { edit as editProfile } from '@/routes/profile';
 import { update } from '@/routes/user-password';
-import { type BreadcrumbItem } from '@/types';
+import type { BreadcrumbItem } from '@/types';
 import { Form, Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 

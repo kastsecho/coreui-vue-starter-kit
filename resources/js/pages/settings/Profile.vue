@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input, InputError, Label } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { type BreadcrumbItem } from '@/types';
+import type { BreadcrumbItem } from '@/types';
 import { edit } from '@/routes/profile';
 import { update } from '@/routes/user-profile-information';
 import { send } from '@/routes/verification';
