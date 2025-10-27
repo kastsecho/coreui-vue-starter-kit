@@ -39,6 +39,7 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
+            ->from(route('profile.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
@@ -52,7 +53,7 @@ class ProfileUpdateTest extends TestCase
 
         $this->assertSame('Test User', $user->name);
         $this->assertSame('test@example.com', $user->email);
-        $this->assertFalse($user->fresh()->hasVerifiedEmail());
+        $this->assertFalse($user->hasVerifiedEmail());
     }
 
     #[Test]
@@ -66,6 +67,7 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
+            ->from(route('profile.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => 'Test User',
                 'email' => $user->email,
