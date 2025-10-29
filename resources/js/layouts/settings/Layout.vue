@@ -6,6 +6,7 @@ import { toUrl, urlIsActive } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
 import { edit as editProfile } from '@/routes/profile';
 import { edit as editPassword } from '@/routes/password';
+import { edit as editTwoFactor } from '@/routes/two-factor';
 import type { NavItem } from '@/types';
 import { CCol, CRow } from '@coreui/vue';
 
@@ -17,6 +18,10 @@ const sidebarNavItems: NavItem[] = [
     {
         title: 'Password',
         href: editPassword(),
+    },
+    {
+        title: 'Two-Factor Auth',
+        href: editTwoFactor(),
     },
     {
         title: 'Appearance',

@@ -27,13 +27,14 @@ class TwoFactorAuthenticationTest extends TestCase
 
         $user = User::factory()->withoutTwoFactor()->create();
 
-        $response = $this->actingAs($user)
+        $response = $this
+            ->actingAs($user)
             ->withSession(['auth.password_confirmed_at' => time()])
-            ->get(route('two-factor.show'));
+            ->get(route('two-factor.edit'));
 
         $response
+            ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
-                ->component('settings/TwoFactor')
                 ->where('twoFactorEnabled', false)
             );
     }
@@ -73,7 +74,8 @@ class TwoFactorAuthenticationTest extends TestCase
             'confirmPassword' => false,
         ]);
 
-        $response = $this->actingAs($user)
+        $response = $this
+            ->actingAs($user)
             ->get(route('two-factor.edit'));
 
         $response->assertOk();
@@ -90,7 +92,8 @@ class TwoFactorAuthenticationTest extends TestCase
 
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)
+        $response = $this
+            ->actingAs($user)
             ->withSession(['auth.password_confirmed_at' => time()])
             ->get(route('two-factor.edit'));
 

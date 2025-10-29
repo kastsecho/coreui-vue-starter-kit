@@ -169,7 +169,8 @@ class ProfileUpdateTest extends TestCase
 
         Storage::fake('public');
 
-        $response = $this->actingAs($user)
+        $response = $this
+            ->actingAs($user)
             ->from(route('profile.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => $user->name,

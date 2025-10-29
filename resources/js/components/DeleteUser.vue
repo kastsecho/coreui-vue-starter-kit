@@ -16,7 +16,7 @@ import { Form } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const passwordInput = ref<InstanceType<typeof Input> | null>(null);
-const dialogVisible = ref(false);
+const showDeleteModal = ref(false);
 </script>
 
 <template>
@@ -37,13 +37,13 @@ const dialogVisible = ref(false);
                 type="button"
                 color="danger"
                 data-test="delete-user-button"
-                @click="dialogVisible = !dialogVisible"
+                @click="showDeleteModal = !showDeleteModal"
             >
                 Delete account
             </Button>
 
 
-            <Dialog content-class-name="rounded-4" :visible="dialogVisible">
+            <Dialog content-class-name="rounded-4" :open="showDeleteModal">
                 <Form
                     v-bind="destroy.form()"
                     reset-on-success
