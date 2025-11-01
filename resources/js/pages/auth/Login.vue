@@ -56,7 +56,9 @@ defineProps<{
                 </div>
 
                 <div class="d-grid">
-                    <div class="form-label d-flex align-items-center justify-content-between">
+                    <div
+                        class="form-label d-flex align-items-center justify-content-between"
+                    >
                         <Label class="mb-0" for="password">Password</Label>
                         <TextLink
                             v-if="canResetPassword"

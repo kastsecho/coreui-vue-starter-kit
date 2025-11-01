@@ -18,7 +18,7 @@ const tabs = [
             v-for="{ value, Icon, label } in tabs"
             :key="value"
             class="rounded-4"
-            :class="{'shadow-sm' : appearance === value}"
+            :class="{ 'shadow-sm': appearance === value }"
             :color="appearance === value ? 'primary' : 'transparent'"
             @click="updateAppearance(value)"
             :active="appearance === value"

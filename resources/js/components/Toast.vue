@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
-import { Toast, ToastContent, ToastGroup, ToastHeader } from '@/components/ui/toast';
+import {
+    Toast,
+    ToastContent,
+    ToastGroup,
+    ToastHeader,
+} from '@/components/ui/toast';
 import { usePage } from '@inertiajs/vue3';
 
 const emit = defineEmits(['close']);

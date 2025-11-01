@@ -6,9 +6,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import {
-    NavigationMenuLink,
-} from '@/components/ui/navigation-menu';
+import { NavigationMenuLink } from '@/components/ui/navigation-menu';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
 import type { User } from '@/types';
@@ -30,12 +28,7 @@ const handleLogout = () => {
 
 <template>
     <template v-if="variant === 'sidebar'">
-        <NavigationMenuLink
-            class="w-100"
-            as="button"
-            :href="edit()"
-            prefetch
-        >
+        <NavigationMenuLink class="w-100" as="button" :href="edit()" prefetch>
             <Icon class="nav-icon" name="gear" />
             Settings
         </NavigationMenuLink>
@@ -58,12 +51,7 @@ const handleLogout = () => {
             </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-            class="icon-link"
-            as="button"
-            :href="edit()"
-            prefetch
-        >
+        <DropdownMenuItem class="icon-link" as="button" :href="edit()" prefetch>
             <Icon name="gear" />
             Settings
         </DropdownMenuItem>

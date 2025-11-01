@@ -52,7 +52,9 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                 >
                     <div class="d-grid gap-3">
                         <div class="d-grid">
-                            <Label for="current_password">Current password</Label>
+                            <Label for="current_password"
+                                >Current password</Label
+                            >
                             <Input
                                 ref="currentPasswordInput"
                                 id="current_password"
@@ -98,7 +100,9 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                                 placeholder="Confirm password"
                                 :invalid="!!errors.password_confirmation"
                             />
-                            <InputError :message="errors.password_confirmation" />
+                            <InputError
+                                :message="errors.password_confirmation"
+                            />
                         </div>
 
                         <div class="d-flex align-items-center gap-4">

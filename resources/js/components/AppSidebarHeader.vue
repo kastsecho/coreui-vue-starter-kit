@@ -15,7 +15,7 @@ import {
     SidebarHeader,
     SidebarHeaderList,
     SidebarRail,
-    useSidebar
+    useSidebar,
 } from '@/components/ui/sidebar';
 import { Tooltip } from '@/components/ui/tooltip';
 import UserMenuContent from '@/components/UserMenuContent.vue';
@@ -31,7 +31,7 @@ interface Props {
     breadcrumbs?: BreadcrumbItem[];
 }
 
-withDefaults(defineProps<Props>(),{
+withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
 
@@ -74,7 +74,8 @@ const isCurrentRoute = computed(
 
 onMounted(() => {
     document.addEventListener('scroll', () => {
-        headerClassNames.value = document.documentElement.scrollTop > 0 ? 'shadow-sm' : null;
+        headerClassNames.value =
+            document.documentElement.scrollTop > 0 ? 'shadow-sm' : null;
     });
 
     sidebar.setOpen(usePage().props.sidebarOpen);
@@ -82,22 +83,19 @@ onMounted(() => {
 </script>
 
 <template>
-    <SidebarHeader
-        :class="cn('mb-4 p-0', headerClassNames)"
-        position="sticky"
-    >
+    <SidebarHeader :class="cn('mb-4 p-0', headerClassNames)" position="sticky">
         <CContainer class="border-bottom px-4" fluid>
             <!-- Hamburger -->
-            <SidebarRail @click="sidebar.toggleOpen()" style="margin-inline-start: -14px">
+            <SidebarRail
+                @click="sidebar.toggleOpen()"
+                style="margin-inline-start: -14px"
+            >
                 <Icon class="icon icon-lg" name="list" />
             </SidebarRail>
 
             <!-- Navigation Links -->
             <SidebarHeaderList class="d-none d-md-flex">
-                <template
-                    v-for="(item, index) in mainNavItems"
-                    :key="index"
-                >
+                <template v-for="(item, index) in mainNavItems" :key="index">
                     <NavigationMenuItem v-if="item.isActive ?? true">
                         <NavigationMenuLink
                             :href="item.href"

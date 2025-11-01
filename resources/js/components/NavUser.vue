@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import UserInfo from '@/components/UserInfo.vue';
 import UserMenuContent from '@/components/UserMenuContent.vue';
-import {
-    SidebarGroupLabel,
-    SidebarGroup,
-} from '@/components/ui/sidebar';
+import { SidebarGroup, SidebarGroupLabel } from '@/components/ui/sidebar';
 import { usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 

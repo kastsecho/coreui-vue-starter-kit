@@ -25,7 +25,10 @@ defineProps<{
             <CRow class="justify-content-center">
                 <CCol md="7" lg="5">
                     <div class="d-flex flex-column align-items-center gap-4">
-                        <Link class="link-danger fw-medium size-9" :href="home()">
+                        <Link
+                            class="link-danger fw-medium size-9"
+                            :href="home()"
+                        >
                             <AppLogoIcon height="36" width="36" />
                             <span class="visually-hidden">{{ title }}</span>
                         </Link>

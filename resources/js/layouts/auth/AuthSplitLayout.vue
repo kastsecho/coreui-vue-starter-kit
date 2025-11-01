@@ -22,7 +22,10 @@ const quote = page.props.quote;
                     <span class="visually-hidden">{{ title }}</span>
                 </Link>
 
-                <div v-if="quote" class="mt-auto border-start border-4 border-secondary ps-3">
+                <div
+                    v-if="quote"
+                    class="mt-auto border-start border-4 border-secondary ps-3"
+                >
                     <blockquote class="blockquote">
                         <p>&ldquo;{{ quote.message }}&rdquo;</p>
                         <footer class="blockquote-footer">
@@ -33,7 +36,9 @@ const quote = page.props.quote;
             </CContainer>
         </CCol>
 
-        <CCol class="bg-body vh-100 d-flex flex-column align-items-center justify-content-center">
+        <CCol
+            class="bg-body vh-100 d-flex flex-column align-items-center justify-content-center"
+        >
             <CCol md="6" lg="8">
                 <div class="d-flex flex-column align-items-center">
                     <h1 class="fs-4 fw-medium" v-if="title">

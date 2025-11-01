@@ -18,14 +18,22 @@ defineProps<{
             <CRow class="justify-content-center">
                 <CCol md="7" lg="5">
                     <div class="d-flex flex-column align-items-center gap-4">
-                        <Link class="link-danger fw-medium size-9" :href="home()">
+                        <Link
+                            class="link-danger fw-medium size-9"
+                            :href="home()"
+                        >
                             <AppLogoIcon height="36" width="36" />
                             <span class="visually-hidden">{{ title }}</span>
                         </Link>
 
                         <div class="d-flex flex-column align-items-center">
-                            <h1 class="fs-4 fw-medium" v-if="title">{{ title }}</h1>
-                            <p class="text-center text-muted" v-if="description">
+                            <h1 class="fs-4 fw-medium" v-if="title">
+                                {{ title }}
+                            </h1>
+                            <p
+                                class="text-center text-muted"
+                                v-if="description"
+                            >
                                 {{ description }}
                             </p>
                         </div>

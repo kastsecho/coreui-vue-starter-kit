@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Input, InputError } from '@/components/ui/input';
-import { PinInput, PinInputGroup, PinInputSlot } from '@/components/ui/pin-input';
+import {
+    PinInput,
+    PinInputGroup,
+    PinInputSlot,
+} from '@/components/ui/pin-input';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { store } from '@/routes/two-factor/login';
@@ -18,14 +22,16 @@ const authConfigContent = computed<AuthConfigContent>(() => {
     if (showRecoveryInput.value) {
         return {
             title: 'Recovery Code',
-            description: 'Please confirm access to your account by entering one of your emergency recovery codes.',
+            description:
+                'Please confirm access to your account by entering one of your emergency recovery codes.',
             toggleText: 'login using an authentication code',
         };
     }
 
     return {
         title: 'Authentication Code',
-        description: 'Enter the authentication code provided by your authenticator application.',
+        description:
+            'Enter the authentication code provided by your authenticator application.',
         toggleText: 'login using a recovery code',
     };
 });
@@ -43,7 +49,10 @@ const codeValue = computed<string>(() => code.value.join(''));
 </script>
 
 <template>
-    <AuthLayout :title="authConfigContent.title" :description="authConfigContent.description">
+    <AuthLayout
+        :title="authConfigContent.title"
+        :description="authConfigContent.description"
+    >
         <Head title="Two-Factor Authentication" />
 
         <template v-if="!showRecoveryInput">
@@ -66,27 +75,29 @@ const codeValue = computed<string>(() => code.value.join(''));
                                     :index="index"
                                     placeholder="○"
                                     :disabled="processing"
-                                    @complete="(digit) => { code[index] = digit }"
+                                    @complete="
+                                        (digit) => {
+                                            code[index] = digit;
+                                        }
+                                    "
                                 />
                             </PinInputGroup>
                         </PinInput>
                         <InputError
-                            :class="{['d-block']: errors.code}"
+                            :class="{ ['d-block']: errors.code }"
                             :message="errors.code"
                         />
                     </div>
 
-                    <Button
-                        type="submit"
-                        :tabindex="7"
-                        :disabled="processing"
-                    >
+                    <Button type="submit" :tabindex="7" :disabled="processing">
                         <Spinner v-if="processing" size="sm" />
                         Continue
                     </Button>
 
-                    <div class="d-flex w-100 align-items-center justify-content-center">
-                        <hr class="flex-grow-1">
+                    <div
+                        class="d-flex w-100 align-items-center justify-content-center"
+                    >
+                        <hr class="flex-grow-1" />
                         <span class="ps-2 text-muted">or you can</span>
                         <Button
                             type="button"
@@ -97,14 +108,19 @@ const codeValue = computed<string>(() => code.value.join(''));
                         >
                             {{ authConfigContent.toggleText }}
                         </Button>
-                        <hr class="flex-grow-1">
+                        <hr class="flex-grow-1" />
                     </div>
                 </div>
             </Form>
         </template>
 
         <template v-else>
-            <Form v-bind="store.form()" class="space-y-4" reset-on-error #default="{ errors, processing, clearErrors }">
+            <Form
+                v-bind="store.form()"
+                class="space-y-4"
+                reset-on-error
+                #default="{ errors, processing, clearErrors }"
+            >
                 <div class="d-grid gap-3">
                     <div class="d-grid">
                         <Input
@@ -122,17 +138,15 @@ const codeValue = computed<string>(() => code.value.join(''));
                         <InputError :message="errors.recovery_code" />
                     </div>
 
-                    <Button
-                        type="submit"
-                        :tabindex="2"
-                        :disabled="processing"
-                    >
+                    <Button type="submit" :tabindex="2" :disabled="processing">
                         <Spinner v-if="processing" size="sm" />
                         Continue
                     </Button>
 
-                    <div class="d-flex w-100 align-items-center justify-content-center">
-                        <hr class="flex-grow-1">
+                    <div
+                        class="d-flex w-100 align-items-center justify-content-center"
+                    >
+                        <hr class="flex-grow-1" />
                         <span class="ps-2 text-muted">or you can</span>
                         <Button
                             type="button"
@@ -143,7 +157,7 @@ const codeValue = computed<string>(() => code.value.join(''));
                         >
                             {{ authConfigContent.toggleText }}
                         </Button>
-                        <hr class="flex-grow-1">
+                        <hr class="flex-grow-1" />
                     </div>
                 </div>
             </Form>

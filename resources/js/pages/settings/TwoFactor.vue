@@ -54,20 +54,33 @@ onUnmounted(() => {
                     description="Manage your two-factor authentication settings"
                 />
 
-                <div v-if="!twoFactorEnabled" class="d-flex flex-column align-items-start justify-content-start gap-2">
+                <div
+                    v-if="!twoFactorEnabled"
+                    class="d-flex flex-column align-items-start justify-content-start gap-2"
+                >
                     <Badge text-bg-color="danger">Disabled</Badge>
 
-                    <p class="text-muted">
-                        When you enable two-factor authentication, you will be prompted for a secure pin during login. This pin can be retrieved from
-                        a TOTP-supported application on your phone.
+                    <p class="mb-0 text-muted">
+                        When you enable two-factor authentication, you will be
+                        prompted for a secure pin during login. This pin can be
+                        retrieved from a TOTP-supported application on your
+                        phone.
                     </p>
 
                     <div>
-                        <Button v-if="hasSetupData" @click="showSetupModal = true">
+                        <Button
+                            v-if="hasSetupData"
+                            @click="showSetupModal = true"
+                        >
                             <Icon class="me-2" name="shield-check" />
                             Continue Setup
                         </Button>
-                        <Form v-else v-bind="enable.form()" @success="showSetupModal = true" #default="{ processing }">
+                        <Form
+                            v-else
+                            v-bind="enable.form()"
+                            @success="showSetupModal = true"
+                            #default="{ processing }"
+                        >
                             <Button type="submit" :disabled="processing">
                                 <Icon class="me-2" name="shield-check" />
                                 Enable 2FA
@@ -76,19 +89,28 @@ onUnmounted(() => {
                     </div>
                 </div>
 
-                <div v-else class="d-flex flex-column align-items-start justify-content-start gap-2">
+                <div
+                    v-else
+                    class="d-flex flex-column align-items-start justify-content-start gap-2"
+                >
                     <Badge text-bg-color="success">Enabled</Badge>
 
-                    <p class="text-muted">
-                        With two-factor authentication enabled, you will be prompted for a secure, random pin during login, which you can retrieve
-                        from the TOTP-supported application on your phone.
+                    <p class="mb-0 text-muted">
+                        With two-factor authentication enabled, you will be
+                        prompted for a secure, random pin during login, which
+                        you can retrieve from the TOTP-supported application on
+                        your phone.
                     </p>
 
                     <TwoFactorRecoveryCodes />
 
                     <div class="relative inline">
                         <Form v-bind="disable.form()" #default="{ processing }">
-                            <Button type="submit" color="danger" :disabled="processing">
+                            <Button
+                                type="submit"
+                                color="danger"
+                                :disabled="processing"
+                            >
                                 <Icon class="me-2" name="shield-x" />
                                 Disable 2FA
                             </Button>

@@ -83,7 +83,7 @@ const rightNavItems: NavItem[] = [
                     >
                         <NavigationMenuItem v-if="item.isActive ?? true">
                             <NavigationMenuLink
-                                 class="icon-link"
+                                class="icon-link"
                                 :href="item.href"
                                 :active="isCurrentRoute(item.href)"
                             >
@@ -119,10 +119,7 @@ const rightNavItems: NavItem[] = [
                                 <span class="visually-hidden">
                                     {{ item.title }}
                                 </span>
-                                <Icon
-                                    v-if="item.icon"
-                                    :name="item.icon"
-                                />
+                                <Icon v-if="item.icon" :name="item.icon" />
                             </NavigationMenuLink>
                         </Tooltip>
                     </NavigationMenuItem>
@@ -133,7 +130,12 @@ const rightNavItems: NavItem[] = [
                         </NavigationMenuLink>
                     </NavigationMenuItem>
 
-                    <DropdownMenu v-if="auth.user" align="end" variant="nav-item" teleport>
+                    <DropdownMenu
+                        v-if="auth.user"
+                        align="end"
+                        variant="nav-item"
+                        teleport
+                    >
                         <DropdownMenuTrigger class="nav-link" :caret="false">
                             <AvatarImage
                                 v-if="auth.user.avatar"

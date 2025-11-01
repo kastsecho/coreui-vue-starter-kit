@@ -26,7 +26,12 @@ const showAvatar = computed(
 <template>
     <template v-if="variant === 'sidebar'">
         <div class="nav-icon">
-            <AvatarImage v-if="showAvatar" :src="user.avatar!" :alt="user.name" size="sm" />
+            <AvatarImage
+                v-if="showAvatar"
+                :src="user.avatar!"
+                :alt="user.name"
+                size="sm"
+            />
             <AvatarFallback v-else class="fw-semibold text-white" size="sm">
                 {{ getInitials(user.name) }}
             </AvatarFallback>
@@ -35,17 +40,19 @@ const showAvatar = computed(
     </template>
 
     <template v-else>
-        <AvatarImage v-if="showAvatar" :src="user.avatar!" :alt="user.name" size="sm" />
+        <AvatarImage
+            v-if="showAvatar"
+            :src="user.avatar!"
+            :alt="user.name"
+            size="sm"
+        />
         <AvatarFallback v-else class="fw-semibold text-white" size="sm">
             {{ getInitials(user.name) }}
         </AvatarFallback>
 
         <div class="d-grid flex-grow-1">
             <span class="text-truncate fw-medium">{{ user.name }}</span>
-            <span
-                v-if="showEmail"
-                class="text-truncate small text-muted"
-            >
+            <span v-if="showEmail" class="text-truncate small text-muted">
                 {{ user.email }}
             </span>
         </div>

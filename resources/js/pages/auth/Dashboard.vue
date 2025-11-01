@@ -3,6 +3,7 @@ import Heading from '@/components/Heading.vue';
 import Icon from '@/components/Icon.vue';
 import { Alert } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Table,
     TableCell,
@@ -10,12 +11,6 @@ import {
     TableHeaderCell,
     TableRow,
 } from '@/components/ui/table';
-import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard, home } from '@/routes';
 import type { BreadcrumbItem, User } from '@/types';
@@ -74,7 +69,11 @@ const user = computed(() => page.props.auth.user);
                             <small class="text-muted">{{ users.total }}</small>
                         </div>
 
-                        <Icon class="mb-0 flex-shrink-0 card-title" name="people-fill" color="info" />
+                        <Icon
+                            class="mb-0 flex-shrink-0 card-title"
+                            name="people-fill"
+                            color="info"
+                        />
                     </CardContent>
                 </Card>
             </CCol>
@@ -86,7 +85,11 @@ const user = computed(() => page.props.auth.user);
                             <small class="text-muted">{{ users.latest }}</small>
                         </div>
 
-                        <Icon class="mb-0 flex-shrink-0 card-title" name="person-badge-fill" color="info" />
+                        <Icon
+                            class="mb-0 flex-shrink-0 card-title"
+                            name="person-badge-fill"
+                            color="info"
+                        />
                     </CardContent>
                 </Card>
             </CCol>
@@ -95,10 +98,16 @@ const user = computed(() => page.props.auth.user);
                     <CardContent class="d-flex align-items-center">
                         <div class="flex-grow-1 text-center">
                             <CardTitle>Verified Users</CardTitle>
-                            <small class="text-muted">{{ users.verified }}</small>
+                            <small class="text-muted">{{
+                                users.verified
+                            }}</small>
                         </div>
 
-                        <Icon class="mb-0 flex-shrink-0 card-title" name="check-circle-fill" color="success" />
+                        <Icon
+                            class="mb-0 flex-shrink-0 card-title"
+                            name="check-circle-fill"
+                            color="success"
+                        />
                     </CardContent>
                 </Card>
             </CCol>
@@ -107,10 +116,16 @@ const user = computed(() => page.props.auth.user);
                     <CardContent class="d-flex align-items-center">
                         <div class="flex-grow-1 text-center">
                             <CardTitle>Unverified Users</CardTitle>
-                            <small class="text-muted">{{ users.unverified }}</small>
+                            <small class="text-muted">{{
+                                users.unverified
+                            }}</small>
                         </div>
 
-                        <Icon class="mb-0 flex-shrink-0 card-title" name="x-circle-fill" color="warning" />
+                        <Icon
+                            class="mb-0 flex-shrink-0 card-title"
+                            name="x-circle-fill"
+                            color="warning"
+                        />
                     </CardContent>
                 </Card>
             </CCol>
@@ -128,19 +143,36 @@ const user = computed(() => page.props.auth.user);
                             striped
                         >
                             <TableContent>
-                                <TableRow v-for="user in recentUsers" :key="user.id">
-                                    <TableHeaderCell>{{ user.id }}</TableHeaderCell>
+                                <TableRow
+                                    v-for="user in recentUsers"
+                                    :key="user.id"
+                                >
+                                    <TableHeaderCell>{{
+                                        user.id
+                                    }}</TableHeaderCell>
                                     <TableCell>{{ user.name }}</TableCell>
                                     <TableCell align="middle">
                                         <Badge
                                             shape="rounded-pill"
-                                            :text-bg-color="user.email_verified_at ? 'success' : 'warning'"
+                                            :text-bg-color="
+                                                user.email_verified_at
+                                                    ? 'success'
+                                                    : 'warning'
+                                            "
                                         >
-                                            {{ user.email_verified_at ? 'Verified' : 'Unverified' }}
+                                            {{
+                                                user.email_verified_at
+                                                    ? 'Verified'
+                                                    : 'Unverified'
+                                            }}
                                         </Badge>
                                     </TableCell>
                                     <TableCell>
-                                        {{ new Date(user.created_at).toISOString().slice(0, 10) }}
+                                        {{
+                                            new Date(user.created_at)
+                                                .toISOString()
+                                                .slice(0, 10)
+                                        }}
                                     </TableCell>
                                 </TableRow>
                             </TableContent>

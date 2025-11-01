@@ -11,17 +11,10 @@ const className = computed(() => props.class);
 </script>
 
 <template>
-    <div
-        v-if="variant === 'sidebar'"
-        :class="className"
-    >
+    <div v-if="variant === 'sidebar'" :class="className">
         <slot />
     </div>
-    <div
-        v-else
-        class="d-flex min-vh-100 w-100 flex-column"
-        :class="className"
-    >
+    <div v-else class="d-flex min-vh-100 w-100 flex-column" :class="className">
         <slot />
     </div>
 </template>

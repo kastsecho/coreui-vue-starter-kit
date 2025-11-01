@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import Icon from '@/components/Icon.vue';
 import { Card, CardContent } from '@/components/ui/card';
-import { NavigationMenu, NavigationMenuLink, NavigationMenuList } from '@/components/ui/navigation-menu';
+import {
+    NavigationMenu,
+    NavigationMenuLink,
+    NavigationMenuList,
+} from '@/components/ui/navigation-menu';
 import { dashboard, login, logout, register } from '@/routes';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 
@@ -19,12 +23,21 @@ const auth = page.props.auth;
     <NavigationMenu container expand>
         <NavigationMenuList class="ms-auto align-items-center">
             <template v-if="auth.user">
-                <NavigationMenuLink as="button" :href="logout()">Log out</NavigationMenuLink>
-                <Link class="btn btn-outline-light" :href="dashboard()">Dashboard</Link>
+                <NavigationMenuLink as="button" :href="logout()"
+                    >Log out</NavigationMenuLink
+                >
+                <Link class="btn btn-outline-light" :href="dashboard()"
+                    >Dashboard</Link
+                >
             </template>
             <template v-else>
                 <NavigationMenuLink :href="login()">Log in</NavigationMenuLink>
-                <Link v-if="canRegister" class="btn btn-outline-light" :href="register()">Register</Link>
+                <Link
+                    v-if="canRegister"
+                    class="btn btn-outline-light"
+                    :href="register()"
+                    >Register</Link
+                >
             </template>
         </NavigationMenuList>
     </NavigationMenu>
@@ -34,7 +47,8 @@ const auth = page.props.auth;
             <CardContent class="px-4">
                 <h1 class="fs-3 fw-medium">Let's get started</h1>
                 <p class="text-muted">
-                    Laravel has an incredibly rich ecosystem. <br />We suggest starting with the following.
+                    Laravel has an incredibly rich ecosystem. <br />We suggest
+                    starting with the following.
                 </p>
                 <ul class="mb-3 list-unstyled">
                     <li class="d-flex align-items-center gap-2">

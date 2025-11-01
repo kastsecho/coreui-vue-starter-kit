@@ -9,11 +9,11 @@ import { Input, InputError, Label } from '@/components/ui/input';
 import { getInitials } from '@/composables/useInitials';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import type { BreadcrumbItem } from '@/types';
 import { edit } from '@/routes/profile';
 import { destroy } from '@/routes/profile-photo';
 import { update } from '@/routes/user-profile-information';
 import { send } from '@/routes/verification';
+import type { BreadcrumbItem } from '@/types';
 import { Form, Head, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 
@@ -123,7 +123,11 @@ const clearPhotoFileInput = () => {
                                     :disabled="processing"
                                     data-test="update-profile-photo-button"
                                 >
-                                    {{ user.avatar ? 'Change Photo' : 'Upload Photo' }}
+                                    {{
+                                        user.avatar
+                                            ? 'Change Photo'
+                                            : 'Upload Photo'
+                                    }}
                                 </Button>
 
                                 <Button
@@ -138,7 +142,10 @@ const clearPhotoFileInput = () => {
                                     Remove Photo
                                 </Button>
                             </div>
-                            <InputError :class="{['d-block']: errors.photo}" :message="errors.photo" />
+                            <InputError
+                                :class="{ ['d-block']: errors.photo }"
+                                :message="errors.photo"
+                            />
                         </div>
 
                         <div class="d-grid">
@@ -190,8 +197,8 @@ const clearPhotoFileInput = () => {
                                 class="fw-medium rounded-4 shadow-sm"
                                 color="success"
                             >
-                                A new verification link has been sent to your email
-                                address.
+                                A new verification link has been sent to your
+                                email address.
                             </Alert>
                         </div>
 

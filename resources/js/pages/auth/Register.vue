@@ -95,9 +95,7 @@ import { Form, Head } from '@inertiajs/vue3';
                 </Button>
             </div>
 
-            <div
-                class="d-flex gap-1 justify-content-center text-muted"
-            >
+            <div class="d-flex gap-1 justify-content-center text-muted">
                 <span>Already have an account?</span>
                 <TextLink :href="login()" :tabindex="6">Log in</TextLink>
             </div>

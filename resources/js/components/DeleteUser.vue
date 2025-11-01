@@ -42,7 +42,6 @@ const showDeleteModal = ref(false);
                 Delete account
             </Button>
 
-
             <Dialog content-class-name="rounded-4" :open="showDeleteModal">
                 <Form
                     v-bind="destroy.form()"
@@ -59,20 +58,16 @@ const showDeleteModal = ref(false);
                             Are you sure you want to delete your account?
                         </DialogTitle>
                         <DialogDescription>
-                            Once your account is deleted, all of its
-                            resources and data will also be permanently
-                            deleted. Please enter your password to confirm
-                            you would like to permanently delete your
-                            account.
+                            Once your account is deleted, all of its resources
+                            and data will also be permanently deleted. Please
+                            enter your password to confirm you would like to
+                            permanently delete your account.
                         </DialogDescription>
                     </DialogHeader>
 
                     <DialogContent>
                         <div class="d-grid">
-                            <Label
-                                for="password"
-                                class="visually-hidden"
-                            >
+                            <Label for="password" class="visually-hidden">
                                 Password
                             </Label>
                             <Input
