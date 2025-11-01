@@ -9,7 +9,6 @@ interface Props {
     scrollable?: boolean;
     size?: 'sm' | 'lg' | 'xl';
     teleport?: boolean;
-    visible?: boolean;
     class?: HTMLAttributes['class'];
 }
 
@@ -18,6 +17,8 @@ const props = withDefaults(defineProps<Props>(), {
     backdrop: true,
     teleport: true,
 });
+
+const visible = defineModel<boolean>('open');
 </script>
 
 <template>
@@ -26,6 +27,8 @@ const props = withDefaults(defineProps<Props>(), {
         v-bind="props"
         :class="props.class"
         :alignment="align"
+        :visible="visible"
+        @close="visible = !visible"
     >
         <slot/>
     </CModal>

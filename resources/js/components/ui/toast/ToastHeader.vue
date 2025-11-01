@@ -1,17 +1,19 @@
 <script setup lang="ts">
-import { InputGroup } from '@/components/ui/input';
+import { CToastHeader } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
+    closeButton?: boolean;
     class?: HTMLAttributes['class'];
 }>();
 </script>
 
 <template>
-    <InputGroup
-        data-slot="pin-input-group"
+    <CToastHeader
+        data-slot="toast-header"
         :class="props.class"
+        :close-button="closeButton"
     >
-        <slot />
-    </InputGroup>
+        <slot/>
+    </CToastHeader>
 </template>

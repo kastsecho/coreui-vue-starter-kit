@@ -1,7 +1,17 @@
 <script setup lang="ts">
-defineProps({});
+import { CCardFooter } from '@coreui/vue';
+import type { HTMLAttributes } from 'vue';
+
+const props = defineProps<{
+    class?: HTMLAttributes['class'];
+}>();
 </script>
 
 <template>
-    <div>Nothing in life is to be feared, it is only to be understood. Now is the time to understand more, so that we may fear less. - Marie Curie</div>
+    <CCardFooter
+        data-slot="card-footer"
+        :class="props.class"
+    >
+        <slot/>
+    </CCardFooter>
 </template>

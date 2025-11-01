@@ -1,28 +1,30 @@
 <script setup lang="ts">
 import type { Color } from '@/types/coreui';
-import { CAlert } from '@coreui/vue';
+import { CToast } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
 
 interface Props {
-    color: Color;
+    autohide?: boolean;
+    delay?: number;
+    color?: Color;
     dismissible?: boolean;
-    variant?: 'solid';
     visible?: boolean;
     class?: HTMLAttributes['class'];
 }
 
 const props = withDefaults(defineProps<Props>(), {
+    autohide: true,
+    delay: 5000,
     visible: true,
 });
 </script>
 
 <template>
-    <CAlert
-        data-slot="alert"
-        role="alert"
+    <CToast
+        data-slot="toast"
         v-bind="props"
         :class="props.class"
     >
-        <slot />
-    </CAlert>
+        <slot/>
+    </CToast>
 </template>

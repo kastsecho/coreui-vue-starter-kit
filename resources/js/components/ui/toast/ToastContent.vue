@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { InputGroup } from '@/components/ui/input';
+import { CToastBody } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
@@ -8,10 +8,10 @@ const props = defineProps<{
 </script>
 
 <template>
-    <InputGroup
-        data-slot="pin-input-group"
+    <CToastBody
+        data-slot="toast-content"
         :class="props.class"
     >
-        <slot />
-    </InputGroup>
+        <slot/>
+    </CToastBody>
 </template>
