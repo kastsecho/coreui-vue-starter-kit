@@ -3,11 +3,11 @@ import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Checkbox, Input, InputError, Label } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { CSpinner } from '@coreui/vue';
 import { Form, Head } from '@inertiajs/vue3';
 
 defineProps<{
@@ -92,10 +92,7 @@ defineProps<{
                     :disabled="processing"
                     data-test="login-button"
                 >
-                    <CSpinner
-                        v-if="processing"
-                        size="sm"
-                    />
+                    <Spinner v-if="processing" size="sm" />
                     Log in
                 </Button>
             </div>

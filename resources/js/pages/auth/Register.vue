@@ -2,10 +2,10 @@
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input, InputError, Label } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
-import { CSpinner } from '@coreui/vue';
 import { Form, Head } from '@inertiajs/vue3';
 </script>
 
@@ -90,10 +90,7 @@ import { Form, Head } from '@inertiajs/vue3';
                     :disabled="processing"
                     data-test="register-user-button"
                 >
-                    <CSpinner
-                        v-if="processing"
-                        size="sm"
-                    />
+                    <Spinner v-if="processing" size="sm" />
                     Create account
                 </Button>
             </div>

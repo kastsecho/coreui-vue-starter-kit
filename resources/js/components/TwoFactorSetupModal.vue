@@ -18,11 +18,11 @@ import {
     PinInputGroup,
     PinInputSlot,
 } from '@/components/ui/pin-input';
+import { Spinner } from '@/components/ui/spinner';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
 import { confirm } from '@/routes/two-factor';
 import { Form } from '@inertiajs/vue3';
 import { useClipboard } from '@vueuse/core';
-import { CSpinner } from '@coreui/vue';
 import { computed, nextTick, ref, watch } from 'vue';
 
 interface Props {
@@ -140,7 +140,7 @@ watch(
 
                     <div class="w-100 d-flex align-items-center justify-content-center">
                         <div v-if="!manualSetupKey" class="d-flex align-items-center justify-content-center bg-transparent p-2">
-                            <CSpinner size="sm" />
+                            <Spinner size="sm" />
                         </div>
                         <InputGroup v-else>
                             <Input type="text" disabled :value="manualSetupKey" />

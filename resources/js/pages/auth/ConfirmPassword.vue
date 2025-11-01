@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Input, InputError, Label } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { store } from '@/routes/password/confirm';
-import { CSpinner } from '@coreui/vue';
 import { Form, Head } from '@inertiajs/vue3';
 </script>
 
@@ -43,10 +43,7 @@ import { Form, Head } from '@inertiajs/vue3';
                     :disabled="processing"
                     data-test="confirm-password-button"
                 >
-                    <CSpinner
-                        v-if="processing"
-                        size="sm"
-                    />
+                    <Spinner v-if="processing" size="sm" />
                     Confirm Password
                 </Button>
             </div>

@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button';
 import { Input, InputError } from '@/components/ui/input';
 import { PinInput, PinInputGroup, PinInputSlot } from '@/components/ui/pin-input';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { store } from '@/routes/two-factor/login';
 import { Form, Head } from '@inertiajs/vue3';
@@ -80,6 +81,7 @@ const codeValue = computed<string>(() => code.value.join(''));
                         :tabindex="7"
                         :disabled="processing"
                     >
+                        <Spinner v-if="processing" size="sm" />
                         Continue
                     </Button>
 
@@ -125,6 +127,7 @@ const codeValue = computed<string>(() => code.value.join(''));
                         :tabindex="2"
                         :disabled="processing"
                     >
+                        <Spinner v-if="processing" size="sm" />
                         Continue
                     </Button>
 

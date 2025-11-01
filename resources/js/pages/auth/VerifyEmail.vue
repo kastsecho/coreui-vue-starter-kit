@@ -2,10 +2,10 @@
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { logout } from '@/routes';
 import { send } from '@/routes/verification';
-import { CSpinner } from '@coreui/vue';
 import { Form, Head } from '@inertiajs/vue3';
 
 defineProps<{
@@ -40,7 +40,7 @@ defineProps<{
                 :disabled="processing"
                 data-test="verify-email-button"
             >
-                <CSpinner v-if="processing" size="sm" />
+                <Spinner v-if="processing" size="sm" />
                 Resend verification email
             </Button>
 

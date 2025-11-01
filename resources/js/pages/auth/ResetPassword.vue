@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Button } from '@/components/ui/button';
 import { Input, InputError, Label } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { update } from '@/routes/password';
-import { CSpinner } from '@coreui/vue';
 import { Form, Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
@@ -84,10 +84,7 @@ const inputEmail = ref(props.email);
                     :disabled="processing"
                     data-test="reset-password-button"
                 >
-                    <CSpinner
-                        v-if="processing"
-                        size="sm"
-                    />
+                    <Spinner v-if="processing" size="sm" />
                     Reset password
                 </Button>
             </div>

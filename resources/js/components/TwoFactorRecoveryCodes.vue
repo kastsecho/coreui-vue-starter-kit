@@ -2,9 +2,9 @@
 import Icon from '@/components/Icon.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Spinner } from '@/components/ui/spinner';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
 import { regenerateRecoveryCodes } from '@/routes/two-factor';
-import { CSpinner } from '@coreui/vue';
 import { Form } from '@inertiajs/vue3';
 import { nextTick, onMounted, ref } from 'vue';
 
@@ -69,7 +69,7 @@ onMounted(async () => {
                 <div class="mt-3 d-grid gap-3">
                     <div ref="recoveryCodeSectionRef" class="d-grid gap-1 rounded-4 bg-body-tertiary p-3 img-thumbnail">
                         <template v-if="!recoveryCodesList.length">
-                            <CSpinner v-for="n in 8" :key="n" size="sm" />
+                            <Spinner v-for="n in 8" :key="n" size="sm" />
                         </template>
                         <code v-else v-for="(code, index) in recoveryCodesList" :key="index" class="fw-medium">
                             {{ code }}

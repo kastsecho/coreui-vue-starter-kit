@@ -3,10 +3,10 @@ import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Input, InputError, Label } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { login } from '@/routes';
 import { email } from '@/routes/password';
-import { CSpinner } from '@coreui/vue';
 import { Form, Head } from '@inertiajs/vue3';
 
 defineProps<{
@@ -58,10 +58,7 @@ defineProps<{
                     :disabled="processing"
                     data-test="email-password-reset-link-button"
                 >
-                    <CSpinner
-                        v-if="processing"
-                        size="sm"
-                    />
+                    <Spinner v-if="processing" size="sm" />
                     Email password reset link
                 </Button>
             </div>
