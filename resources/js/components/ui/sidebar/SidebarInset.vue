@@ -1,11 +1,16 @@
 <script setup lang="ts">
-defineProps({});
+import { cn } from '@/lib/utils';
+import type { HTMLAttributes } from 'vue';
+
+const props = defineProps<{
+    class?: HTMLAttributes['class'];
+}>();
 </script>
 
 <template>
     <div
         data-slot="sidebar-inset"
-        class="wrapper d-flex flex-column min-vh-100"
+        :class="cn('wrapper d-flex flex-column min-vh-100', props.class)"
     >
         <slot/>
     </div>

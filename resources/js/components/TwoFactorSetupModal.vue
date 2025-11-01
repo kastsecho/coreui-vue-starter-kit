@@ -198,9 +198,7 @@ watch(
                             ref="pinInputContainerRef"
                             class="d-flex flex-column align-items-center overflow-hidden gap-3"
                         >
-                            <div
-                                class="flex w-50 flex-col items-center justify-center space-y-3 py-2"
-                            >
+                            <div class="d-grid">
                                 <PinInput v-model="code" id="otp">
                                     <PinInputGroup>
                                         <PinInputSlot

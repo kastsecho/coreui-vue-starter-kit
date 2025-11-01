@@ -52,9 +52,9 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                 >
                     <div class="d-grid gap-3">
                         <div class="d-grid">
-                            <Label for="current_password"
-                                >Current password</Label
-                            >
+                            <Label for="current_password">
+                                Current password
+                            </Label>
                             <Input
                                 ref="currentPasswordInput"
                                 id="current_password"

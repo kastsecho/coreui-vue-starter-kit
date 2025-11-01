@@ -85,7 +85,6 @@ const clearPhotoFileInput = () => {
 
                 <Form
                     v-bind="update.form()"
-                    class="space-y-6"
                     v-slot="{ errors, processing, recentlySuccessful }"
                 >
                     <div class="d-grid gap-3">
@@ -123,11 +122,11 @@ const clearPhotoFileInput = () => {
                                     :disabled="processing"
                                     data-test="update-profile-photo-button"
                                 >
-                                    {{
-                                        user.avatar
-                                            ? 'Change Photo'
-                                            : 'Upload Photo'
-                                    }}
+                                    <template v-if="user.avatar">
+                                        Change Photo
+                                    </template>
+
+                                    <template v-else>Upload Photo</template>
                                 </Button>
 
                                 <Button

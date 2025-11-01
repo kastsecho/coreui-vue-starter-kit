@@ -117,7 +117,6 @@ const codeValue = computed<string>(() => code.value.join(''));
         <template v-else>
             <Form
                 v-bind="store.form()"
-                class="space-y-4"
                 reset-on-error
                 #default="{ errors, processing, clearErrors }"
             >

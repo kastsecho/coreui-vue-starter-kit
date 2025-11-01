@@ -2,7 +2,6 @@
 import Heading from '@/components/Heading.vue';
 import Icon from '@/components/Icon.vue';
 import { ListGroup, ListGroupLink } from '@/components/ui/list-group';
-// prettier-ignore
 import { toUrl, urlIsActive } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
 import { edit as editPassword } from '@/routes/password';
@@ -43,19 +42,16 @@ const currentPath = typeof window !== undefined ? window.location.pathname : '';
         <CRow>
             <CCol md="4" lg="3">
                 <ListGroup class="rounded-4 shadow-sm" as="nav">
-                    <template
+                    <ListGroupLink
                         v-for="item in sidebarNavItems"
                         :key="toUrl(item.href)"
+                        as="button"
+                        :href="item.href"
+                        :active="urlIsActive(item.href, currentPath)"
                     >
-                        <ListGroupLink
-                            as="button"
-                            :href="item.href"
-                            :active="urlIsActive(item.href, currentPath)"
-                        >
-                            <Icon v-if="item.icon" :name="item.icon" />
-                            {{ item.title }}
-                        </ListGroupLink>
-                    </template>
+                        <Icon v-if="item.icon" :name="item.icon" />
+                        {{ item.title }}
+                    </ListGroupLink>
                 </ListGroup>
             </CCol>
 

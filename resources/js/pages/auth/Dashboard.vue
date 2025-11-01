@@ -82,7 +82,7 @@ const user = computed(() => page.props.auth.user);
                     <CardContent class="d-flex align-items-center">
                         <div class="flex-grow-1 text-center">
                             <CardTitle>Latest User</CardTitle>
-                            <small class="text-muted">{{ users.latest }}</small>
+                            <small v-text="users.latest" class="text-muted" />
                         </div>
 
                         <Icon
@@ -98,9 +98,7 @@ const user = computed(() => page.props.auth.user);
                     <CardContent class="d-flex align-items-center">
                         <div class="flex-grow-1 text-center">
                             <CardTitle>Verified Users</CardTitle>
-                            <small class="text-muted">{{
-                                users.verified
-                            }}</small>
+                            <small v-text="users.verified" class="text-muted" />
                         </div>
 
                         <Icon
@@ -116,9 +114,10 @@ const user = computed(() => page.props.auth.user);
                     <CardContent class="d-flex align-items-center">
                         <div class="flex-grow-1 text-center">
                             <CardTitle>Unverified Users</CardTitle>
-                            <small class="text-muted">{{
-                                users.unverified
-                            }}</small>
+                            <small
+                                v-text="users.unverified"
+                                class="text-muted"
+                            />
                         </div>
 
                         <Icon
@@ -147,9 +146,9 @@ const user = computed(() => page.props.auth.user);
                                     v-for="user in recentUsers"
                                     :key="user.id"
                                 >
-                                    <TableHeaderCell>{{
-                                        user.id
-                                    }}</TableHeaderCell>
+                                    <TableHeaderCell>
+                                        <span v-text="user.id" />
+                                    </TableHeaderCell>
                                     <TableCell>{{ user.name }}</TableCell>
                                     <TableCell align="middle">
                                         <Badge

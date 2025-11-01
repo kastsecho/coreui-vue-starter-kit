@@ -28,6 +28,7 @@ const href = computed(() => toUrl(props.href ? props.href : ''));
     <CDropdownItem
         v-else
         data-slot="dropdown-menu-link"
+        as="a"
         :class="props.class"
         :href="href"
     >

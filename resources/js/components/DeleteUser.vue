@@ -50,7 +50,6 @@ const showDeleteModal = ref(false);
                     :options="{
                         preserveScroll: true,
                     }"
-                    class="space-y-6"
                     v-slot="{ errors, processing, reset, clearErrors }"
                 >
                     <DialogHeader class="d-grid">

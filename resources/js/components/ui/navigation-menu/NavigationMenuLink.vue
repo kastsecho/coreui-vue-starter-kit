@@ -28,6 +28,7 @@ const href = computed(() => toUrl(props.href ? props.href : ''));
     <CNavLink
         v-else
         data-slot="navigation-menu-link"
+        as="a"
         :class="props.class"
         :href="href"
         :active="active"

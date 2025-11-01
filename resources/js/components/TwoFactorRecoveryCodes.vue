@@ -111,9 +111,9 @@ onMounted(async () => {
                         Each recovery code can be used once to access your
                         account and will be removed after use. If you need more,
                         click
-                        <span class="fw-bold text-body-emphasis"
-                            >Regenerate Codes</span
-                        >
+                        <span class="fw-bold text-body-emphasis">
+                            Regenerate Codes
+                        </span>
                         above.
                     </CardDescription>
                 </div>

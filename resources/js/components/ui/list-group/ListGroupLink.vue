@@ -31,6 +31,7 @@ const href = computed(() => toUrl(props.href ? props.href : ''));
     <CListGroupItem
         v-else
         data-slot="list-group-link"
+        as="a"
         :class="props.class"
         :href="href"
         :active="active"
