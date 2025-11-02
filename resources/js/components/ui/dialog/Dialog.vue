@@ -28,7 +28,7 @@ const visible = defineModel<boolean>('open');
         :class="props.class"
         :alignment="align"
         :visible="visible"
-        @close="visible = !visible"
+        @close="visible = false"
     >
         <slot/>
     </CModal>

@@ -37,7 +37,7 @@ const showDeleteModal = ref(false);
                 type="button"
                 color="danger"
                 data-test="delete-user-button"
-                @click="showDeleteModal = !showDeleteModal"
+                @click="showDeleteModal = true"
             >
                 Delete account
             </Button>
@@ -91,7 +91,7 @@ const showDeleteModal = ref(false);
                                 () => {
                                     clearErrors();
                                     reset();
-                                    dialogVisible = false;
+                                    showDeleteModal = false;
                                 }
                             "
                         >
