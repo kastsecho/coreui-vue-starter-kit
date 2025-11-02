@@ -2,13 +2,15 @@
 
 .wrapper {
     width: 100%;
-    padding-inline: var(--cui-sidebar-occupy-start, 0) var(--cui-sidebar-occupy-end, 0);
+    padding-inline: var(--cui-sidebar-occupy-start, 0)
+        var(--cui-sidebar-occupy-end, 0);
     will-change: auto;
     @include transition(padding 0.15s);
 }
 
 .header > .container-fluid,
 .sidebar-header {
+    /* prettier-ignore */
     min-height: calc(4rem + 1px); // stylelint-disable-line function-disallowed-list
 }
 
@@ -25,6 +27,7 @@
     .nav-link {
         display: flex;
         align-items: center;
+        /* prettier-ignore */
         min-height: calc(4rem + 1px); // stylelint-disable-line function-disallowed-list
     }
 }
@@ -45,5 +48,6 @@
 }
 
 .footer {
+    /* prettier-ignore */
     min-height: calc(3rem + 1px); // stylelint-disable-line function-disallowed-list
 }

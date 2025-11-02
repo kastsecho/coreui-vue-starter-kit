@@ -1,53 +1,63 @@
 <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
-import type { NavItem, SharedData } from '@/types';
-import { CCol, CListGroup, CRow } from '@coreui/vue';
-import { Link, usePage } from '@inertiajs/vue3';
+import Icon from '@/components/Icon.vue';
+import { ListGroup, ListGroupLink } from '@/components/ui/list-group';
+import { toUrl, urlIsActive } from '@/lib/utils';
+import { edit as editAppearance } from '@/routes/appearance';
+import { edit as editPassword } from '@/routes/password';
+import { edit as editProfile } from '@/routes/profile';
+import { edit as editTwoFactor } from '@/routes/two-factor';
+import type { NavItem } from '@/types';
+import { CCol, CRow } from '@coreui/vue';
 
 const sidebarNavItems: NavItem[] = [
     {
         title: 'Profile',
-        href: '/settings/profile',
+        href: editProfile(),
     },
     {
         title: 'Password',
-        href: '/settings/password',
+        href: editPassword(),
     },
     {
         title: 'Two-Factor Auth',
-        href: '/settings/two-factor',
+        href: editTwoFactor(),
     },
     {
         title: 'Appearance',
-        href: '/settings/appearance',
+        href: editAppearance(),
     },
 ];
 
-const page = usePage<SharedData>();
-
-const currentPath = page.props.ziggy?.location ? new URL(page.props.ziggy.location).pathname : '';
+const currentPath = typeof window !== undefined ? window.location.pathname : '';
 </script>
 
 <template>
-    <Heading title="Settings" description="Manage your profile and account settings" />
+    <div>
+        <Heading
+            title="Settings"
+            description="Manage your profile and account settings"
+        />
 
-    <CRow>
-        <CCol md="4" lg="3">
-            <CListGroup as="nav" class="shadow-sm">
-                <Link
-                    v-for="item in sidebarNavItems"
-                    :key="item.href"
-                    class="list-group-item list-group-item-action"
-                    :class="{ active: currentPath === item.href }"
-                    :href="item.href"
-                >
-                    {{ item.title }}
-                </Link>
-            </CListGroup>
-        </CCol>
+        <CRow>
+            <CCol md="4" lg="3">
+                <ListGroup class="rounded-4 shadow-sm" as="nav">
+                    <ListGroupLink
+                        v-for="item in sidebarNavItems"
+                        :key="toUrl(item.href)"
+                        as="button"
+                        :href="item.href"
+                        :active="urlIsActive(item.href, currentPath)"
+                    >
+                        <Icon v-if="item.icon" :name="item.icon" />
+                        {{ item.title }}
+                    </ListGroupLink>
+                </ListGroup>
+            </CCol>
 
-        <CCol class="mt-4 mt-md-0" md="8" lg="6">
-            <slot />
-        </CCol>
-    </CRow>
+            <CCol class="mt-4 mt-md-0" md="8" lg="6">
+                <slot />
+            </CCol>
+        </CRow>
+    </div>
 </template>

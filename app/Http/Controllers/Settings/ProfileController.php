@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 
 class ProfileController extends Controller
@@ -17,7 +18,7 @@ class ProfileController extends Controller
     {
         return inertia('settings/Profile', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
-            'status' => session('status'),
+            'status' => $request->session()->get('status'),
         ]);
     }
 
@@ -32,7 +33,7 @@ class ProfileController extends Controller
 
         $user = $request->user();
 
-        auth()->logout();
+        Auth::logout();
 
         $user->delete();
 

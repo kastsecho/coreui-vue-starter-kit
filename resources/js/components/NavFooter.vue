@@ -1,19 +1,30 @@
 <script setup lang="ts">
-import type { NavItem } from '@/types';
-import { CNavLink } from '@coreui/vue';
+import Icon from '@/components/Icon.vue';
+import {
+    NavigationMenuItem,
+    NavigationMenuLink,
+} from '@/components/ui/navigation-menu';
+import { toUrl } from '@/lib/utils';
+import { type NavItem } from '@/types';
 
 defineProps<{
     items: NavItem[];
+    class?: string;
 }>();
 </script>
 
 <template>
     <div class="mt-auto">
-        <template v-for="item in items" :key="item.title">
-            <CNavLink :href="item.href" target="_blank" rel="noopener noreferrer">
-                <span class="nav-icon" :class="item.icon" />
+        <NavigationMenuItem v-for="item in items" :key="toUrl(item.href)">
+            <NavigationMenuLink
+                as="a"
+                :href="toUrl(item.href)"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <Icon v-if="item.icon" class="nav-icon" :name="item.icon" />
                 <span>{{ item.title }}</span>
-            </CNavLink>
-        </template>
+            </NavigationMenuLink>
+        </NavigationMenuItem>
     </div>
 </template>

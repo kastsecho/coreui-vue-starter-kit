@@ -1,154 +1,183 @@
 <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
-import Toast from '@/components/Toast.vue';
-import AppLayout from '@/layouts/AppLayout.vue';
-import type { Auth, BreadcrumbItem, SharedData, User } from '@/types';
+import Icon from '@/components/Icon.vue';
+import { Alert } from '@/components/ui/alert';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-    CBadge,
-    CCard,
-    CCardBody,
-    CCardHeader,
-    CCardTitle,
-    CCol,
-    CRow,
-    CTable,
-    CTableBody,
-    CTableDataCell,
-    CTableHead,
-    CTableHeaderCell,
-    CTableRow,
-} from '@coreui/vue';
+    Table,
+    TableCell,
+    TableContent,
+    TableHeaderCell,
+    TableRow,
+} from '@/components/ui/table';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { dashboard, home } from '@/routes';
+import type { BreadcrumbItem, User } from '@/types';
+import { CCol, CRow } from '@coreui/vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
+interface UserStats {
+    latest: string;
+    total: number;
+    unverified: number;
+    verified: number;
+}
+
 defineProps<{
     status?: string;
-    users: {
-        total: number;
-        verified: number;
-        unverified: number;
-        latest: string;
-    };
+    users: UserStats;
     recentUsers: User[];
 }>();
-
-const page = usePage<SharedData>();
-const auth = computed<Auth>(() => page.props.auth);
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Home',
-        href: '/',
+        href: home().url,
     },
     {
         title: 'Dashboard',
-        href: '/dashboard',
+        href: dashboard().url,
     },
 ];
+
+const page = usePage();
+const user = computed(() => page.props.auth.user);
 </script>
 
 <template>
-    <AppLayout :breadcrumbs>
-        <Head title="Dashboard" />
+    <Head title="Dashboard" />
 
-        <template #toast>
-            <Toast v-if="status" body-class="fw-medium text-success">
-                {{ status }}
-            </Toast>
-        </template>
+    <AppLayout :breadcrumbs="breadcrumbs">
+        <Heading title="Dashboard" :description="`Welcome, ${user.name}`" />
 
-        <Heading title="Dashboard" :description="`Welcome, ${auth.user.name}`" />
+        <Alert
+            v-if="status"
+            class="text-center fw-medium rounded-4 shadow-sm"
+            color="success"
+        >
+            {{ status }}
+        </Alert>
 
         <CRow class="row-gap-3">
             <CCol sm="6" lg="3">
-                <CCard class="rounded-3 shadow-sm h-100">
-                    <CCardBody class="d-flex align-items-center">
+                <Card class="rounded-4 shadow-sm">
+                    <CardContent class="d-flex align-items-center">
                         <div class="flex-grow-1 text-center">
-                            <CCardTitle>Total Users</CCardTitle>
-                            <small>{{ users.total }}</small>
+                            <CardTitle>Total User</CardTitle>
+                            <small class="text-muted">{{ users.total }}</small>
                         </div>
 
-                        <CCardTitle class="mb-0 flex-shrink-0 bi-people-fill text-info"></CCardTitle>
-                    </CCardBody>
-                </CCard>
+                        <Icon
+                            class="mb-0 flex-shrink-0 card-title"
+                            name="people-fill"
+                            color="info"
+                        />
+                    </CardContent>
+                </Card>
             </CCol>
-
             <CCol sm="6" lg="3">
-                <CCard class="rounded-3 shadow-sm h-100">
-                    <CCardBody class="d-flex align-items-center">
+                <Card class="rounded-4 shadow-sm">
+                    <CardContent class="d-flex align-items-center">
                         <div class="flex-grow-1 text-center">
-                            <CCardTitle>Latest User</CCardTitle>
-                            <small>{{ users.latest }}</small>
+                            <CardTitle>Latest User</CardTitle>
+                            <small v-text="users.latest" class="text-muted" />
                         </div>
 
-                        <CCardTitle class="mb-0 flex-shrink-0 bi-person-badge-fill text-info"></CCardTitle>
-                    </CCardBody>
-                </CCard>
+                        <Icon
+                            class="mb-0 flex-shrink-0 card-title"
+                            name="person-badge-fill"
+                            color="info"
+                        />
+                    </CardContent>
+                </Card>
             </CCol>
-
             <CCol sm="6" lg="3">
-                <CCard class="rounded-3 shadow-sm h-100">
-                    <CCardBody class="d-flex align-items-center">
+                <Card class="rounded-4 shadow-sm">
+                    <CardContent class="d-flex align-items-center">
                         <div class="flex-grow-1 text-center">
-                            <CCardTitle>Verified Users</CCardTitle>
-                            <small>{{ users.verified }}</small>
+                            <CardTitle>Verified Users</CardTitle>
+                            <small v-text="users.verified" class="text-muted" />
                         </div>
 
-                        <CCardTitle class="mb-0 flex-shrink-0 bi-check-circle-fill text-success"></CCardTitle>
-                    </CCardBody>
-                </CCard>
+                        <Icon
+                            class="mb-0 flex-shrink-0 card-title"
+                            name="check-circle-fill"
+                            color="success"
+                        />
+                    </CardContent>
+                </Card>
             </CCol>
-
             <CCol sm="6" lg="3">
-                <CCard class="rounded-3 shadow-sm h-100">
-                    <CCardBody class="d-flex align-items-center">
+                <Card class="rounded-4 shadow-sm">
+                    <CardContent class="d-flex align-items-center">
                         <div class="flex-grow-1 text-center">
-                            <CCardTitle>Unverified Users</CCardTitle>
-                            <small>{{ users.unverified }}</small>
+                            <CardTitle>Unverified Users</CardTitle>
+                            <small
+                                v-text="users.unverified"
+                                class="text-muted"
+                            />
                         </div>
 
-                        <CCardTitle class="mb-0 flex-shrink-0 bi-x-circle-fill text-warning"></CCardTitle>
-                    </CCardBody>
-                </CCard>
+                        <Icon
+                            class="mb-0 flex-shrink-0 card-title"
+                            name="x-circle-fill"
+                            color="warning"
+                        />
+                    </CardContent>
+                </Card>
             </CCol>
-        </CRow>
 
-        <CRow class="mt-3">
             <CCol lg="6">
-                <CCard class="rounded-3 shadow-sm">
-                    <CCardHeader>
-                        <span class="me-2 bi-table"></span>
+                <Card class="rounded-4 shadow-sm">
+                    <CardHeader class="rounded-top-4">
+                        <Icon class="me-2" name="table" />
                         Recent Users
-                    </CCardHeader>
-
-                    <CCardBody class="text-center p-0">
-                        <CTable striped class="m-0 rounded-bottom-3 overflow-hidden">
-                            <CTableHead>
-                                <CTableRow>
-                                    <CTableHeaderCell>ID</CTableHeaderCell>
-                                    <CTableHeaderCell>Name</CTableHeaderCell>
-                                    <CTableHeaderCell>Status</CTableHeaderCell>
-                                    <CTableHeaderCell>Created</CTableHeaderCell>
-                                </CTableRow>
-                            </CTableHead>
-
-                            <CTableBody>
-                                <CTableRow class="position-relative" v-for="user in recentUsers" :key="user.id">
-                                    <CTableHeaderCell>{{ user.id }}</CTableHeaderCell>
-                                    <CTableDataCell>{{ user.name }}</CTableDataCell>
-                                    <CTableDataCell>
-                                        <CBadge shape="rounded-pill" :text-bg-color="user.email_verified_at ? 'success' : 'warning'">
-                                            {{ user.email_verified_at ? 'Verified' : 'Unverified' }}
-                                        </CBadge>
-                                    </CTableDataCell>
-                                    <CTableDataCell>
-                                        {{ new Date(user.created_at).toISOString().slice(0, 10) }}
-                                    </CTableDataCell>
-                                </CTableRow>
-                            </CTableBody>
-                        </CTable>
-                    </CCardBody>
-                </CCard>
+                    </CardHeader>
+                    <CardContent class="text-center p-0">
+                        <Table
+                            class="m-0 rounded-bottom-4 overflow-hidden"
+                            :columns="['ID', 'Name', 'Status', 'Created']"
+                            striped
+                        >
+                            <TableContent>
+                                <TableRow
+                                    v-for="user in recentUsers"
+                                    :key="user.id"
+                                >
+                                    <TableHeaderCell>
+                                        <span v-text="user.id" />
+                                    </TableHeaderCell>
+                                    <TableCell>{{ user.name }}</TableCell>
+                                    <TableCell align="middle">
+                                        <Badge
+                                            shape="rounded-pill"
+                                            :text-bg-color="
+                                                user.email_verified_at
+                                                    ? 'success'
+                                                    : 'warning'
+                                            "
+                                        >
+                                            {{
+                                                user.email_verified_at
+                                                    ? 'Verified'
+                                                    : 'Unverified'
+                                            }}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell>
+                                        {{
+                                            new Date(user.created_at)
+                                                .toISOString()
+                                                .slice(0, 10)
+                                        }}
+                                    </TableCell>
+                                </TableRow>
+                            </TableContent>
+                        </Table>
+                    </CardContent>
+                </Card>
             </CCol>
         </CRow>
     </AppLayout>

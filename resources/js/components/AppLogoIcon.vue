@@ -5,15 +5,18 @@ defineOptions({
     inheritAttrs: false,
 });
 
-interface Props {
-    className?: HTMLAttributes['class'];
-}
-
-defineProps<Props>();
+const props = defineProps<{
+    class?: HTMLAttributes['class'];
+}>();
 </script>
 
 <template>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 42" :class="className" v-bind="$attrs">
+    <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 40 42"
+        v-bind="$attrs"
+        :class="props.class"
+    >
         <path
             fill="currentColor"
             fill-rule="evenodd"

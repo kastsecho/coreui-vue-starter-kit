@@ -10,3 +10,5 @@ Route::get('/', HomeController::class)
 Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+require base_path('routes/settings.php');

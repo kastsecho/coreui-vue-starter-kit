@@ -1,22 +1,25 @@
 <script setup lang="ts">
-import type { BreadcrumbItem } from '@/types';
-import { CBreadcrumb, CBreadcrumbItem } from '@coreui/vue';
-import { Link } from '@inertiajs/vue3';
+import {
+    Breadcrumb,
+    BreadcrumbLink,
+    BreadcrumbPage,
+} from '@/components/ui/breadcrumb';
+import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
 
 defineProps<{
-    breadcrumbs: BreadcrumbItem[];
+    breadcrumbs: BreadcrumbItemType[];
 }>();
 </script>
 
 <template>
-    <CBreadcrumb class="mb-0">
+    <Breadcrumb>
         <template v-for="(item, index) in breadcrumbs" :key="index">
-            <template v-if="index === breadcrumbs.length - 1">
-                <CBreadcrumbItem>{{ item.title }}</CBreadcrumbItem>
-            </template>
-            <template v-else>
-                <Link class="breadcrumb-item" :href="item.href">{{ item.title }}</Link>
-            </template>
+            <BreadcrumbPage v-if="index === breadcrumbs.length - 1">
+                {{ item.title }}
+            </BreadcrumbPage>
+            <BreadcrumbLink v-else :href="item.href ?? '#'">
+                {{ item.title }}
+            </BreadcrumbLink>
         </template>
-    </CBreadcrumb>
+    </Breadcrumb>
 </template>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import AppContent from '@/components/AppContent.vue';
+import AppShell from '@/components/AppShell.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
-import AppSidebarFooter from '@/components/AppSidebarFooter.vue';
 import AppSidebarHeader from '@/components/AppSidebarHeader.vue';
 import type { BreadcrumbItem } from '@/types';
 import { CContainer } from '@coreui/vue';
@@ -15,20 +16,15 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <div>
+    <AppShell variant="sidebar">
         <AppSidebar />
-        <div class="wrapper d-flex flex-column min-vh-100">
-            <AppSidebarHeader :breadcrumbs />
-
-            <!-- Page Content -->
+        <AppContent variant="sidebar" class="overflow-x-hidden">
+            <AppSidebarHeader :breadcrumbs="breadcrumbs" />
             <main class="body flex-grow-1">
                 <CContainer class="px-4" lg>
                     <slot />
                 </CContainer>
             </main>
-
-            <!-- Page Footer -->
-            <AppSidebarFooter />
-        </div>
-    </div>
+        </AppContent>
+    </AppShell>
 </template>

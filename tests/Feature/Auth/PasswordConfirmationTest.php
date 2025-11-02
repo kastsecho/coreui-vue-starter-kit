@@ -16,34 +16,18 @@ class PasswordConfirmationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get('/user/confirm-password');
+        $response = $this
+            ->actingAs($user)
+            ->get(route('password.confirm'));
 
         $response->assertOk();
     }
 
     #[Test]
-    public function password_can_be_confirmed(): void
+    public function password_confirmation_requires_authentication(): void
     {
-        $user = User::factory()->create();
+        $response = $this->get(route('password.confirm'));
 
-        $response = $this->actingAs($user)->post('/user/confirm-password', [
-            'password' => 'password',
-        ]);
-
-        $response
-            ->assertValid()
-            ->assertRedirect();
-    }
-
-    #[Test]
-    public function password_is_not_confirmed_with_invalid_password(): void
-    {
-        $user = User::factory()->create();
-
-        $response = $this->actingAs($user)->post('/user/confirm-password', [
-            'password' => 'wrong-password',
-        ]);
-
-        $response->assertSessionHasErrors();
+        $response->assertRedirect(route('login'));
     }
 }

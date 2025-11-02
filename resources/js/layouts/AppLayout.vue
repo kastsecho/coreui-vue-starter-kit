@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/app/AppHeaderLayout.vue';
+import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
 import type { BreadcrumbItem } from '@/types';
-import { CToaster } from '@coreui/vue';
 
 interface Props {
     breadcrumbs?: BreadcrumbItem[];
@@ -13,11 +12,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <AppLayout :breadcrumbs>
+    <AppLayout :breadcrumbs="breadcrumbs">
         <slot />
-
-        <CToaster placement="bottom-end" class="p-3">
-            <slot name="toast" />
-        </CToaster>
     </AppLayout>
 </template>

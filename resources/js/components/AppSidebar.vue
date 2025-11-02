@@ -3,20 +3,31 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
-import { useSidebar } from '@/components/ui/sidebar/utils';
-import type { NavItem, SharedData } from '@/types';
-import { CCloseButton, CSidebar, CSidebarFooter, CSidebarHeader, CSidebarNav, CSidebarToggler } from '@coreui/vue';
+import {
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarMenuButton,
+    SidebarMenuHeader,
+    SidebarTrigger,
+    useSidebar,
+} from '@/components/ui/sidebar';
+import { dashboard, home } from '@/routes';
+import type { NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import simplebar from 'simplebar-vue';
-import { onMounted } from 'vue';
+import { computed } from 'vue';
 
+const page = usePage();
+const auth = computed(() => page.props.auth);
 const sidebar = useSidebar();
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: '/dashboard',
-        icon: 'bi-grid',
+        href: dashboard(),
+        icon: 'grid',
+        isActive: !!auth.value.user,
     },
 ];
 
@@ -24,45 +35,47 @@ const footerNavItems: NavItem[] = [
     {
         title: 'Github Repo',
         href: 'https://github.com/kastsecho/coreui-vue-starter-kit',
-        icon: 'bi-folder',
+        icon: 'folder',
     },
     {
         title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits',
-        icon: 'bi-book',
+        href: 'https://laravel.com/docs/starter-kits#vue',
+        icon: 'book',
     },
 ];
-
-onMounted(() => {
-    sidebar.setOpen(usePage<SharedData>().props.sidebarOpen);
-});
 </script>
 
 <template>
-    <CSidebar
-        class="border-end"
-        colorScheme="dark"
-        position="fixed"
-        :unfoldable="sidebar.openMobile"
-        :visible="sidebar.open"
-        @visible-change="(value) => sidebar.setOpen(value)"
-    >
-        <CSidebarHeader class="border-bottom">
-            <Link class="sidebar-brand link-danger" :href="route('home')">
-                <AppLogoIcon class="sidebar-brand-full" width="32" />
-                <AppLogoIcon class="sidebar-brand-narrow" width="32" />
+    <Sidebar>
+        <SidebarMenuHeader>
+            <Link class="sidebar-brand link-danger" :href="home()">
+                <AppLogoIcon
+                    class="sidebar-brand-full"
+                    height="32"
+                    width="32"
+                />
+                <AppLogoIcon
+                    class="sidebar-brand-narrow"
+                    height="32"
+                    width="32"
+                />
             </Link>
-            <CCloseButton class="d-lg-none" dark @click="sidebar.toggleOpen()" />
-        </CSidebarHeader>
+            <SidebarMenuButton
+                class="d-lg-none"
+                dark
+                @click="sidebar.toggleOpen()"
+            />
+        </SidebarMenuHeader>
 
-        <CSidebarNav :as="simplebar">
+        <SidebarContent :as="simplebar">
             <NavMain :items="mainNavItems" />
             <NavUser />
             <NavFooter :items="footerNavItems" />
-        </CSidebarNav>
+        </SidebarContent>
 
-        <CSidebarFooter class="border-top d-none d-lg-flex">
-            <CSidebarToggler @click="sidebar.toggleOpenMobile()" />
-        </CSidebarFooter>
-    </CSidebar>
+        <SidebarFooter>
+            <SidebarTrigger @click="sidebar.toggleOpenMobile()" />
+        </SidebarFooter>
+    </Sidebar>
+    <slot />
 </template>

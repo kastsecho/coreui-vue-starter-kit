@@ -11,10 +11,10 @@ class ExampleTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function the_application_returns_a_successful_response(): void
+    public function home_screen_can_be_rendered(): void
     {
-        $response = $this->get('/');
+        $response = $this->get(route('home'));
 
-        $response->assertStatus(200);
+        $response->assertOk();
     }
 }

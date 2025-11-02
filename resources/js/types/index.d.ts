@@ -1,6 +1,5 @@
-import type { PageProps } from '@inertiajs/core';
+import { InertiaLinkProps } from '@inertiajs/vue3';
 import type { ComputedRef, Ref } from 'vue';
-import type { Config } from 'ziggy-js';
 
 export interface Auth {
     user: User;
@@ -8,12 +7,12 @@ export interface Auth {
 
 export interface BreadcrumbItem {
     title: string;
-    href: string;
+    href: NonNullable<InertiaLinkProps['href']>;
 }
 
 export interface NavItem {
     title: string;
-    href: string;
+    href: NonNullable<InertiaLinkProps['href']>;
     icon?: string;
     isActive?: boolean;
 }
@@ -30,13 +29,14 @@ export interface Sidebar {
     toggleSidebar: () => void;
 }
 
-export interface SharedData extends PageProps {
+export type AppPageProps<
+    T extends Record<string, unknown> = Record<string, unknown>,
+> = T & {
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
-    ziggy: Config & { location: string };
     sidebarOpen: boolean;
-}
+};
 
 export interface User {
     id: number;

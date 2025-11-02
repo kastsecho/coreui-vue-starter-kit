@@ -3,30 +3,37 @@ import AppearanceTabs from '@/components/AppearanceTabs.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
+import { edit as editAppearance } from '@/routes/appearance';
+import { edit as editProfile } from '@/routes/profile';
 import type { BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';
 
-const breadcrumbs: BreadcrumbItem[] = [
+const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Home',
-        href: '/',
+        title: 'Settings',
+        href: editProfile().url,
     },
     {
         title: 'Appearance settings',
-        href: '/settings/appearance',
+        href: editAppearance().url,
     },
 ];
 </script>
 
 <template>
-    <AppLayout :breadcrumbs>
+    <AppLayout :breadcrumbs="breadcrumbItems">
         <Head title="Appearance settings" />
 
         <SettingsLayout>
             <div class="d-grid gap-3">
-                <HeadingSmall title="Appearance settings" description="Update your account's appearance settings" />
+                <HeadingSmall
+                    title="Appearance settings"
+                    description="Update your account's appearance settings"
+                />
 
-                <AppearanceTabs />
+                <div>
+                    <AppearanceTabs />
+                </div>
             </div>
         </SettingsLayout>
     </AppLayout>

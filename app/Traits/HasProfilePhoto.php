@@ -8,12 +8,14 @@ use Illuminate\Support\Facades\Storage;
 
 trait HasProfilePhoto
 {
-    /**
-     * Boot the trait.
-     */
     protected static function bootHasProfilePhoto(): void
     {
         static::deleting(fn(self $model)  => $model->deleteProfilePhoto());
+    }
+
+    protected function initializeHasProfilePhoto(): void
+    {
+        $this->mergeAppends(['avatar']);
     }
 
     /**
@@ -56,14 +58,10 @@ trait HasProfilePhoto
     protected function avatar(): Attribute
     {
         return Attribute::make(
-            get: function ($value) {
-                return $this->profile_photo_path
-                    ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
-                    : null;
-            },
-            set: function ($value) {
-                return ['profile_photo_path' => $value];
-            }
+            get: fn($value) => $this->profile_photo_path
+                ? Storage::disk($this->profilePhotoDisk())->url($this->profile_photo_path)
+                : null,
+            set: fn($value) => ['profile_photo_path' => $value]
         );
     }
 

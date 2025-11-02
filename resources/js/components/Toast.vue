@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
-import type { SharedData } from '@/types';
-import { CToast, CToastBody, CToastHeader } from '@coreui/vue';
+import {
+    Toast,
+    ToastContent,
+    ToastGroup,
+    ToastHeader,
+} from '@/components/ui/toast';
 import { usePage } from '@inertiajs/vue3';
 
 const emit = defineEmits(['close']);
@@ -9,29 +13,29 @@ const emit = defineEmits(['close']);
 interface Props {
     autohide?: boolean;
     visible?: boolean;
-    bodyClass?: string;
 }
 
 withDefaults(defineProps<Props>(), {
     autohide: true,
     visible: true,
-    bodyClass: '',
 });
 
-const page = usePage<SharedData>();
+const page = usePage();
 
 const closeToast = () => emit('close');
 </script>
 
 <template>
-    <CToast :visible :autohide @close="closeToast">
-        <CToastHeader :close-button="!autohide" class="gap-3">
-            <AppLogoIcon class="size-5 text-danger" />
-            <strong class="me-auto">{{ page.props.name }}</strong>
-        </CToastHeader>
+    <ToastGroup class="p-3" placement="bottom-end">
+        <Toast :autohide="autohide" :visible="visible" @close="closeToast">
+            <ToastHeader :close-button="!autohide" class="gap-3">
+                <AppLogoIcon class="size-5 text-danger" />
+                <strong class="me-auto">{{ page.props.name }}</strong>
+            </ToastHeader>
 
-        <CToastBody :class="bodyClass">
-            <slot />
-        </CToastBody>
-    </CToast>
+            <ToastContent>
+                <slot />
+            </ToastContent>
+        </Toast>
+    </ToastGroup>
 </template>

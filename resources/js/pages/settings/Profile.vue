@@ -1,14 +1,20 @@
 <script setup lang="ts">
 import DeleteUser from '@/components/DeleteUser.vue';
 import HeadingSmall from '@/components/HeadingSmall.vue';
-import InputError from '@/components/InputError.vue';
-import Toast from '@/components/Toast.vue';
+import TextLink from '@/components/TextLink.vue';
+import { Alert } from '@/components/ui/alert';
+import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Button } from '@/components/ui/button';
+import { Input, InputError, Label } from '@/components/ui/input';
 import { getInitials } from '@/composables/useInitials';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import type { BreadcrumbItem, SharedData, User } from '@/types';
-import { CAvatar, CButton, CFormInput, CFormLabel } from '@coreui/vue';
-import { Head, Link, router, useForm, usePage } from '@inertiajs/vue3';
+import { edit } from '@/routes/profile';
+import { destroy } from '@/routes/profile-photo';
+import { update } from '@/routes/user-profile-information';
+import { send } from '@/routes/verification';
+import type { BreadcrumbItem } from '@/types';
+import { Form, Head, router, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 
 defineProps<{
@@ -16,43 +22,22 @@ defineProps<{
     status?: string;
 }>();
 
-const breadcrumbs: BreadcrumbItem[] = [
+const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Home',
-        href: '/',
+        title: 'Settings',
+        href: edit().url,
     },
     {
         title: 'Profile settings',
-        href: '/settings/profile',
+        href: edit().url,
     },
 ];
 
-const verificationLinkSent = ref<boolean>(false);
-
-const page = usePage<SharedData>();
-const user = computed(() => page.props.auth.user as User);
+const page = usePage();
+const user = computed(() => page.props.auth.user);
 
 const photoPreview = ref<string | null>(null);
 const photoInput = ref<HTMLInputElement | null>(null);
-
-const form = useForm({
-    _method: 'put',
-    name: user.value.name,
-    email: user.value.email,
-    photo: null as File | null,
-});
-
-const submit = () => {
-    form.post(route('user-profile-information.update'), {
-        errorBag: 'updateProfileInformation',
-        preserveScroll: true,
-        onSuccess: () => clearPhotoFileInput(),
-    });
-};
-
-const sendEmailVerification = () => {
-    verificationLinkSent.value = true;
-};
 
 const selectNewPhoto = () => {
     photoInput?.value?.click();
@@ -68,11 +53,10 @@ const updatePhotoPreview = () => {
         }
     };
     reader.readAsDataURL(file);
-    form.photo = file;
 };
 
 const deletePhoto = () => {
-    router.delete(route('profile-photo.destroy'), {
+    router.delete(destroy(), {
         preserveScroll: true,
         onSuccess: () => {
             photoPreview.value = null;
@@ -89,103 +73,163 @@ const clearPhotoFileInput = () => {
 </script>
 
 <template>
-    <AppLayout :breadcrumbs>
+    <AppLayout :breadcrumbs="breadcrumbItems">
         <Head title="Profile settings" />
 
         <SettingsLayout>
             <div class="d-grid gap-3">
-                <HeadingSmall title="Profile information" description="Update your avatar, name and email address" />
+                <HeadingSmall
+                    title="Profile information"
+                    description="Update your avatar, name and email address"
+                />
 
-                <form @submit.prevent="submit" class="d-grid gap-3">
-                    <div class="d-grid">
-                        <CFormLabel for="photo">Photo</CFormLabel>
-                        <input id="photo" ref="photoInput" class="d-none" type="file" accept="image/*" @change="updatePhotoPreview" />
-                        <div class="d-flex align-items-center gap-4">
-                            <CAvatar
-                                v-if="user.avatar || photoPreview"
-                                shape="rounded-circle"
-                                size="xl"
-                                :src="photoPreview || user.avatar"
-                                :alt="user.name"
+                <Form
+                    v-bind="update.form()"
+                    v-slot="{ errors, processing, recentlySuccessful }"
+                >
+                    <div class="d-grid gap-3">
+                        <div class="d-grid">
+                            <Label for="photo">Photo</Label>
+                            <input
+                                ref="photoInput"
+                                id="photo"
+                                name="photo"
+                                type="file"
+                                class="d-none"
+                                accept="image/*"
+                                @change="updatePhotoPreview"
                             />
-                            <CAvatar v-else color="secondary" text-color="white" shape="rounded-circle" size="xl">
-                                {{ getInitials(user.name) }}
-                            </CAvatar>
+                            <div class="d-flex align-items-center gap-4">
+                                <AvatarImage
+                                    v-if="user.avatar || photoPreview"
+                                    :src="photoPreview || user.avatar"
+                                    :alt="user.name"
+                                    size="xl"
+                                />
+                                <AvatarFallback
+                                    v-else
+                                    class="fw-semibold"
+                                    size="xl"
+                                >
+                                    {{ getInitials(user.name) }}
+                                </AvatarFallback>
 
-                            <CButton type="button" color="light" @click="selectNewPhoto">
-                                {{ user.avatar ? 'Change Photo' : 'Upload Photo' }}
-                            </CButton>
+                                <Button
+                                    type="button"
+                                    color="light"
+                                    @click="selectNewPhoto"
+                                    :tabindex="4"
+                                    :disabled="processing"
+                                    data-test="update-profile-photo-button"
+                                >
+                                    <template v-if="user.avatar">
+                                        Change Photo
+                                    </template>
 
-                            <CButton v-if="user.avatar || photoPreview" type="button" color="light" @click="deletePhoto">Remove Photo</CButton>
+                                    <template v-else>Upload Photo</template>
+                                </Button>
+
+                                <Button
+                                    v-if="user.avatar || photoPreview"
+                                    type="button"
+                                    color="light"
+                                    @click="deletePhoto"
+                                    :tabindex="4"
+                                    :disabled="processing"
+                                    data-test="remove-profile-photo-button"
+                                >
+                                    Remove Photo
+                                </Button>
+                            </div>
+                            <InputError
+                                :class="{ ['d-block']: errors.photo }"
+                                :message="errors.photo"
+                            />
                         </div>
-                        <InputError :class="['mt-2', { 'd-block': form.errors.photo }]" :message="form.errors.photo" />
-                    </div>
 
-                    <div class="d-grid">
-                        <CFormLabel for="name">Name</CFormLabel>
-                        <CFormInput
-                            id="name"
-                            type="text"
-                            required
-                            autocomplete="name"
-                            v-model="form.name"
-                            placeholder="Full name"
-                            :invalid="!!form.errors.name"
-                        />
-                        <InputError class="mt-2" :message="form.errors.name" />
-                    </div>
+                        <div class="d-grid">
+                            <Label for="name">Name</Label>
+                            <Input
+                                id="name"
+                                type="text"
+                                name="name"
+                                required
+                                :tabindex="1"
+                                autocomplete="name"
+                                autofocus
+                                placeholder="Full name"
+                                :model-value="user.name"
+                            />
+                            <InputError :message="errors.name" />
+                        </div>
 
-                    <div class="d-grid">
-                        <CFormLabel for="email">Email address</CFormLabel>
-                        <CFormInput
-                            id="email"
-                            type="email"
-                            required
-                            autocomplete="username"
-                            v-model="form.email"
-                            placeholder="Email address"
-                            :invalid="!!form.errors.email"
-                        />
-                        <InputError class="mt-2" :message="form.errors.email" />
-                    </div>
+                        <div class="d-grid">
+                            <Label for="email">Email address</Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                name="email"
+                                required
+                                :tabindex="2"
+                                autocomplete="username"
+                                placeholder="Email address"
+                                :model-value="user.email"
+                            />
+                            <InputError :message="errors.email" />
+                        </div>
 
-                    <template v-if="mustVerifyEmail && !user.email_verified_at">
-                        <div class="d-flex align-items-center justify-content-between small text-muted">
-                            Your email address is unverified.
-                            <Link
-                                :href="route('verification.send')"
-                                method="post"
-                                as="button"
-                                class="btn btn-link link-body-emphasis"
-                                @click.prevent="sendEmailVerification"
+                        <div v-if="mustVerifyEmail && !user.email_verified_at">
+                            <p class="-mt-4 text-sm text-muted-foreground">
+                                Your email address is unverified.
+                                <TextLink
+                                    class="btn btn-link"
+                                    :href="send()"
+                                    :tabindex="3"
+                                    as="button"
+                                >
+                                    Click here to resend the verification email.
+                                </TextLink>
+                            </p>
+
+                            <Alert
+                                v-if="status === 'verification-link-sent'"
+                                class="fw-medium rounded-4 shadow-sm"
+                                color="success"
                             >
-                                Click here to resend the verification email.
-                            </Link>
+                                A new verification link has been sent to your
+                                email address.
+                            </Alert>
                         </div>
-                    </template>
 
-                    <div class="d-flex align-items-center gap-3">
-                        <CButton type="submit" color="primary" :disabled="form.processing">Save</CButton>
+                        <div class="d-flex align-items-center gap-4">
+                            <Button
+                                type="submit"
+                                :tabindex="4"
+                                :disabled="processing"
+                                data-test="update-profile-button"
+                            >
+                                Save
+                            </Button>
 
-                        <Transition
-                            enter-active-class="transition ease-in-out"
-                            enter-from-class="opacity-0"
-                            leave-active-class="transition ease-in-out"
-                            leave-to-class="opacity-0"
-                        >
-                            <p v-show="form.recentlySuccessful" class="mb-0 text-muted">Saved.</p>
-                        </Transition>
+                            <Transition
+                                enter-active-class="transition ease-in-out"
+                                enter-from-class="opacity-0"
+                                leave-active-class="transition ease-in-out"
+                                leave-to-class="opacity-0"
+                            >
+                                <p
+                                    v-show="recentlySuccessful"
+                                    class="mb-0 text-muted"
+                                >
+                                    Saved.
+                                </p>
+                            </Transition>
+                        </div>
                     </div>
-                </form>
+                </Form>
 
                 <DeleteUser />
             </div>
         </SettingsLayout>
-
-        <template #toast>
-            <Toast v-if="verificationLinkSent" class="fw-medium text-green-600" @close="verificationLinkSent = false">
-                A new verification link has been sent to your email address.
-            </Toast>
-        </template>
     </AppLayout>
 </template>

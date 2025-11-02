@@ -1,53 +1,70 @@
 <script setup lang="ts">
+import Icon from '@/components/Icon.vue';
 import UserInfo from '@/components/UserInfo.vue';
+import {
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
+import { NavigationMenuLink } from '@/components/ui/navigation-menu';
+import { logout } from '@/routes';
+import { edit } from '@/routes/profile';
 import type { User } from '@/types';
-import { CDropdownDivider, CDropdownHeader, CDropdownItem, CNavLink } from '@coreui/vue';
-import { Link, router } from '@inertiajs/vue3';
+import { router } from '@inertiajs/vue3';
 
 interface Props {
     user: User;
-    variant?: string;
+    variant?: 'header' | 'sidebar';
 }
 
 withDefaults(defineProps<Props>(), {
-    variant: 'dropdown',
+    variant: 'header',
 });
 
-const logout = () => {
-    router.post(route('logout'));
+const handleLogout = () => {
+    router.flushAll();
 };
 </script>
 
 <template>
     <template v-if="variant === 'sidebar'">
-        <Link class="nav-link" :href="route('profile.edit')">
-            <span class="nav-icon">
-                <span class="nav-icon-bullet"></span>
-            </span>
+        <NavigationMenuLink class="w-100" as="button" :href="edit()" prefetch>
+            <Icon class="nav-icon" name="gear" />
             Settings
-        </Link>
-
-        <!-- Authentication -->
-        <form @submit.prevent="logout">
-            <CNavLink as="button" type="submit" class="w-100">
-                <span class="nav-icon">
-                    <span class="nav-icon-bullet"></span>
-                </span>
-                Log Out
-            </CNavLink>
-        </form>
+        </NavigationMenuLink>
+        <NavigationMenuLink
+            class="w-100"
+            as="button"
+            :href="logout()"
+            @click="handleLogout"
+            data-test="logout-button"
+        >
+            <Icon class="nav-icon" name="box-arrow-right" />
+            Log out
+        </NavigationMenuLink>
     </template>
 
     <template v-else>
-        <CDropdownHeader class="d-flex align-items-center gap-2 text-start">
-            <UserInfo :user show-email />
-        </CDropdownHeader>
-        <CDropdownDivider />
-        <Link class="dropdown-item" :href="route('profile.edit')">Settings</Link>
-        <CDropdownDivider />
-        <!-- Authentication -->
-        <form @submit.prevent="logout">
-            <CDropdownItem as="button" type="submit">Log Out</CDropdownItem>
-        </form>
+        <DropdownMenuLabel class="p-0 font-normal">
+            <div class="icon-link px-2">
+                <UserInfo :user="user" :show-email="true" />
+            </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem class="icon-link" as="button" :href="edit()" prefetch>
+            <Icon name="gear" />
+            Settings
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+            class="icon-link"
+            as="button"
+            :href="logout()"
+            @click="handleLogout"
+            data-test="logout-button"
+        >
+            <Icon name="box-arrow-right" />
+            Log out
+        </DropdownMenuItem>
     </template>
 </template>

@@ -1,99 +1,165 @@
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
-import { PinInput } from '@/components/ui/pin';
+import { Button } from '@/components/ui/button';
+import { Input, InputError } from '@/components/ui/input';
+import {
+    PinInput,
+    PinInputGroup,
+    PinInputSlot,
+} from '@/components/ui/pin-input';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { CButton, CFormInput } from '@coreui/vue';
-import { Head, useForm } from '@inertiajs/vue3';
-import { computed, watch } from 'vue';
+import { store } from '@/routes/two-factor/login';
+import { Form, Head } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 
-type TwoFactorForm = {
-    code: string;
-    recovery_code: string;
-    recovery: boolean;
-};
+interface AuthConfigContent {
+    title: string;
+    description: string;
+    toggleText: string;
+}
 
-const form = useForm<TwoFactorForm>({
-    code: '',
-    recovery_code: '',
-    recovery: false,
-});
-
-// Handle completion of pin input
-const pinComplete = (value: string[]) => {
-    form.code = value.join('');
-    if (form.code.length === 6) {
-        submit();
+const authConfigContent = computed<AuthConfigContent>(() => {
+    if (showRecoveryInput.value) {
+        return {
+            title: 'Recovery Code',
+            description:
+                'Please confirm access to your account by entering one of your emergency recovery codes.',
+            toggleText: 'login using an authentication code',
+        };
     }
-};
 
-watch(
-    () => form.code,
-    (newValue: string) => {
-        if (newValue && form.errors.code) {
-            form.errors.code = '';
-        }
-    },
-);
-
-const submit = () => {
-    form.post(route('two-factor.login'));
-};
-
-const toggleRecovery = () => {
-    form.reset('code', 'recovery_code');
-    form.recovery = !form.recovery;
-    form.clearErrors();
-};
-
-const isDisabled = computed(() => {
-    return form.processing || (form.recovery ? !form.recovery_code : !form.code || form.code.length !== 6);
+    return {
+        title: 'Authentication Code',
+        description:
+            'Enter the authentication code provided by your authenticator application.',
+        toggleText: 'login using a recovery code',
+    };
 });
+
+const showRecoveryInput = ref<boolean>(false);
+
+const toggleRecoveryMode = (clearErrors: () => void): void => {
+    showRecoveryInput.value = !showRecoveryInput.value;
+    clearErrors();
+    code.value = [];
+};
+
+const code = ref<number[]>([]);
+const codeValue = computed<string>(() => code.value.join(''));
 </script>
 
 <template>
     <AuthLayout
-        :title="form.recovery ? 'Recovery Code' : 'Authentication Code'"
-        :description="
-            form.recovery
-                ? 'Please confirm access to your account by entering one of your emergency recovery codes.'
-                : 'Enter the authentication code provided by your authenticator application.'
-        "
+        :title="authConfigContent.title"
+        :description="authConfigContent.description"
     >
-        <Head title="Two Factor Authentication" />
+        <Head title="Two-Factor Authentication" />
 
-        <form @submit.prevent="submit" class="d-flex flex-column gap-3 text-center">
-            <div class="d-grid gap-3">
-                <template v-if="!form.recovery">
-                    <div class="d-grid gap-2 text-center">
-                        <PinInput v-model="form.code" :length="6" :invalid="!!form.errors.code" @complete="pinComplete" />
-                        <InputError :class="{ 'd-block': form.errors.code }" :message="form.errors.code" />
-                    </div>
-                </template>
-
-                <template v-else>
-                    <div class="d-grid gap-2">
-                        <CFormInput
-                            v-model="form.recovery_code"
-                            type="text"
-                            autocomplete="one-time-code"
-                            placeholder="Enter recovery code"
-                            autofocus
-                            required
-                            :invalid="!!form.errors.recovery_code"
+        <template v-if="!showRecoveryInput">
+            <Form
+                v-bind="store.form()"
+                reset-on-error
+                @error="code = []"
+                v-slot="{ errors, processing, clearErrors }"
+            >
+                <input type="hidden" name="code" :value="codeValue" />
+                <div class="d-grid gap-3">
+                    <div class="d-grid">
+                        <PinInput id="otp" v-model="code">
+                            <PinInputGroup>
+                                <PinInputSlot
+                                    class="text-center"
+                                    autofocus
+                                    v-for="(id, index) in 6"
+                                    :key="id"
+                                    :index="index"
+                                    placeholder="○"
+                                    :disabled="processing"
+                                    @complete="
+                                        (digit) => {
+                                            code[index] = digit;
+                                        }
+                                    "
+                                />
+                            </PinInputGroup>
+                        </PinInput>
+                        <InputError
+                            :class="{ ['d-block']: errors.code }"
+                            :message="errors.code"
                         />
-                        <InputError :message="form.errors.recovery_code" />
                     </div>
-                </template>
 
-                <CButton color="primary" type="submit" :disabled="isDisabled">Continue</CButton>
+                    <Button type="submit" :tabindex="7" :disabled="processing">
+                        <Spinner v-if="processing" size="sm" />
+                        Continue
+                    </Button>
 
-                <div class="d-flex align-items-center justify-content-center text-muted">
-                    <span>or you can</span>
-                    <CButton type="button" class="btn-link link-body-emphasis" @click="toggleRecovery">
-                        {{ form.recovery ? 'login using an authentication code' : 'login using a recovery code' }}
-                    </CButton>
+                    <div
+                        class="d-flex w-100 align-items-center justify-content-center"
+                    >
+                        <hr class="flex-grow-1" />
+                        <span class="ps-2 text-muted">or you can</span>
+                        <Button
+                            type="button"
+                            class="link-body-emphasis ps-2"
+                            color="link"
+                            :tabindex="8"
+                            @click="() => toggleRecoveryMode(clearErrors)"
+                        >
+                            {{ authConfigContent.toggleText }}
+                        </Button>
+                        <hr class="flex-grow-1" />
+                    </div>
                 </div>
-            </div>
-        </form>
+            </Form>
+        </template>
+
+        <template v-else>
+            <Form
+                v-bind="store.form()"
+                reset-on-error
+                #default="{ errors, processing, clearErrors }"
+            >
+                <div class="d-grid gap-3">
+                    <div class="d-grid">
+                        <Input
+                            id="recovery_code"
+                            type="text"
+                            name="recovery_code"
+                            required
+                            :tabindex="1"
+                            autocomplete="one-time-code"
+                            :autofocus="showRecoveryInput"
+                            aria-label="Recovery Code"
+                            placeholder="Enter recovery code"
+                            :invalid="!!errors.recovery_code"
+                        />
+                        <InputError :message="errors.recovery_code" />
+                    </div>
+
+                    <Button type="submit" :tabindex="2" :disabled="processing">
+                        <Spinner v-if="processing" size="sm" />
+                        Continue
+                    </Button>
+
+                    <div
+                        class="d-flex w-100 align-items-center justify-content-center"
+                    >
+                        <hr class="flex-grow-1" />
+                        <span class="ps-2 text-muted">or you can</span>
+                        <Button
+                            type="button"
+                            class="link-body-emphasis ps-2"
+                            color="link"
+                            :tabindex="3"
+                            @click="() => toggleRecoveryMode(clearErrors)"
+                        >
+                            {{ authConfigContent.toggleText }}
+                        </Button>
+                        <hr class="flex-grow-1" />
+                    </div>
+                </div>
+            </Form>
+        </template>
     </AuthLayout>
 </template>

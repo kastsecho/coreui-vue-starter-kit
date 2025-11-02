@@ -1,175 +1,87 @@
-import { ref, watch } from 'vue';
+import { qrCode, recoveryCodes, secretKey } from '@/routes/two-factor';
+import { computed, ref } from 'vue';
 
-interface EnableResponse {
-    qrCode: string;
-    secret: string;
-}
-
-interface ConfirmResponse {
-    status: string;
-    recovery_codes?: string[];
-    message?: string;
-}
-
-interface RecoveryCodesResponse {
-    recovery_codes: string[];
-}
-
-export function useTwoFactorAuth(initialConfirmed: boolean, initialRecoveryCodes: string[]) {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
-
-    const headers = {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        'X-CSRF-TOKEN': csrfToken,
-        'X-Requested-With': 'XMLHttpRequest',
-    };
-
-    const confirmed = ref(initialConfirmed);
-    const qrCodeSvg = ref('');
-    const secretKey = ref('');
-    const recoveryCodesList = ref(initialRecoveryCodes);
-    const copied = ref(false);
-    const passcode = ref('');
-    const error = ref('');
-    const verifyStep = ref(false);
-    const showingRecoveryCodes = ref(false);
-    const showModal = ref(false);
-
-    // Automatically enable 2FA when modal opens and QR is not yet fetched
-    watch([showModal, verifyStep, qrCodeSvg], ([newShowModal, newVerifyStep, newQrCodeSvg]) => {
-        if (newShowModal && !newVerifyStep && !newQrCodeSvg) {
-            enable();
-        }
+const fetchJson = async <T>(url: string): Promise<T> => {
+    const response = await fetch(url, {
+        headers: { Accept: 'application/json' },
     });
 
-    const enable = async () => {
-        try {
-            const response = await fetch(route('two-factor.enable'), {
-                method: 'POST',
-                headers,
-            });
+    if (!response.ok) {
+        throw new Error(`Failed to fetch: ${response.status}`);
+    }
 
-            if (response.ok) {
-                const data: EnableResponse = await response.json();
-                qrCodeSvg.value = data.qrCode;
-                secretKey.value = data.secret;
-            } else {
-                console.error('Error enabling 2FA:', response.statusText);
-            }
+    return response.json();
+};
+
+const qrCodeSvg = ref<string | null>(null);
+const manualSetupKey = ref<string | null>(null);
+const recoveryCodesList = ref<string[]>([]);
+
+const hasSetupData = computed<boolean>(
+    () => qrCodeSvg.value !== null && manualSetupKey.value !== null,
+);
+
+export const useTwoFactorAuth = () => {
+    const fetchQrCode = async (): Promise<void> => {
+        const { svg } = await fetchJson<{ svg: string; url: string }>(
+            qrCode.url(),
+        );
+
+        qrCodeSvg.value = svg;
+    };
+
+    const fetchSetupKey = async (): Promise<void> => {
+        const { secretKey: key } = await fetchJson<{ secretKey: string }>(
+            secretKey.url(),
+        );
+
+        manualSetupKey.value = key;
+    };
+
+    const clearSetupData = (): void => {
+        manualSetupKey.value = null;
+        qrCodeSvg.value = null;
+    };
+
+    const clearTwoFactorAuthData = (): void => {
+        clearSetupData();
+
+        recoveryCodesList.value = [];
+    };
+
+    const fetchRecoveryCodes = async (): Promise<void> => {
+        try {
+            recoveryCodesList.value = await fetchJson<string[]>(
+                recoveryCodes.url(),
+            );
         } catch (error) {
-            console.error('Error enabling 2FA:', error);
+            console.error('Failed to fetch recovery codes:', error);
+
+            recoveryCodesList.value = [];
         }
     };
 
-    const confirm = async () => {
-        if (!passcode.value || passcode.value.length !== 6) return;
-
-        const formattedCode = passcode.value.replace(/\s+/g, '').trim();
-
+    const fetchSetupData = async (): Promise<void> => {
         try {
-            const response = await fetch(route('two-factor.confirm'), {
-                method: 'POST',
-                headers,
-                body: JSON.stringify({ code: formattedCode }),
-            });
-
-            if (response.ok) {
-                const responseData: ConfirmResponse = await response.json();
-                if (responseData.recovery_codes) {
-                    recoveryCodesList.value = responseData.recovery_codes;
-                }
-
-                confirmed.value = true;
-                verifyStep.value = false;
-                showModal.value = false;
-                showingRecoveryCodes.value = true;
-                passcode.value = '';
-                error.value = '';
-            } else {
-                const errorData = await response.json();
-                console.error('Verification error:', errorData.message);
-                error.value = errorData.message || 'Invalid verification code';
-                passcode.value = '';
-            }
-        } catch (err) {
-            console.error('Error confirming 2FA:', err);
-            error.value = 'An error occurred while confirming 2FA';
-        }
-    };
-
-    const regenerateRecoveryCodes = async () => {
-        try {
-            const response = await fetch(route('two-factor.recovery-codes'), {
-                method: 'POST',
-                headers,
-            });
-
-            if (response.ok) {
-                const data: RecoveryCodesResponse = await response.json();
-                if (data.recovery_codes) {
-                    recoveryCodesList.value = data.recovery_codes;
-                }
-            } else {
-                console.error('Error regenerating codes:', response.statusText);
-            }
+            await Promise.all([fetchQrCode(), fetchSetupKey()]);
         } catch (error) {
-            console.error('Error regenerating codes:', error);
+            console.error('Failed to fetch setup data:', error);
+
+            qrCodeSvg.value = null;
+            manualSetupKey.value = null;
         }
-    };
-
-    const disable = async () => {
-        try {
-            const response = await fetch(route('two-factor.disable'), { method: 'DELETE', headers });
-
-            if (response.ok) {
-                confirmed.value = false;
-                showingRecoveryCodes.value = false;
-                recoveryCodesList.value = [];
-                qrCodeSvg.value = '';
-                secretKey.value = '';
-            } else {
-                console.error('Error disabling 2FA:', response.statusText);
-            }
-        } catch (error) {
-            console.error('Error disabling 2FA:', error);
-        }
-    };
-
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard.writeText(text);
-        copied.value = true;
-        setTimeout(() => (copied.value = false), 1500);
-    };
-
-    const reset = () => {
-        verifyStep.value = false;
-        passcode.value = '';
-        error.value = '';
-    };
-
-    const closeModal = () => {
-        showModal.value = false;
-        reset();
     };
 
     return {
-        confirmed,
         qrCodeSvg,
-        secretKey,
+        manualSetupKey,
         recoveryCodesList,
-        copied,
-        passcode,
-        error,
-        verifyStep,
-        showingRecoveryCodes,
-        showModal,
-        enable,
-        confirm,
-        regenerateRecoveryCodes,
-        disable,
-        reset,
-        closeModal,
-        copyToClipboard,
+        hasSetupData,
+        clearSetupData,
+        clearTwoFactorAuthData,
+        fetchQrCode,
+        fetchSetupKey,
+        fetchSetupData,
+        fetchRecoveryCodes,
     };
-}
+};

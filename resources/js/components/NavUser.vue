@@ -1,22 +1,21 @@
 <script setup lang="ts">
 import UserInfo from '@/components/UserInfo.vue';
 import UserMenuContent from '@/components/UserMenuContent.vue';
-import type { SharedData, User } from '@/types';
-import { CNavGroup, CNavTitle } from '@coreui/vue';
+import { SidebarGroup, SidebarGroupLabel } from '@/components/ui/sidebar';
 import { usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 
-const page = usePage<SharedData>();
-const user = computed(() => page.props.auth.user as User);
+const page = usePage();
+const user = computed(() => page.props.auth.user);
 </script>
 
 <template>
-    <CNavTitle>Platform</CNavTitle>
-    <CNavGroup>
+    <SidebarGroupLabel>Platform</SidebarGroupLabel>
+    <SidebarGroup>
         <template #togglerContent>
-            <UserInfo variant="sidebar" :user />
+            <UserInfo variant="sidebar" :user="user" />
         </template>
 
-        <UserMenuContent variant="sidebar" :user />
-    </CNavGroup>
+        <UserMenuContent variant="sidebar" :user="user" />
+    </SidebarGroup>
 </template>

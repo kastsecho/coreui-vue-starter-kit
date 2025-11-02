@@ -1,82 +1,93 @@
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
+import { Button } from '@/components/ui/button';
+import { Input, InputError, Label } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { CButton, CFormInput, CFormLabel, CSpinner } from '@coreui/vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { update } from '@/routes/password';
+import { Form, Head } from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const props = defineProps<{
     token: string;
     email: string;
 }>();
 
-const form = useForm({
-    token: props.token,
-    email: props.email,
-    password: '',
-    password_confirmation: '',
-});
-
-const submit = () => {
-    form.post(route('password.update'), {
-        onFinish: () => form.reset('password', 'password_confirmation'),
-    });
-};
+const inputEmail = ref(props.email);
 </script>
 
 <template>
-    <AuthLayout title="Reset password" description="Please enter your new password below">
+    <AuthLayout
+        title="Reset password"
+        description="Please enter your new password below"
+    >
         <Head title="Reset password" />
 
-        <form @submit.prevent="submit">
+        <Form
+            v-bind="update.form()"
+            :transform="(data) => ({ ...data, token, email })"
+            :reset-on-success="['password', 'password_confirmation']"
+            v-slot="{ errors, processing }"
+        >
             <div class="d-grid gap-3">
                 <div class="d-grid">
-                    <CFormLabel for="email">Email</CFormLabel>
-                    <CFormInput
+                    <Label for="email">Email</Label>
+                    <Input
                         id="email"
                         type="email"
                         name="email"
+                        required
+                        :tabindex="1"
                         autocomplete="email"
-                        v-model="form.email"
+                        v-model="inputEmail"
                         disabled
-                        :invalid="!!form.errors.email"
+                        :invalid="!!errors.email"
                     />
-                    <InputError :message="form.errors.email" class="mt-2" />
+                    <InputError :message="errors.email" />
                 </div>
 
                 <div class="d-grid">
-                    <CFormLabel for="password">Password</CFormLabel>
-                    <CFormInput
+                    <Label for="password">Password</Label>
+                    <Input
                         id="password"
                         type="password"
                         name="password"
+                        required
+                        :tabindex="2"
                         autocomplete="new-password"
-                        v-model="form.password"
                         autofocus
                         placeholder="Password"
-                        :invalid="!!form.errors.password"
+                        :invalid="!!errors.password"
                     />
-                    <InputError :message="form.errors.password" />
+                    <InputError :message="errors.password" />
                 </div>
 
                 <div class="d-grid">
-                    <CFormLabel for="password_confirmation"> Confirm Password </CFormLabel>
-                    <CFormInput
+                    <Label for="password_confirmation">
+                        Confirm Password
+                    </Label>
+                    <Input
                         id="password_confirmation"
                         type="password"
                         name="password_confirmation"
+                        required
+                        :tabindex="3"
                         autocomplete="new-password"
-                        v-model="form.password_confirmation"
                         placeholder="Confirm password"
-                        :invalid="!!form.errors.password_confirmation"
+                        :invalid="!!errors.password_confirmation"
                     />
-                    <InputError :message="form.errors.password_confirmation" />
+                    <InputError :message="errors.password_confirmation" />
                 </div>
 
-                <CButton type="submit" color="primary" :disabled="form.processing">
-                    <CSpinner v-if="form.processing" size="sm" />
+                <Button
+                    type="submit"
+                    :tabindex="4"
+                    :disabled="processing"
+                    data-test="reset-password-button"
+                >
+                    <Spinner v-if="processing" size="sm" />
                     Reset password
-                </CButton>
+                </Button>
             </div>
-        </form>
+        </Form>
     </AuthLayout>
 </template>

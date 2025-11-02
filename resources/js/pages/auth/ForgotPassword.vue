@@ -1,60 +1,72 @@
 <script setup lang="ts">
-import InputError from '@/components/InputError.vue';
-import Toast from '@/components/Toast.vue';
+import TextLink from '@/components/TextLink.vue';
+import { Alert } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { Input, InputError, Label } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
-import { CButton, CFormInput, CFormLabel, CSpinner } from '@coreui/vue';
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import { login } from '@/routes';
+import { email } from '@/routes/password';
+import { Form, Head } from '@inertiajs/vue3';
 
 defineProps<{
     status?: string;
 }>();
-
-const form = useForm({
-    email: '',
-});
-
-const submit = () => {
-    form.post(route('password.email'));
-};
 </script>
 
 <template>
-    <AuthLayout title="Forgot password" description="Enter your email to receive a password reset link">
+    <AuthLayout
+        title="Forgot password"
+        description="Enter your email to receive a password reset link"
+    >
         <Head title="Forgot password" />
 
-        <template #toast>
-            <Toast v-if="status" body-class="fw-medium text-success">
-                {{ status }}
-            </Toast>
-        </template>
+        <Alert
+            v-if="status"
+            class="text-center fw-medium rounded-4 shadow-sm"
+            color="success"
+        >
+            {{ status }}
+        </Alert>
 
-        <form @submit.prevent="submit" class="d-flex flex-column gap-3">
+        <Form
+            v-bind="email.form()"
+            reset-on-success
+            v-slot="{ errors, processing }"
+            class="d-flex flex-column gap-3"
+        >
             <div class="d-grid gap-3">
                 <div class="d-grid">
-                    <CFormLabel for="email">Email address</CFormLabel>
-                    <CFormInput
+                    <Label for="email">Email address</Label>
+                    <Input
                         id="email"
                         type="email"
                         name="email"
+                        required
+                        :tabindex="1"
                         autocomplete="off"
-                        v-model="form.email"
                         autofocus
                         placeholder="email@example.com"
-                        :invalid="!!form.errors.email"
+                        :invalid="!!errors.email"
                     />
-                    <InputError :message="form.errors.email" />
+                    <InputError :message="errors.email" />
                 </div>
 
-                <CButton type="submit" color="primary" :disabled="form.processing">
-                    <CSpinner v-if="form.processing" size="sm" />
+                <Button
+                    type="submit"
+                    :tabindex="2"
+                    :disabled="processing"
+                    data-test="email-password-reset-link-button"
+                >
+                    <Spinner v-if="processing" size="sm" />
                     Email password reset link
-                </CButton>
+                </Button>
             </div>
 
-            <div class="text-center text-sm text-muted">
-                Or, return to
-                <Link :href="route('login')" class="link-body-emphasis">log in</Link>
+            <div class="d-flex gap-1 justify-content-center text-muted">
+                <span>Or, return to</span>
+                <TextLink :href="login()" :tabindex="3">log in</TextLink>
             </div>
-        </form>
+        </Form>
     </AuthLayout>
 </template>
