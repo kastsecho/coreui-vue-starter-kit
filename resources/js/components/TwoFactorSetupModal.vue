@@ -133,7 +133,7 @@ watch(
                             v-if="!qrCodeSvg"
                             class="img-thumbnail bg-transparent"
                         >
-                            <CSpinner size="sm" />
+                            <Spinner size="sm" />
                         </div>
                         <div v-else class="img-thumbnail bg-light">
                             <div v-html="qrCodeSvg" />
