@@ -16,7 +16,7 @@ import { Form } from '@inertiajs/vue3';
 import { ref } from 'vue';
 
 const passwordInput = ref<InstanceType<typeof Input> | null>(null);
-const showDeleteModal = ref(false);
+const isOpen = ref<boolean>(false);
 </script>
 
 <template>
@@ -37,12 +37,16 @@ const showDeleteModal = ref(false);
                 type="button"
                 color="danger"
                 data-test="delete-user-button"
-                @click="showDeleteModal = true"
+                @click="isOpen = true"
             >
                 Delete account
             </Button>
 
-            <Dialog content-class-name="rounded-4" :open="showDeleteModal">
+            <Dialog
+                content-class-name="rounded-4"
+                :open="isOpen"
+                @close="isOpen = false"
+            >
                 <Form
                     v-bind="destroy.form()"
                     reset-on-success
@@ -91,7 +95,7 @@ const showDeleteModal = ref(false);
                                 () => {
                                     clearErrors();
                                     reset();
-                                    showDeleteModal = false;
+                                    isOpen = false;
                                 }
                             "
                         >

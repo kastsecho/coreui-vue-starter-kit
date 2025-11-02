@@ -112,6 +112,7 @@ watch(
     <Dialog
         content-class-name="rounded-4"
         :open="isOpen"
+        @close="isOpen = false"
         @update:open="isOpen = $event"
     >
         <DialogHeader

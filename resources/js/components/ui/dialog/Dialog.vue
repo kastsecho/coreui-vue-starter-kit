@@ -2,6 +2,8 @@
 import { CModal } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
 
+const emit = defineEmits(['close']);
+
 interface Props {
     align?: 'top' | 'center';
     backdrop?: boolean | 'static';
@@ -19,6 +21,8 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const visible = defineModel<boolean>('open');
+
+const closeDialog = () => emit('close');
 </script>
 
 <template>
@@ -28,7 +32,7 @@ const visible = defineModel<boolean>('open');
         :class="props.class"
         :alignment="align"
         :visible="visible"
-        @close="visible = false"
+        @close="closeDialog"
     >
         <slot/>
     </CModal>
