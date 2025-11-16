@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppearanceDropdown from '@/components/AppearanceDropdown.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import Icon from '@/components/Icon.vue';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -139,11 +140,7 @@ onMounted(() => {
                     </Tooltip>
                 </NavigationMenuItem>
 
-                <NavigationMenuItem>
-                    <NavigationMenuLink href="#">
-                        <Icon class="icon icon-lg" name="search" />
-                    </NavigationMenuLink>
-                </NavigationMenuItem>
+                <AppearanceDropdown icon-class="icon icon-lg" />
             </SidebarHeaderList>
 
             <SidebarHeaderList>

@@ -1,0 +1,29 @@
+version: 2
+updates:
+  - package-ecosystem: "composer"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "12:00"
+      timezone: "America/New_York"
+    labels:
+      - "dependencies"
+      - "composer"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+      time: "12:00"
+      timezone: "America/New_York"
+    labels:
+      - "dependencies"
+      - "npm"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]

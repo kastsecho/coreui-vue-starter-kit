@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AppearanceDropdown from '@/components/AppearanceDropdown.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import Icon from '@/components/Icon.vue';
@@ -124,11 +125,7 @@ const rightNavItems: NavItem[] = [
                         </Tooltip>
                     </NavigationMenuItem>
 
-                    <NavigationMenuItem>
-                        <NavigationMenuLink class="icon-link" href="#">
-                            <Icon name="search" />
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
+                    <AppearanceDropdown />
 
                     <DropdownMenu
                         v-if="auth.user"

@@ -8,4 +8,5 @@
 
 CHANGELOG.md export-ignore
 README.md export-ignore
+.github/dependabot.yml export-ignore
 .github/workflows/browser-tests.yml export-ignore

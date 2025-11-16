@@ -45,7 +45,7 @@ const handleLogout = () => {
     </template>
 
     <template v-else>
-        <DropdownMenuLabel class="p-0 font-normal">
+        <DropdownMenuLabel class="p-0 fw-medium">
             <div class="icon-link px-2">
                 <UserInfo :user="user" :show-email="true" />
             </div>
