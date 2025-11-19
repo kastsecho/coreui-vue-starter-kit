@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\DashboardController;
+use App\Http\Controllers\HealthUpController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,5 +11,7 @@ Route::get('/', HomeController::class)
 Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+Route::get('/up', HealthUpController::class)
+    ->name('health.up');
 
 require base_path('routes/settings.php');
