@@ -16,8 +16,8 @@ class PasswordUpdateTest extends TestCase
     #[Test]
     public function password_update_page_is_displayed(): void
     {
-        if (! Features::enabled(Features::updatePasswords())) {
-            $this->markTestSkipped('Password updating is not enabled.');
+        if (! Features::canUpdatePasswords()) {
+            $this->markTestSkipped('Password management is not enabled.');
         }
 
         $user = User::factory()->create();
@@ -32,8 +32,8 @@ class PasswordUpdateTest extends TestCase
     #[Test]
     public function password_can_be_updated(): void
     {
-        if (! Features::enabled(Features::updatePasswords())) {
-            $this->markTestSkipped('Password updating is not enabled.');
+        if (! Features::canUpdatePasswords()) {
+            $this->markTestSkipped('Password management is not enabled.');
         }
 
         $user = User::factory()->create();
@@ -57,8 +57,8 @@ class PasswordUpdateTest extends TestCase
     #[Test]
     public function correct_password_must_be_provided_to_update_password(): void
     {
-        if (! Features::enabled(Features::updatePasswords())) {
-            $this->markTestSkipped('Password updating is not enabled.');
+        if (! Features::canUpdatePasswords()) {
+            $this->markTestSkipped('Password management is not enabled.');
         }
 
         $user = User::factory()->create();
