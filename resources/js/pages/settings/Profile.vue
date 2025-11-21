@@ -116,7 +116,7 @@ const clearPhotoFileInput = () => {
 
                                 <Button
                                     type="button"
-                                    color="light"
+                                    color="secondary"
                                     @click="selectNewPhoto"
                                     :tabindex="4"
                                     :disabled="processing"
@@ -132,7 +132,7 @@ const clearPhotoFileInput = () => {
                                 <Button
                                     v-if="user.avatar || photoPreview"
                                     type="button"
-                                    color="light"
+                                    color="secondary"
                                     @click="deletePhoto"
                                     :tabindex="4"
                                     :disabled="processing"
