@@ -24,11 +24,11 @@ const statusColor = computed(() => (props.exception ? 'danger' : 'success'));
 </script>
 
 <template>
-    <Head title="Status" />
+    <Head title="Health" />
 
     <CContainer class="d-grid align-items-center min-vh-100">
         <CRow class="justify-content-center">
-            <CCol md="7" lg="5">
+            <CCol md="8" lg="6">
                 <Card class="rounded-4 shadow-sm">
                     <CardContent class="d-flex align-items-center gap-4">
                         <Spinner
