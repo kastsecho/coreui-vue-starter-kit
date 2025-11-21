@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import Icon from '@/components/Icon.vue';
 import {
     Card,
     CardContent,
     CardDescription,
     CardTitle,
 } from '@/components/ui/card';
+import { Spinner } from '@/components/ui/spinner';
 import { CCol, CContainer, CRow } from '@coreui/vue';
 import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -20,9 +20,7 @@ const responseTime = computed(() =>
     Math.round((props.responseEnd - props.responseStart) * 1000),
 );
 
-const statusClass = computed(() =>
-    props.exception ? 'text-danger' : 'text-success',
-);
+const statusColor = computed(() => (props.exception ? 'danger' : 'success'));
 </script>
 
 <template>
@@ -33,9 +31,11 @@ const statusClass = computed(() =>
             <CCol md="7" lg="5">
                 <Card class="rounded-4 shadow-sm">
                     <CardContent class="d-flex align-items-center gap-4">
-                        <Icon
-                            :class="['fs-5 icon-pulse', statusClass]"
-                            name="record-circle"
+                        <Spinner
+                            :color="statusColor"
+                            size="sm"
+                            variant="grow"
+                            style="--cui-spinner-animation-speed: 1.8s"
                         />
                         <div>
                             <CardTitle>
