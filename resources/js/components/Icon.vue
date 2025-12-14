@@ -5,8 +5,8 @@ import { computed, type HTMLAttributes } from 'vue';
 
 interface Props {
     name: string;
-    class?: HTMLAttributes['class'];
     color?: Color;
+    class?: HTMLAttributes['class'];
 }
 
 const props = withDefaults(defineProps<Props>(), {

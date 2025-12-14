@@ -3,14 +3,18 @@ import type { Placement } from '@/types/coreui';
 import { CDropdown } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
 
-const props = defineProps<{
+interface Props {
     align?: 'start' | 'end';
     autoClose?: boolean | 'inside' | 'outside';
     placement?: Placement;
     teleport?: boolean;
     variant?: 'btn-group' | 'dropdown' | 'input-group' | 'nav-item';
     class?: HTMLAttributes['class'];
-}>();
+}
+
+const props = withDefaults(defineProps<Props>(), {
+    autoClose: true,
+});
 </script>
 
 <template>

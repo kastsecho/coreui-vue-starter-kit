@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Foundation\Events\DiagnosingHealth;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
-use Inertia\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
 class HealthUpController extends Controller
@@ -13,7 +14,7 @@ class HealthUpController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): JsonResponse|Response
     {
         $exception = null;
 
@@ -31,6 +32,7 @@ class HealthUpController extends Controller
             'exception' => $exception,
             'responseStart' => LARAVEL_START,
             'responseEnd' => microtime(true),
-        ]);
+        ])->toResponse($request)
+        ->setStatusCode($exception ? 500 : 200);
     }
 }

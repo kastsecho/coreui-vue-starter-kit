@@ -4,19 +4,21 @@ import {
     Pagination,
     PaginationLink,
     PaginationPage,
+    usePagination,
 } from '@/components/ui/pagination';
-import { computed } from 'vue';
 
 const props = defineProps<{
     meta: Meta;
 }>();
 
-const hasPages = computed(() => props.meta.last_page > 1);
-const onFirstPage = computed(() => props.meta.current_page === 1);
-const previousPageUrl = computed(() => props.meta.links[0].url);
-const hasMorePages = computed(() => props.meta.to < props.meta.total);
-const nextPageUrl = computed(() => [...props.meta.links].reverse()[0].url);
-const elements = computed(() => props.meta.links.slice(1, -1));
+const {
+    hasPages,
+    onFirstPage,
+    previousPageUrl,
+    hasMorePages,
+    nextPageUrl,
+    elements,
+} = usePagination(props.meta);
 </script>
 
 <template>
