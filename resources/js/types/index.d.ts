@@ -10,6 +10,12 @@ export interface BreadcrumbItem {
     href: NonNullable<InertiaLinkProps['href']>;
 }
 
+export interface ColumnItem {
+    key: string;
+    label?: string;
+    placeholder?: string;
+}
+
 export interface NavItem {
     title: string;
     href: NonNullable<InertiaLinkProps['href']>;

@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { ColumnItem } from '@/types';
 import { CTable } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     align?: 'bottom' | 'middle' | 'top';
-    columns?: string[];
+    columns?: ColumnItem[]|string[];
     small?: boolean;
     striped?: boolean;
     stripedColumns?: boolean;
