@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CCardFooter } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { type HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     class?: HTMLAttributes['class'];
@@ -12,6 +12,6 @@ const props = defineProps<{
         data-slot="card-footer"
         :class="props.class"
     >
-        <slot/>
+        <slot />
     </CCardFooter>
 </template>

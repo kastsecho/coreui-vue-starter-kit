@@ -1,38 +1,31 @@
 <script setup lang="ts">
-import HeadingSmall from '@/components/HeadingSmall.vue';
+import { Form, Head } from '@inertiajs/vue3';
+import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
 import { Input, InputError, Label } from '@/components/ui/input';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { edit as editPassword } from '@/routes/password';
-import { edit as editProfile } from '@/routes/profile';
-import { update } from '@/routes/user-password';
-import type { BreadcrumbItem } from '@/types';
-import { Form, Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { edit, update } from '@/routes/user-password';
+import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
-        title: 'Settings',
-        href: editProfile().url,
-    },
-    {
         title: 'Password settings',
-        href: editPassword().url,
+        href: edit().url,
     },
 ];
-
-const passwordInput = ref<HTMLInputElement | null>(null);
-const currentPasswordInput = ref<HTMLInputElement | null>(null);
 </script>
 
 <template>
     <AppLayout :breadcrumbs="breadcrumbItems">
         <Head title="Password settings" />
 
+        <h1 class="visually-hidden">Password Settings</h1>
+
         <SettingsLayout>
-            <div class="d-grid gap-3">
-                <HeadingSmall
+            <div class="d-flex flex-column gap-3">
+                <Heading
+                    variant="small"
                     title="Update password"
                     description="Ensure your account is using a long, random password to stay secure"
                 />
@@ -49,6 +42,7 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                         'current_password',
                     ]"
                     v-slot="{ errors, processing, recentlySuccessful }"
+                    class="d-flex flex-column gap-3"
                 >
                     <div class="d-grid gap-3">
                         <div class="d-grid">
@@ -56,16 +50,15 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                                 Current password
                             </Label>
                             <Input
-                                ref="currentPasswordInput"
                                 id="current_password"
                                 type="password"
                                 name="current_password"
                                 required
+                                autofocus
+                                :invalid="!!errors.current_password"
                                 :tabindex="1"
                                 autocomplete="current-password"
-                                autofocus
                                 placeholder="Current password"
-                                :invalid="!!errors.current_password"
                             />
                             <InputError :message="errors.current_password" />
                         </div>
@@ -73,32 +66,31 @@ const currentPasswordInput = ref<HTMLInputElement | null>(null);
                         <div class="d-grid">
                             <Label for="password">New password</Label>
                             <Input
-                                ref="passwordInput"
                                 id="password"
                                 type="password"
                                 name="password"
                                 required
+                                :invalid="!!errors.password"
                                 :tabindex="2"
                                 autocomplete="new-password"
                                 placeholder="New password"
-                                :invalid="!!errors.password"
                             />
                             <InputError :message="errors.password" />
                         </div>
 
-                        <div class="d-grid">
-                            <Label for="password_confirmation"
-                                >Confirm password</Label
-                            >
+                        <div class="grid gap-2">
+                            <Label for="password_confirmation">
+                                Confirm password
+                            </Label>
                             <Input
                                 id="password_confirmation"
-                                type="password"
                                 name="password_confirmation"
+                                type="password"
                                 required
+                                :invalid="!!errors.password_confirmation"
                                 :tabindex="3"
                                 autocomplete="new-password"
                                 placeholder="Confirm password"
-                                :invalid="!!errors.password_confirmation"
                             />
                             <InputError
                                 :message="errors.password_confirmation"

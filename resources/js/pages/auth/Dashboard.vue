@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { CCol, CRow } from '@coreui/vue';
+import { Head, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import Heading from '@/components/Heading.vue';
 import Icon from '@/components/Icon.vue';
 import { Alert } from '@/components/ui/alert';
@@ -12,11 +15,8 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { dashboard, home } from '@/routes';
+import { dashboard } from '@/routes';
 import type { BreadcrumbItem, User } from '@/types';
-import { CCol, CRow } from '@coreui/vue';
-import { Head, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
 
 interface UserStats {
     latest: string;
@@ -24,6 +24,9 @@ interface UserStats {
     unverified: number;
     verified: number;
 }
+
+const page = usePage();
+const user = computed(() => page.props.auth.user);
 
 defineProps<{
     status?: string;
@@ -33,17 +36,16 @@ defineProps<{
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Home',
-        href: home().url,
-    },
-    {
         title: 'Dashboard',
         href: dashboard().url,
     },
 ];
 
-const page = usePage();
-const user = computed(() => page.props.auth.user);
+const columns: string[] = ['ID', 'Name', 'Status', 'Created'];
+
+const toDateString = (date: string): string => {
+    return new Date(date).toISOString().slice(0, 10);
+};
 </script>
 
 <template>
@@ -138,7 +140,7 @@ const user = computed(() => page.props.auth.user);
                     <CardContent class="text-center p-0">
                         <Table
                             class="m-0 rounded-bottom-4 overflow-hidden"
-                            :columns="['ID', 'Name', 'Status', 'Created']"
+                            :columns="columns"
                             striped
                         >
                             <TableContent>
@@ -152,26 +154,22 @@ const user = computed(() => page.props.auth.user);
                                     <TableCell>{{ user.name }}</TableCell>
                                     <TableCell align="middle">
                                         <Badge
+                                            v-if="user.email_verified_at"
                                             shape="rounded-pill"
-                                            :text-bg-color="
-                                                user.email_verified_at
-                                                    ? 'success'
-                                                    : 'warning'
-                                            "
+                                            text-bg-color="success"
                                         >
-                                            {{
-                                                user.email_verified_at
-                                                    ? 'Verified'
-                                                    : 'Unverified'
-                                            }}
+                                            Verified
+                                        </Badge>
+                                        <Badge
+                                            v-else
+                                            shape="rounded-pill"
+                                            text-bg-color="warning"
+                                        >
+                                            Unverified
                                         </Badge>
                                     </TableCell>
                                     <TableCell>
-                                        {{
-                                            new Date(user.created_at)
-                                                .toISOString()
-                                                .slice(0, 10)
-                                        }}
+                                        {{ toDateString(user.created_at) }}
                                     </TableCell>
                                 </TableRow>
                             </TableContent>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { CContainer } from '@coreui/vue';
+import { usePage } from '@inertiajs/vue3';
+import { computed, onMounted, ref } from 'vue';
 import AppearanceDropdown from '@/components/AppearanceDropdown.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import Icon from '@/components/Icon.vue';
@@ -15,30 +18,27 @@ import {
 import {
     SidebarHeader,
     SidebarHeaderList,
-    SidebarRail,
-    useSidebar,
+    SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { Tooltip } from '@/components/ui/tooltip';
 import UserMenuContent from '@/components/UserMenuContent.vue';
+import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
-import { cn, urlIsActive } from '@/lib/utils';
-import { dashboard, login, register } from '@/routes';
+import { cn } from '@/lib/utils';
+import { dashboard } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
-import { CContainer } from '@coreui/vue';
-import { type InertiaLinkProps, usePage } from '@inertiajs/vue3';
-import { computed, onMounted, ref } from 'vue';
 
-interface Props {
+const page = usePage();
+const auth = computed(() => page.props.auth);
+const { isCurrentUrl } = useCurrentUrl();
+
+type Props = {
     breadcrumbs?: BreadcrumbItem[];
-}
+};
 
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
-
-const page = usePage();
-const auth = computed(() => page.props.auth);
-const sidebar = useSidebar();
 
 const headerClassNames = ref<string | null>(null);
 
@@ -46,7 +46,7 @@ const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
-        icon: 'grid',
+        isActive: !!auth.value.user,
     },
 ];
 
@@ -68,18 +68,11 @@ const rightNavItems: NavItem[] = [
     },
 ];
 
-const isCurrentRoute = computed(
-    () => (url: NonNullable<InertiaLinkProps['href']>) =>
-        urlIsActive(url, page.url),
-);
-
 onMounted(() => {
     document.addEventListener('scroll', () => {
         headerClassNames.value =
             document.documentElement.scrollTop > 0 ? 'shadow-sm' : null;
     });
-
-    sidebar.setOpen(usePage().props.sidebarOpen);
 });
 </script>
 
@@ -87,26 +80,17 @@ onMounted(() => {
     <SidebarHeader :class="cn('mb-4 p-0', headerClassNames)" position="sticky">
         <CContainer class="border-bottom px-4" fluid>
             <!-- Hamburger -->
-            <SidebarRail
-                @click="sidebar.toggleOpen()"
-                style="margin-inline-start: -14px"
-            >
-                <Icon class="icon icon-lg" name="list" />
-            </SidebarRail>
+            <SidebarTrigger style="margin-inline-start: -14px" />
 
             <!-- Navigation Links -->
             <SidebarHeaderList class="d-none d-md-flex">
-                <template v-for="(item, index) in mainNavItems" :key="index">
+                <template v-for="item in mainNavItems" :key="item.title">
                     <NavigationMenuItem v-if="item.isActive ?? true">
                         <NavigationMenuLink
+                            class="icon-link"
                             :href="item.href"
-                            :active="isCurrentRoute(item.href)"
+                            :active="isCurrentUrl(item.href)"
                         >
-                            <Icon
-                                v-if="item.icon"
-                                class="me-2 icon icon-lg"
-                                :name="item.icon"
-                            />
                             {{ item.title }}
                         </NavigationMenuLink>
                     </NavigationMenuItem>
@@ -139,13 +123,15 @@ onMounted(() => {
                         </NavigationMenuLink>
                     </Tooltip>
                 </NavigationMenuItem>
-
-                <AppearanceDropdown icon-class="icon icon-lg" />
             </SidebarHeaderList>
 
-            <SidebarHeaderList>
-                <!-- Settings Dropdown -->
-                <DropdownMenu v-if="auth.user" align="end" variant="nav-item">
+            <SidebarHeaderList class="align-items-center">
+                <AppearanceDropdown icon-class="icon icon-lg" />
+                <DropdownMenu
+                    v-if="auth.user"
+                    align="end"
+                    variant="nav-item"
+                >
                     <DropdownMenuTrigger class="nav-link" :caret="false">
                         <AvatarImage
                             v-if="auth.user.avatar"
@@ -158,37 +144,22 @@ onMounted(() => {
                             class="fw-semibold"
                             status="success"
                         >
-                            {{ getInitials(auth.user?.name) }}
+                            {{ getInitials(auth.user.name) }}
                         </AvatarFallback>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent class="min-w-50">
                         <UserMenuContent :user="auth.user" />
                     </DropdownMenuContent>
                 </DropdownMenu>
-
-                <template v-else>
-                    <NavigationMenuItem>
-                        <NavigationMenuItem :href="login()">
-                            Log in
-                        </NavigationMenuItem>
-                    </NavigationMenuItem>
-
-                    <NavigationMenuItem>
-                        <NavigationMenuItem :href="register()">
-                            Register
-                        </NavigationMenuItem>
-                    </NavigationMenuItem>
-                </template>
             </SidebarHeaderList>
         </CContainer>
 
-        <!-- Page Heading -->
         <CContainer
             v-if="breadcrumbs && breadcrumbs.length >= 1"
             class="px-4 py-2"
             fluid
         >
-            <Breadcrumbs :breadcrumbs />
+            <Breadcrumbs :breadcrumbs="breadcrumbs" />
         </CContainer>
     </SidebarHeader>
 </template>

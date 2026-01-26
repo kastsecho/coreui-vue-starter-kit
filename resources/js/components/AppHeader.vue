@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Link, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import AppearanceDropdown from '@/components/AppearanceDropdown.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
@@ -19,30 +21,24 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Tooltip } from '@/components/ui/tooltip';
 import UserMenuContent from '@/components/UserMenuContent.vue';
+import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
-import { urlIsActive } from '@/lib/utils';
 import { dashboard, home } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
-import { type InertiaLinkProps, Link, usePage } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
 
-interface Props {
+const page = usePage();
+const auth = computed(() => page.props.auth);
+const { isCurrentUrl } = useCurrentUrl();
+
+type Props = {
     breadcrumbs?: BreadcrumbItem[];
-}
+};
 
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
 
-const page = usePage();
-const auth = computed(() => page.props.auth);
-
-const navVisible = ref(false);
-
-const isCurrentRoute = computed(
-    () => (url: NonNullable<InertiaLinkProps['href']>) =>
-        urlIsActive(url, page.url),
-);
+const navOpen = ref(false);
 
 const mainNavItems: NavItem[] = [
     {
@@ -55,7 +51,7 @@ const mainNavItems: NavItem[] = [
 
 const rightNavItems: NavItem[] = [
     {
-        title: 'Repository',
+        title: 'Github Repo',
         href: 'https://github.com/kastsecho/coreui-vue-starter-kit',
         icon: 'folder',
     },
@@ -74,19 +70,16 @@ const rightNavItems: NavItem[] = [
             <Link class="navbar-brand link-danger" :href="home()">
                 <AppLogoIcon height="32" width="32" />
             </Link>
-            <NavigationMenuTrigger @click="navVisible = !navVisible" />
+            <NavigationMenuTrigger @click="navOpen = !navOpen" />
 
-            <NavigationMenuContent :visible="navVisible">
+            <NavigationMenuContent :visible="navOpen">
                 <NavigationMenuList class="me-auto">
-                    <template
-                        v-for="(item, index) in mainNavItems"
-                        :key="index"
-                    >
+                    <template v-for="item in mainNavItems" :key="item.title">
                         <NavigationMenuItem v-if="item.isActive ?? true">
                             <NavigationMenuLink
                                 class="icon-link"
                                 :href="item.href"
-                                :active="isCurrentRoute(item.href)"
+                                :active="isCurrentUrl(item.href)"
                             >
                                 <Icon
                                     v-if="item.icon"
@@ -98,15 +91,16 @@ const rightNavItems: NavItem[] = [
                         </NavigationMenuItem>
                     </template>
                 </NavigationMenuList>
+
                 <NavigationMenuList class="ms-auto align-items-center">
                     <NavigationMenuItem
                         v-for="item in rightNavItems"
                         :key="item.title"
                     >
                         <Tooltip
+                            v-slot="{ id, on }"
                             class="nav-link icon-link"
                             :content="item.title"
-                            v-slot="{ id, on }"
                             placement="bottom"
                         >
                             <NavigationMenuLink
@@ -124,9 +118,7 @@ const rightNavItems: NavItem[] = [
                             </NavigationMenuLink>
                         </Tooltip>
                     </NavigationMenuItem>
-
                     <AppearanceDropdown />
-
                     <DropdownMenu
                         v-if="auth.user"
                         align="end"
@@ -145,7 +137,7 @@ const rightNavItems: NavItem[] = [
                                 class="fw-semibold"
                                 status="success"
                             >
-                                {{ getInitials(auth.user?.name) }}
+                                {{ getInitials(auth.user.name) }}
                             </AvatarFallback>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent class="min-w-50">
@@ -155,8 +147,9 @@ const rightNavItems: NavItem[] = [
                 </NavigationMenuList>
             </NavigationMenuContent>
         </NavigationMenu>
+
         <NavigationMenu
-            v-if="breadcrumbs.length >= 1"
+            v-if="breadcrumbs && breadcrumbs.length > 0"
             class="bg-body"
             container
         >

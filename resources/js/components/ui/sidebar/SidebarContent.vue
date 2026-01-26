@@ -11,8 +11,9 @@ const props = defineProps<{
 <template>
     <CSidebarNav
         data-slot="sidebar-content"
-        :class="props.class"
+        data-sidebar="content"
         :as="as"
+        :class="props.class"
     >
         <slot />
     </CSidebarNav>

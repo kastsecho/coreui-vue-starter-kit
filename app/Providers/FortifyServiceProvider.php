@@ -32,14 +32,14 @@ class FortifyServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureActions();
+        $this->configureViews();
         $this->configureRateLimiting();
-        $this->inertiaPrefix('auth/');
     }
 
     /**
-     * Configure the actions for the application.
+     * Configure Fortify actions.
      */
-    protected function configureActions(): void
+    private function configureActions(): void
     {
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
@@ -49,47 +49,53 @@ class FortifyServiceProvider extends ServiceProvider
     }
 
     /**
-     * Configure the rate limiters for the application.
+     * Configure Fortify views.
      */
-    protected function configureRateLimiting(): void
-    {
-        RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
-
-            return Limit::perMinute(5)->by($throttleKey);
-        });
-
-        RateLimiter::for('two-factor', function (Request $request) {
-            return Limit::perMinute(5)->by($request->session()->get('login.id'));
-        });
-    }
-
-    /**
-     * Register the views for Fortify using conventional names under the given prefix.
-     */
-    protected function inertiaPrefix(string $prefix): void
+    private function configureViews(): void
     {
         if (! class_exists(Inertia::class)) {
             return;
         }
 
-        Fortify::loginView(fn() => inertia($prefix.'Login', [
-            'canRegister' => Features::enabled(Features::registration()),
+        Fortify::loginView(fn (Request $request) => inertia('auth/Login', [
             'canResetPassword' => Features::enabled(Features::resetPasswords()),
-            'status' => session('status'),
+            'canRegister' => Features::enabled(Features::registration()),
+            'status' => $request->session()->get('status'),
         ]));
-        Fortify::twoFactorChallengeView(fn() => inertia($prefix.'TwoFactorChallenge'));
-        Fortify::registerView(fn() => inertia($prefix.'Register'));
-        Fortify::requestPasswordResetLinkView(fn() => inertia($prefix.'ForgotPassword', [
-            'status' => session('status'),
-        ]));
-        Fortify::resetPasswordView(fn(Request $request) => inertia($prefix.'ResetPassword', [
-            'email' => $request->input('email'),
+
+        Fortify::resetPasswordView(fn (Request $request) => inertia('auth/ResetPassword', [
+            'email' => $request->email,
             'token' => $request->route('token'),
         ]));
-        Fortify::verifyEmailView(fn() => inertia($prefix.'VerifyEmail', [
-            'status' => session('status'),
+
+        Fortify::requestPasswordResetLinkView(fn (Request $request) => inertia('auth/ForgotPassword', [
+            'status' => $request->session()->get('status'),
         ]));
-        Fortify::confirmPasswordView(fn() => inertia($prefix.'ConfirmPassword'));
+
+        Fortify::verifyEmailView(fn (Request $request) => inertia('auth/VerifyEmail', [
+            'status' => $request->session()->get('status'),
+        ]));
+
+        Fortify::registerView(fn () => inertia('auth/Register'));
+
+        Fortify::twoFactorChallengeView(fn () => inertia('auth/TwoFactorChallenge'));
+
+        Fortify::confirmPasswordView(fn () => inertia('auth/ConfirmPassword'));
+    }
+
+    /**
+     * Configure rate limiting.
+     */
+    private function configureRateLimiting(): void
+    {
+        RateLimiter::for('two-factor', function (Request $request) {
+            return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        });
+
+        RateLimiter::for('login', function (Request $request) {
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+
+            return Limit::perMinute(5)->by($throttleKey);
+        });
     }
 }

@@ -19,9 +19,7 @@ class EmailVerificationTest extends TestCase
     {
         $user = User::factory()->unverified()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->get(route('verification.notice'));
+        $response = $this->actingAs($user)->get(route('verification.notice'));
 
         $response->assertOk();
     }
@@ -29,9 +27,9 @@ class EmailVerificationTest extends TestCase
     #[Test]
     public function email_can_be_verified(): void
     {
-        Event::fake();
-
         $user = User::factory()->unverified()->create();
+
+        Event::fake();
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
@@ -39,9 +37,7 @@ class EmailVerificationTest extends TestCase
             ['id' => $user->id, 'hash' => sha1($user->email)]
         );
 
-        $response = $this
-            ->actingAs($user)
-            ->get($verificationUrl);
+        $response = $this->actingAs($user)->get($verificationUrl);
 
         Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
@@ -51,9 +47,9 @@ class EmailVerificationTest extends TestCase
     #[Test]
     public function email_is_not_verified_with_invalid_hash(): void
     {
-        Event::fake();
-
         $user = User::factory()->unverified()->create();
+
+        Event::fake();
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
@@ -61,9 +57,7 @@ class EmailVerificationTest extends TestCase
             ['id' => $user->id, 'hash' => sha1('wrong-email')]
         );
 
-        $this
-            ->actingAs($user)
-            ->get($verificationUrl);
+        $this->actingAs($user)->get($verificationUrl);
 
         Event::assertNotDispatched(Verified::class);
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
@@ -72,9 +66,9 @@ class EmailVerificationTest extends TestCase
     #[Test]
     public function email_is_not_verified_with_invalid_user_id(): void
     {
-        Event::fake();
-
         $user = User::factory()->unverified()->create();
+
+        Event::fake();
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
@@ -82,9 +76,7 @@ class EmailVerificationTest extends TestCase
             ['id' => 123, 'hash' => sha1($user->email)]
         );
 
-        $this
-            ->actingAs($user)
-            ->get($verificationUrl);
+        $this->actingAs($user)->get($verificationUrl);
 
         Event::assertNotDispatched(Verified::class);
         $this->assertFalse($user->fresh()->hasVerifiedEmail());
@@ -93,13 +85,11 @@ class EmailVerificationTest extends TestCase
     #[Test]
     public function verified_user_is_redirected_to_dashboard_from_verification_prompt(): void
     {
-        Event::fake();
-
         $user = User::factory()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->get(route('verification.notice'));
+        Event::fake();
+
+        $response = $this->actingAs($user)->get(route('verification.notice'));
 
         Event::assertNotDispatched(Verified::class);
         $response->assertRedirect(route('dashboard', absolute: false));
@@ -108,9 +98,9 @@ class EmailVerificationTest extends TestCase
     #[Test]
     public function already_verified_user_visiting_verification_link_is_redirected_without_firing_event_again(): void
     {
-        Event::fake();
-
         $user = User::factory()->create();
+
+        Event::fake();
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
@@ -118,12 +108,10 @@ class EmailVerificationTest extends TestCase
             ['id' => $user->id, 'hash' => sha1($user->email)]
         );
 
-        $response = $this
-            ->actingAs($user)
-            ->get($verificationUrl);
+        $this->actingAs($user)->get($verificationUrl)
+            ->assertRedirect(route('dashboard', absolute: false).'?verified=1');
 
         Event::assertNotDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
-        $response->assertRedirect(route('dashboard', absolute: false).'?verified=1');
     }
 }

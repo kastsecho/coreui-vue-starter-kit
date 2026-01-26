@@ -12,10 +12,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory;
-    use HasProfilePhoto;
-    use Notifiable;
-    use TwoFactorAuthenticatable;
+    use HasFactory, HasProfilePhoto, Notifiable, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -35,9 +32,9 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
         'two_factor_recovery_codes',
         'two_factor_secret',
+        'remember_token',
     ];
 
     /**

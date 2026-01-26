@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { CListGroup } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import { type Breakpoint } from '@/types/coreui';
 
-type Layout =
-    | 'horizontal'
-    | 'horizontal-sm'
-    | 'horizontal-md'
-    | 'horizontal-lg'
-    | 'horizontal-xl'
-    | 'horizontal-xxl';
+type Layout = 'horizontal' | `horizontal-${Breakpoint}`;
 
 const props = defineProps<{
     as?: string;
@@ -16,12 +12,14 @@ const props = defineProps<{
     layout?: Layout;
     class?: HTMLAttributes['class'];
 }>();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CListGroup
         data-slot="list-group"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="props.class"
     >
         <slot/>

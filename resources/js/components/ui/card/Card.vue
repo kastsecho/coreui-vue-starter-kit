@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { Color, TextColor } from '@/types/coreui';
 import { CCard } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import type { Color, TextColor } from '@/types';
 
 const props = defineProps<{
     color?: Color;
@@ -9,16 +10,16 @@ const props = defineProps<{
     textBgColor?: TextColor;
     class?: HTMLAttributes['class'];
 }>();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CCard
         data-slot="card"
+        v-bind="delegatedProps"
         :class="props.class"
-        :color="color"
-        :text-color="textColor"
-        :text-bg-color="textBgColor"
     >
-        <slot/>
+        <slot />
     </CCard>
 </template>

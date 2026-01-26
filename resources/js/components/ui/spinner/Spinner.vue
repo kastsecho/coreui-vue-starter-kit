@@ -1,38 +1,33 @@
 <script setup lang="ts">
 import { CSpinner } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import { type Color } from '@/types';
 
-type Color =
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'info'
-    | 'dark'
-    | 'light';
-
-interface Props {
-    color?: Color;
+type Props = {
+    color?: Exclude<Color, 'link' | 'transparent'>;
     label?: string;
     size?: 'sm';
     variant?: 'border' | 'grow';
+    visuallyHiddenLabel?: string;
     class?: HTMLAttributes['class'];
-}
+};
 
 const props = withDefaults(defineProps<Props>(), {
-    label: 'Loading...',
+    size: 'sm',
+    variant: 'border',
+    visuallyHiddenLabel: 'Loading...',
 });
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CSpinner
-        data-slot="toast"
+        data-slot="spinner"
         role="status"
+        aria-label="Loading"
+        v-bind="delegatedProps"
         :class="props.class"
-        v-bind="props"
-        :visuallyHiddenLabel="label"
-    >
-        <slot/>
-    </CSpinner>
+    />
 </template>

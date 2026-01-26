@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import { CContainer } from '@coreui/vue';
 import AppContent from '@/components/AppContent.vue';
 import AppShell from '@/components/AppShell.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
 import AppSidebarHeader from '@/components/AppSidebarHeader.vue';
-import type { BreadcrumbItem } from '@/types';
-import { CContainer } from '@coreui/vue';
+import { type BreadcrumbItem } from '@/types';
 
-interface Props {
+type Props = {
     breadcrumbs?: BreadcrumbItem[];
-}
+};
 
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],

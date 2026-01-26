@@ -1,33 +1,35 @@
 <script setup lang="ts">
 import Icon from '@/components/Icon.vue';
 import {
-    NavigationMenuItem,
-    NavigationMenuLink,
-} from '@/components/ui/navigation-menu';
-import { toUrl, urlIsActive } from '@/lib/utils';
+    SidebarMenuItem,
+    SidebarMenuLink,
+} from '@/components/ui/sidebar';
+import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { type NavItem } from '@/types';
-import { usePage } from '@inertiajs/vue3';
+
+const { isCurrentUrl } = useCurrentUrl();
 
 defineProps<{
     items: NavItem[];
-    class?: string;
 }>();
-
-const page = usePage();
 </script>
 
 <template>
     <div>
-        <NavigationMenuItem v-for="item in items" :key="toUrl(item.href)">
-            <NavigationMenuLink
+        <SidebarMenuItem v-for="item in items" :key="item.title">
+            <SidebarMenuLink
                 class="w-100"
                 as="button"
-                :href="toUrl(item.href)"
-                :active="urlIsActive(item.href, page.url)"
+                :href="item.href"
+                :active="isCurrentUrl(item.href)"
             >
-                <Icon v-if="item.icon" class="nav-icon" :name="item.icon" />
+                <Icon
+                    v-if="item.icon"
+                    class="nav-icon"
+                    :name="item.icon"
+                />
                 <span>{{ item.title }}</span>
-            </NavigationMenuLink>
-        </NavigationMenuItem>
+            </SidebarMenuLink>
+        </SidebarMenuItem>
     </div>
 </template>

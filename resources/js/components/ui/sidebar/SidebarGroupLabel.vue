@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CNavTitle } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { type HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     class?: HTMLAttributes['class'];
@@ -10,6 +10,7 @@ const props = defineProps<{
 <template>
     <CNavTitle
         data-slot="sidebar-group-label"
+        data-sidebar="group-label"
         :class="props.class"
     >
         <slot />

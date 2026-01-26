@@ -1,17 +1,25 @@
 <script setup lang="ts">
-import { CHeaderToggler } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { CSidebarToggler } from '@coreui/vue';
+import { type HTMLAttributes } from 'vue';
+import { useSidebar } from '.';
+
+const sidebar = useSidebar();
 
 const props = defineProps<{
-    class?: HTMLAttributes['class'];
+  class?: HTMLAttributes['class'];
 }>();
 </script>
 
 <template>
-    <CHeaderToggler
+    <CSidebarToggler
+        data-sidebar="rail"
         data-slot="sidebar-rail"
         :class="props.class"
+        aria-label="Toggle Sidebar"
+        :tabindex="-1"
+        title="Toggle Sidebar"
+        @click="sidebar.setOpenMobile(!sidebar.openMobile)"
     >
         <slot />
-    </CHeaderToggler>
+    </CSidebarToggler>
 </template>

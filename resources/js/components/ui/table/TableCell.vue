@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import type { Color } from '@/types/coreui';
 import { CTableDataCell } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import { type Color } from '@/types';
 
 const props = defineProps<{
     active?: boolean;
@@ -9,12 +10,14 @@ const props = defineProps<{
     color?: Color;
     class?: HTMLAttributes['class'];
 }>();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CTableDataCell
         data-slot="table-cell"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="props.class"
     >
         <slot />

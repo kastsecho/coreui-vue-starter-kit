@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Form, Head } from '@inertiajs/vue3';
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -8,12 +9,11 @@ import AuthLayout from '@/layouts/AuthLayout.vue';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
-import { Form, Head } from '@inertiajs/vue3';
 
 defineProps<{
-    canRegister: boolean;
-    canResetPassword: boolean;
     status?: string;
+    canResetPassword: boolean;
+    canRegister: boolean;
 }>();
 </script>
 
@@ -26,8 +26,8 @@ defineProps<{
 
         <Alert
             v-if="status"
-            class="text-center fw-medium rounded-4 shadow-sm"
             color="success"
+            class="text-center fw-medium rounded-4 shadow-sm"
         >
             {{ status }}
         </Alert>
@@ -46,20 +46,20 @@ defineProps<{
                         type="email"
                         name="email"
                         required
+                        autofocus
+                        :invalid="!!errors.email"
                         :tabindex="1"
                         autocomplete="email"
-                        autofocus
                         placeholder="email@example.com"
-                        :invalid="!!errors.email"
                     />
                     <InputError :message="errors.email" />
                 </div>
 
                 <div class="d-grid">
                     <div
-                        class="form-label d-flex align-items-center justify-content-between"
+                        class="d-flex align-items-center justify-content-between"
                     >
-                        <Label class="mb-0" for="password">Password</Label>
+                        <Label for="password">Password</Label>
                         <TextLink
                             v-if="canResetPassword"
                             :href="request()"
@@ -73,16 +73,16 @@ defineProps<{
                         type="password"
                         name="password"
                         required
+                        :invalid="!!errors.password"
                         :tabindex="2"
                         autocomplete="current-password"
                         placeholder="Password"
-                        :invalid="!!errors.password"
                     />
                     <InputError :message="errors.password" />
                 </div>
 
                 <div class="form-check">
-                    <Label custom-class-name="form-check-label" for="remember">
+                    <Label for="remember" custom-class-name="form-check-label">
                         <Checkbox id="remember" name="remember" :tabindex="3" />
                         <span>Remember me</span>
                     </Label>
@@ -90,20 +90,18 @@ defineProps<{
 
                 <Button
                     type="submit"
+                    class="mt-2"
                     :tabindex="4"
                     :disabled="processing"
                     data-test="login-button"
                 >
-                    <Spinner v-if="processing" size="sm" />
+                    <Spinner v-if="processing" />
                     Log in
                 </Button>
             </div>
 
-            <div
-                v-if="canRegister"
-                class="d-flex gap-1 justify-content-center text-muted"
-            >
-                <span>Don't have an account?</span>
+            <div class="text-center text-muted" v-if="canRegister">
+                Don't have an account?
                 <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
             </div>
         </Form>

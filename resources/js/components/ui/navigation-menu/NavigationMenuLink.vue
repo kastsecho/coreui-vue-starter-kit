@@ -1,39 +1,44 @@
 <script setup lang="ts">
-import { cn, toUrl } from '@/lib/utils';
 import { CNavLink } from '@coreui/vue';
+import { type Method } from '@inertiajs/core';
 import { type InertiaLinkProps, Link } from '@inertiajs/vue3';
-import { computed, type HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import { toUrl } from '@/lib/utils';
+import { cn } from '@/lib/utils';
 
 const props = defineProps<InertiaLinkProps & {
     active?: boolean;
     disabled?: boolean;
+    tabindex?: number;
+    method?: Method;
     class?: HTMLAttributes['class'];
 }>();
 
-const href = computed(() => toUrl(props.href ? props.href : ''));
+const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
 </script>
 
 <template>
     <Link
-        v-if="as != 'a'"
+        v-if="as !== 'a'"
         data-slot="navigation-menu-link"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="cn({
             ['active']: active,
             ['disabled']: disabled,
         }, 'nav-link', props.class)"
     >
-        <slot/>
+        <slot />
     </Link>
     <CNavLink
         v-else
         data-slot="navigation-menu-link"
         as="a"
+        :href="toUrl(href!)"
         :class="props.class"
-        :href="href"
         :active="active"
         :disabled="disabled"
     >
-        <slot/>
+        <slot />
     </CNavLink>
 </template>

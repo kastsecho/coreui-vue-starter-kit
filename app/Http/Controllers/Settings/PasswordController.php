@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Inertia\Response;
 
 class PasswordController extends Controller
 {
     /**
-     * Show the form for editing the specified resource.
+     * Show the user's password settings page.
      */
-    public function edit(Request $request): Response
+    public function edit(): Response
     {
         return inertia('settings/Password');
     }

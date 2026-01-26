@@ -1,10 +1,9 @@
-import '../sass/app.scss';
-
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createPinia } from 'pinia';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
+import '../sass/app.scss';
 import { initializeTheme } from './composables/useAppearance';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
@@ -24,9 +23,11 @@ createInertiaApp({
 });
 
 function resolvePage(name: string) {
-    const pages = import.meta.glob<DefineComponent>('./pages/**/*.vue');
-
-    return resolvePageComponent<DefineComponent>(`./pages/${name}.vue`, pages);
+    return resolvePageComponent(
+        `./pages/${name}.vue`,
+        import.meta.glob<DefineComponent>('./pages/**/*.vue'),
+    );
 }
 
+// This will set light / dark mode on page load...
 initializeTheme();

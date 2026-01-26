@@ -5,9 +5,11 @@ defineOptions({
     inheritAttrs: false,
 });
 
-const props = defineProps<{
-    class?: HTMLAttributes['class'];
-}>();
+type Props = {
+    className?: HTMLAttributes['class'];
+};
+
+defineProps<Props>();
 </script>
 
 <template>
@@ -15,7 +17,7 @@ const props = defineProps<{
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 40 42"
         v-bind="$attrs"
-        :class="props.class"
+        :class="className"
     >
         <path
             fill="currentColor"

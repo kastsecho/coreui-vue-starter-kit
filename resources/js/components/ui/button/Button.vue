@@ -1,29 +1,31 @@
 <script setup lang="ts">
-import type { Color, Shape } from '@/types/coreui';
 import { CButton } from '@coreui/vue';
+import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
+import type { Color, Shape } from '@/types';
 
-interface Props {
+type Props = {
     active?: boolean;
     color?: Color;
     shape?: Shape;
     size?: 'sm' | 'lg';
     variant?: 'ghost' | 'outline';
     class?: HTMLAttributes['class'];
-}
+};
 
 const props = withDefaults(defineProps<Props>(), {
-    as: 'button',
     color: 'primary',
 });
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CButton
-        data-slot="button"
-        v-bind="props"
-        :class="props.class"
-    >
-        <slot/>
-    </CButton>
+  <CButton
+    data-slot="button"
+    v-bind="delegatedProps"
+    :class="props.class"
+  >
+    <slot />
+  </CButton>
 </template>

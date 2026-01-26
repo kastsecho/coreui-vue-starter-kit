@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CPaginationItem } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { type HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     active?: boolean;
@@ -12,8 +12,8 @@ const props = defineProps<{
 <template>
     <CPaginationItem
         data-slot="pagination-page"
-        :class="props.class"
         v-bind="props"
+        :class="props.class"
     >
         <slot/>
     </CPaginationItem>

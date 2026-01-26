@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import HeadingSmall from '@/components/HeadingSmall.vue';
+import { Form } from '@inertiajs/vue3';
+import { ref, useTemplateRef } from 'vue';
+import Heading from '@/components/Heading.vue';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
@@ -12,16 +14,15 @@ import {
 } from '@/components/ui/dialog';
 import { Input, InputError, Label } from '@/components/ui/input';
 import { destroy } from '@/routes/profile';
-import { Form } from '@inertiajs/vue3';
-import { ref } from 'vue';
 
-const passwordInput = ref<InstanceType<typeof Input> | null>(null);
-const isOpen = ref<boolean>(false);
+const isOpen = ref(false);
+const passwordInput = useTemplateRef('passwordInput');
 </script>
 
 <template>
     <div class="d-grid gap-3">
-        <HeadingSmall
+        <Heading
+            variant="small"
             title="Delete account"
             description="Delete your account and all of its resources"
         />
@@ -54,6 +55,7 @@ const isOpen = ref<boolean>(false);
                     :options="{
                         preserveScroll: true,
                     }"
+                    class="space-y-6"
                     v-slot="{ errors, processing, reset, clearErrors }"
                 >
                     <DialogHeader class="d-grid">
@@ -67,21 +69,20 @@ const isOpen = ref<boolean>(false);
                             permanently delete your account.
                         </DialogDescription>
                     </DialogHeader>
-
                     <DialogContent>
                         <div class="d-grid">
                             <Label for="password" class="visually-hidden">
                                 Password
                             </Label>
                             <Input
-                                ref="passwordInput"
                                 id="password"
                                 type="password"
                                 name="password"
                                 required
-                                autocomplete="current-password"
-                                placeholder="Password"
                                 :invalid="!!errors.password"
+                                autocomplete="current-password"
+                                ref="passwordInput"
+                                placeholder="Password"
                             />
                             <InputError :message="errors.password" />
                         </div>
@@ -89,13 +90,12 @@ const isOpen = ref<boolean>(false);
 
                     <DialogFooter class="gap-2">
                         <Button
-                            type="button"
                             color="secondary"
                             @click="
                                 () => {
+                                    isOpen = false;
                                     clearErrors();
                                     reset();
-                                    isOpen = false;
                                 }
                             "
                         >

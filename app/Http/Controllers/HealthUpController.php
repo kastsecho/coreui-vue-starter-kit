@@ -32,7 +32,6 @@ class HealthUpController extends Controller
             'exception' => $exception,
             'responseStart' => LARAVEL_START,
             'responseEnd' => microtime(true),
-        ])->toResponse($request)
-        ->setStatusCode($exception ? 500 : 200);
+        ])->toResponse($request)->setStatusCode($exception ? 500 : 200);
     }
 }

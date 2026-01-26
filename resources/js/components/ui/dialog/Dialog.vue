@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { CModal } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
 
-const emit = defineEmits(['close']);
-
-interface Props {
+type Props = {
     align?: 'top' | 'center';
     backdrop?: boolean | 'static';
     contentClassName?: HTMLAttributes['class'];
@@ -12,7 +11,7 @@ interface Props {
     size?: 'sm' | 'lg' | 'xl';
     teleport?: boolean;
     class?: HTMLAttributes['class'];
-}
+};
 
 const props = withDefaults(defineProps<Props>(), {
     align: 'top',
@@ -20,20 +19,23 @@ const props = withDefaults(defineProps<Props>(), {
     teleport: true,
 });
 
+const emit = defineEmits(['close']);
 const visible = defineModel<boolean>('open');
 
 const closeDialog = () => emit('close');
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CModal
         data-slot="dialog"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="props.class"
         :alignment="align"
         :visible="visible"
         @close="closeDialog"
     >
-        <slot/>
+        <slot />
     </CModal>
 </template>

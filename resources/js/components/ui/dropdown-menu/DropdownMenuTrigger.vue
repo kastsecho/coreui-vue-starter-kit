@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import type { Color, Shape } from '@/types/coreui';
 import { CDropdownToggle } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import type { Color, Shape } from '@/types';
 
-const props = defineProps<{
+type Props = {
     as?: string;
     caret?: boolean;
     color?: Color;
@@ -14,14 +15,21 @@ const props = defineProps<{
     splitLabel?: string;
     variant?: 'ghost' | 'outline';
     class?: HTMLAttributes['class'];
-}>();
+};
+
+const props = withDefaults(defineProps<Props>(), {
+    caret: true,
+});
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CDropdownToggle
         data-slot="dropdown-menu-trigger"
-        v-bind="props"
+        v-bind="delegatedProps"
+        :class="props.class"
     >
-        <slot/>
+        <slot />
     </CDropdownToggle>
 </template>

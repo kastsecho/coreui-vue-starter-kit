@@ -11,8 +11,8 @@ const props = defineProps<{
 <template>
     <CToastHeader
         data-slot="toast-header"
-        :class="props.class"
         :close-button="closeButton"
+        :class="props.class"
     >
         <slot/>
     </CToastHeader>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Color } from '@/types/coreui';
 import { CTableBody } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { type HTMLAttributes } from 'vue';
+import { type Color } from '@/types/coreui';
 
 const props = defineProps<{
     color?: Color;
@@ -12,8 +12,8 @@ const props = defineProps<{
 <template>
     <CTableBody
         data-slot="table-content"
-        :class="props.class"
         :color="color"
+        :class="props.class"
     >
         <slot />
     </CTableBody>

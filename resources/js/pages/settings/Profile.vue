@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { Form, Head, router, usePage } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import DeleteUser from '@/components/DeleteUser.vue';
-import HeadingSmall from '@/components/HeadingSmall.vue';
+import Heading from '@/components/Heading.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -13,28 +15,24 @@ import { edit } from '@/routes/profile';
 import { destroy } from '@/routes/profile-photo';
 import { update } from '@/routes/user-profile-information';
 import { send } from '@/routes/verification';
-import type { BreadcrumbItem } from '@/types';
-import { Form, Head, router, usePage } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { type BreadcrumbItem } from '@/types';
 
-defineProps<{
+type Props = {
     mustVerifyEmail: boolean;
     status?: string;
-}>();
+};
 
-const breadcrumbItems: BreadcrumbItem[] = [
-    {
-        title: 'Settings',
-        href: edit().url,
-    },
+const page = usePage();
+const user = computed(() => page.props.auth.user);
+
+defineProps<Props>();
+
+const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Profile settings',
         href: edit().url,
     },
 ];
-
-const page = usePage();
-const user = computed(() => page.props.auth.user);
 
 const photoPreview = ref<string | null>(null);
 const photoInput = ref<HTMLInputElement | null>(null);
@@ -73,12 +71,15 @@ const clearPhotoFileInput = () => {
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbItems">
+    <AppLayout :breadcrumbs="breadcrumbs">
         <Head title="Profile settings" />
 
+        <h1 class="visually-hidden">Profile Settings</h1>
+
         <SettingsLayout>
-            <div class="d-grid gap-3">
-                <HeadingSmall
+            <div class="d-flex flex-column gap-3">
+                <Heading
+                    variant="small"
                     title="Profile information"
                     description="Update your avatar, name and email address"
                 />
@@ -86,6 +87,7 @@ const clearPhotoFileInput = () => {
                 <Form
                     v-bind="update.form()"
                     v-slot="{ errors, processing, recentlySuccessful }"
+                    class="d-flex flex-column gap-3"
                 >
                     <div class="d-grid gap-3">
                         <div class="d-grid">
@@ -118,7 +120,7 @@ const clearPhotoFileInput = () => {
                                     type="button"
                                     color="secondary"
                                     @click="selectNewPhoto"
-                                    :tabindex="4"
+                                    :tabindex="1"
                                     :disabled="processing"
                                     data-test="update-profile-photo-button"
                                 >
@@ -134,7 +136,7 @@ const clearPhotoFileInput = () => {
                                     type="button"
                                     color="secondary"
                                     @click="deletePhoto"
-                                    :tabindex="4"
+                                    :tabindex="2"
                                     :disabled="processing"
                                     data-test="remove-profile-photo-button"
                                 >
@@ -154,11 +156,11 @@ const clearPhotoFileInput = () => {
                                 type="text"
                                 name="name"
                                 required
-                                :tabindex="1"
+                                :invalid="!!errors.name"
+                                :value="user.name"
+                                :tabindex="3"
                                 autocomplete="name"
-                                autofocus
                                 placeholder="Full name"
-                                :model-value="user.name"
                             />
                             <InputError :message="errors.name" />
                         </div>
@@ -170,61 +172,62 @@ const clearPhotoFileInput = () => {
                                 type="email"
                                 name="email"
                                 required
-                                :tabindex="2"
-                                autocomplete="username"
-                                placeholder="Email address"
-                                :model-value="user.email"
-                            />
-                            <InputError :message="errors.email" />
-                        </div>
-
-                        <div v-if="mustVerifyEmail && !user.email_verified_at">
-                            <p class="-mt-4 text-sm text-muted-foreground">
-                                Your email address is unverified.
-                                <TextLink
-                                    class="btn btn-link"
-                                    :href="send()"
-                                    :tabindex="3"
-                                    as="button"
-                                >
-                                    Click here to resend the verification email.
-                                </TextLink>
-                            </p>
-
-                            <Alert
-                                v-if="status === 'verification-link-sent'"
-                                class="fw-medium rounded-4 shadow-sm"
-                                color="success"
-                            >
-                                A new verification link has been sent to your
-                                email address.
-                            </Alert>
-                        </div>
-
-                        <div class="d-flex align-items-center gap-4">
-                            <Button
-                                type="submit"
+                                :invalid="!!errors.email"
+                                :value="user.email"
                                 :tabindex="4"
-                                :disabled="processing"
-                                data-test="update-profile-button"
-                            >
-                                Save
-                            </Button>
-
-                            <Transition
-                                enter-active-class="transition ease-in-out"
-                                enter-from-class="opacity-0"
-                                leave-active-class="transition ease-in-out"
-                                leave-to-class="opacity-0"
-                            >
-                                <p
-                                    v-show="recentlySuccessful"
-                                    class="mb-0 text-muted"
-                                >
-                                    Saved.
-                                </p>
-                            </Transition>
+                                autocomplete="email"
+                                placeholder="Email address"
+                            />
+                            <InputError class="mt-2" :message="errors.email" />
                         </div>
+                    </div>
+
+                    <div v-if="mustVerifyEmail && !user.email_verified_at">
+                        <p class="-mt-4 text-muted">
+                            Your email address is unverified.
+                            <TextLink
+                                class="btn btn-link"
+                                :href="send()"
+                                :tabindex="4"
+                                as="button"
+                            >
+                                Click here to resend the verification email.
+                            </TextLink>
+                        </p>
+
+                        <Alert
+                            v-if="status === 'verification-link-sent'"
+                            class="fw-medium rounded-4 shadow-sm"
+                            color="success"
+                        >
+                            A new verification link has been sent to your email
+                            address.
+                        </Alert>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-4">
+                        <Button
+                            type="submit"
+                            :disabled="processing"
+                            :tabindex="5"
+                            data-test="update-profile-button"
+                        >
+                            Save
+                        </Button>
+
+                        <Transition
+                            enter-active-class="transition ease-in-out"
+                            enter-from-class="opacity-0"
+                            leave-active-class="transition ease-in-out"
+                            leave-to-class="opacity-0"
+                        >
+                            <p
+                                v-show="recentlySuccessful"
+                                class="mb-0 text-muted"
+                            >
+                                Saved.
+                            </p>
+                        </Transition>
                     </div>
                 </Form>
 

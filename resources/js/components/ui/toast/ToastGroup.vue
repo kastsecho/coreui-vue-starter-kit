@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CToaster } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { type HTMLAttributes } from 'vue';
 
 type Placement =
     | 'top-start'
@@ -22,8 +22,8 @@ const props = defineProps<{
 <template>
     <CToaster
         data-slot="toast-content"
-        :class="props.class"
         :placement="placement"
+        :class="props.class"
     >
         <slot/>
     </CToaster>

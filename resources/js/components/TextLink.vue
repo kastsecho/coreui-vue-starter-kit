@@ -1,24 +1,25 @@
 <script setup lang="ts">
-import { LinkComponentBaseProps, Method } from '@inertiajs/core';
+import type { LinkComponentBaseProps, Method } from '@inertiajs/core';
 import { Link } from '@inertiajs/vue3';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import { cn } from '@/lib/utils';
 
-interface Props {
+const props = defineProps<{
     href: LinkComponentBaseProps['href'];
     tabindex?: number;
     method?: Method;
     as?: string;
-}
+    class?: HTMLAttributes['class'];
+}>();
 
-defineProps<Props>();
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <Link
-        :href="href"
-        :tabindex="tabindex"
-        :method="method"
-        :as="as"
-        class="link-body-emphasis"
+        v-bind="delegatedProps"
+        :class="cn('link-body-emphasis', props.class)"
     >
         <slot />
     </Link>

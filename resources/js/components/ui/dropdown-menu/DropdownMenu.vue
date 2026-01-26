@@ -1,28 +1,30 @@
 <script setup lang="ts">
-import type { Placement } from '@/types/coreui';
 import { CDropdown } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import { type Placement } from '@/types';
 
-interface Props {
+type Props = {
     align?: 'start' | 'end';
     autoClose?: boolean | 'inside' | 'outside';
     placement?: Placement;
     teleport?: boolean;
     variant?: 'btn-group' | 'dropdown' | 'input-group' | 'nav-item';
     class?: HTMLAttributes['class'];
-}
+};
 
 const props = withDefaults(defineProps<Props>(), {
     autoClose: true,
 });
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CDropdown
         data-slot="dropdown-menu"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="props.class"
-        :alignment="align"
     >
         <slot />
     </CDropdown>

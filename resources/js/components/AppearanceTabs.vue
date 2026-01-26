@@ -19,9 +19,9 @@ const tabs = [
             :key="value"
             class="rounded-4"
             :class="{ 'shadow-sm': appearance === value }"
+            :active="appearance === value"
             :color="appearance === value ? 'primary' : 'transparent'"
             @click="updateAppearance(value)"
-            :active="appearance === value"
         >
             <Icon :name="icon" />
             <span class="ms-2">{{ label }}</span>

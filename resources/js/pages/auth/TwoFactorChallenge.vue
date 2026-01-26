@@ -1,30 +1,25 @@
 <script setup lang="ts">
+import { Form, Head } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import { Button } from '@/components/ui/button';
 import { Input, InputError } from '@/components/ui/input';
 import {
-    PinInput,
-    PinInputGroup,
-    PinInputSlot,
-} from '@/components/ui/pin-input';
-import { Spinner } from '@/components/ui/spinner';
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSlot,
+} from '@/components/ui/input-otp';
+import { Separator } from '@/components/ui/separator';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { store } from '@/routes/two-factor/login';
-import { Form, Head } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { type TwoFactorConfigContent } from '@/types';
 
-interface AuthConfigContent {
-    title: string;
-    description: string;
-    toggleText: string;
-}
-
-const authConfigContent = computed<AuthConfigContent>(() => {
+const authConfigContent = computed<TwoFactorConfigContent>(() => {
     if (showRecoveryInput.value) {
         return {
             title: 'Recovery Code',
             description:
                 'Please confirm access to your account by entering one of your emergency recovery codes.',
-            toggleText: 'login using an authentication code',
+            buttonText: 'or, using an authentication code',
         };
     }
 
@@ -32,7 +27,7 @@ const authConfigContent = computed<AuthConfigContent>(() => {
         title: 'Authentication Code',
         description:
             'Enter the authentication code provided by your authenticator application.',
-        toggleText: 'login using a recovery code',
+        buttonText: 'or, login using a recovery code',
     };
 });
 
@@ -41,11 +36,10 @@ const showRecoveryInput = ref<boolean>(false);
 const toggleRecoveryMode = (clearErrors: () => void): void => {
     showRecoveryInput.value = !showRecoveryInput.value;
     clearErrors();
-    code.value = [];
+    code.value = '';
 };
 
-const code = ref<number[]>([]);
-const codeValue = computed<string>(() => code.value.join(''));
+const code = ref<string>('');
 </script>
 
 <template>
@@ -59,64 +53,56 @@ const codeValue = computed<string>(() => code.value.join(''));
             <Form
                 v-bind="store.form()"
                 reset-on-error
-                @error="code = []"
+                @error="code = ''"
                 v-slot="{ errors, processing, clearErrors }"
+                class="d-flex flex-column gap-3"
             >
-                <input type="hidden" name="code" :value="codeValue" />
+                <input type="hidden" name="code" :value="code" />
                 <div class="d-grid gap-3">
                     <div class="d-grid">
-                        <PinInput id="otp" v-model="code">
-                            <PinInputGroup>
-                                <PinInputSlot
-                                    class="text-center"
-                                    autofocus
-                                    v-for="(id, index) in 6"
-                                    :key="id"
-                                    :index="index"
-                                    placeholder="○"
-                                    :disabled="processing"
-                                    @complete="
-                                        (digit) => {
-                                            code[index] = digit;
-                                        }
-                                    "
+                        <InputOTP
+                            id="otp"
+                            v-model="code"
+                            :maxlength="6"
+                            :disabled="processing"
+                            autofocus
+                        >
+                            <InputOTPGroup>
+                                <InputOTPSlot
+                                    v-for="index in 6"
+                                    :key="index"
+                                    :index="index - 1"
                                 />
-                            </PinInputGroup>
-                        </PinInput>
+                            </InputOTPGroup>
+                        </InputOTP>
                         <InputError
                             :class="{ ['d-block']: errors.code }"
                             :message="errors.code"
                         />
                     </div>
 
-                    <Button type="submit" :tabindex="7" :disabled="processing">
-                        <Spinner v-if="processing" size="sm" />
+                    <Button type="submit" :disabled="processing">
                         Continue
                     </Button>
-
-                    <div
-                        class="d-flex w-100 align-items-center justify-content-center"
-                    >
-                        <hr class="flex-grow-1" />
-                        <span class="ps-2 text-muted">or you can</span>
-                        <Button
-                            type="button"
-                            class="link-body-emphasis ps-2"
-                            color="link"
-                            :tabindex="8"
-                            @click="() => toggleRecoveryMode(clearErrors)"
-                        >
-                            {{ authConfigContent.toggleText }}
-                        </Button>
-                        <hr class="flex-grow-1" />
-                    </div>
                 </div>
+
+                <Separator :spacing="2">
+                    <Button
+                        type="button"
+                        class="link-body-emphasis fw-semibold"
+                        color="link"
+                        @click="() => toggleRecoveryMode(clearErrors)"
+                    >
+                        {{ authConfigContent.buttonText }}
+                    </Button>
+                </Separator>
             </Form>
         </template>
 
         <template v-else>
             <Form
                 v-bind="store.form()"
+                class="d-flex flex-column gap-3"
                 reset-on-error
                 #default="{ errors, processing, clearErrors }"
             >
@@ -127,38 +113,27 @@ const codeValue = computed<string>(() => code.value.join(''));
                             type="text"
                             name="recovery_code"
                             required
-                            :tabindex="1"
-                            autocomplete="one-time-code"
-                            :autofocus="showRecoveryInput"
-                            aria-label="Recovery Code"
                             placeholder="Enter recovery code"
-                            :invalid="!!errors.recovery_code"
+                            :autofocus="showRecoveryInput"
                         />
                         <InputError :message="errors.recovery_code" />
                     </div>
 
-                    <Button type="submit" :tabindex="2" :disabled="processing">
-                        <Spinner v-if="processing" size="sm" />
+                    <Button type="submit" :disabled="processing">
                         Continue
                     </Button>
-
-                    <div
-                        class="d-flex w-100 align-items-center justify-content-center"
-                    >
-                        <hr class="flex-grow-1" />
-                        <span class="ps-2 text-muted">or you can</span>
-                        <Button
-                            type="button"
-                            class="link-body-emphasis ps-2"
-                            color="link"
-                            :tabindex="3"
-                            @click="() => toggleRecoveryMode(clearErrors)"
-                        >
-                            {{ authConfigContent.toggleText }}
-                        </Button>
-                        <hr class="flex-grow-1" />
-                    </div>
                 </div>
+
+                <Separator :spacing="2">
+                    <Button
+                        type="button"
+                        class="link-body-emphasis fw-semibold"
+                        color="link"
+                        @click="() => toggleRecoveryMode(clearErrors)"
+                    >
+                        {{ authConfigContent.buttonText }}
+                    </Button>
+                </Separator>
             </Form>
         </template>
     </AuthLayout>

@@ -1,12 +1,26 @@
 import { useMediaQuery } from '@vueuse/core';
 import { defineStore } from 'pinia';
 import { computed, ref } from 'vue';
-import type { Sidebar } from '@/types';
+import type { ComputedRef, Ref } from 'vue';
+
+export type SidebarContext = {
+    state: ComputedRef<'expanded' | 'collapsed'>;
+    open: Ref<boolean>;
+    setOpen: (value: boolean) => void;
+    isMobile: Ref<boolean>;
+    openMobile: Ref<boolean>;
+    setOpenMobile: (value: boolean) => void;
+    toggleSidebar: () => void;
+};
 
 export const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 export const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
+export const SIDEBAR_WIDTH = '16rem';
+export const SIDEBAR_WIDTH_MOBILE = '18rem';
+export const SIDEBAR_WIDTH_ICON = '3rem';
+export const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
 
-export const useSidebar = defineStore('Sidebar', (): Sidebar => {
+export const useSidebar = defineStore('Sidebar', (): SidebarContext => {
     const isMobile = useMediaQuery('(max-width: 768px)');
     const open = ref<boolean>(true);
     const openMobile = ref<boolean>(false);
@@ -38,11 +52,9 @@ export const useSidebar = defineStore('Sidebar', (): Sidebar => {
         state,
         open,
         setOpen,
-        toggleOpen,
         isMobile,
         openMobile,
         setOpenMobile,
-        toggleOpenMobile,
         toggleSidebar,
     };
 });

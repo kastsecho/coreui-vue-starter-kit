@@ -13,8 +13,7 @@
     $font-size-base: 0.9rem,
     $line-height-base: 1.6
 );
-@use 'components/sidebar';
-@use 'components/simplebar';
+@use 'components';
 @use 'utilities/size';
 
 // Fonts

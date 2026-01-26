@@ -4,7 +4,6 @@
     "singleAttributePerLine": false,
     "htmlWhitespaceSensitivity": "css",
     "printWidth": 80,
-    "plugins": ["prettier-plugin-organize-imports"],
     "tabWidth": 4,
     "overrides": [
         {

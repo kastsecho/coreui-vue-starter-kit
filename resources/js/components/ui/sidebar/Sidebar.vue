@@ -1,42 +1,38 @@
 <script setup lang="ts">
-import { useSidebar } from '.';
-import { cn } from '@/lib/utils';
 import { CSidebar } from '@coreui/vue';
-import { usePage } from '@inertiajs/vue3';
-import { type HTMLAttributes, onMounted } from 'vue';
+import { defaultDocument, reactiveOmit } from "@vueuse/core"
+import { onMounted } from 'vue';
+import { cn } from '@/lib/utils';
+import { type SidebarProps } from '.';
+import { SIDEBAR_COOKIE_NAME, useSidebar } from './utils';
 
-interface Props {
-    colorScheme?: 'dark' | 'light';
-    narrow?: boolean;
-    overlaid?: boolean;
-    placement?: 'start' | 'end';
-    position?: 'fixed';
-    size?: 'sm' | 'lg' | 'xl';
-    class?: HTMLAttributes['class'];
-}
+const sidebar = useSidebar();
 
-const props = withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<SidebarProps>(), {
     colorScheme: 'dark',
     position: 'fixed',
 });
 
-const page = usePage();
-const sidebar = useSidebar();
+const visible = defineModel<boolean>('open', {
+    default: !defaultDocument?.cookie.includes(`${SIDEBAR_COOKIE_NAME}=false`)
+});
+
+const delegatedProps = reactiveOmit(props, 'class');
 
 onMounted(() => {
-    sidebar.setOpen(page.props.sidebarOpen);
+    sidebar.setOpen(visible.value);
 });
 </script>
 
 <template>
     <CSidebar
         data-slot="sidebar"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="cn('border-end', props.class)"
         :unfoldable="sidebar.openMobile"
         :visible="sidebar.open"
         @visible-change="(value) => sidebar.setOpen(value)"
     >
-        <slot/>
+        <slot />
     </CSidebar>
 </template>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CCardBody } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { type HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     class?: HTMLAttributes['class'];
@@ -12,6 +12,6 @@ const props = defineProps<{
         data-slot="card-content"
         :class="props.class"
     >
-        <slot/>
+        <slot />
     </CCardBody>
 </template>

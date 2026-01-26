@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Form, Head } from '@inertiajs/vue3';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import { Input, InputError, Label } from '@/components/ui/input';
@@ -6,7 +7,6 @@ import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
-import { Form, Head } from '@inertiajs/vue3';
 </script>
 
 <template>
@@ -30,11 +30,11 @@ import { Form, Head } from '@inertiajs/vue3';
                         type="text"
                         name="name"
                         required
+                        autofocus
+                        :invalid="!!errors.name"
                         :tabindex="1"
                         autocomplete="name"
-                        autofocus
                         placeholder="Full name"
-                        :invalid="!!errors.name"
                     />
                     <InputError :message="errors.name" />
                 </div>
@@ -46,10 +46,10 @@ import { Form, Head } from '@inertiajs/vue3';
                         type="email"
                         name="email"
                         required
+                        :invalid="!!errors.email"
                         :tabindex="2"
                         autocomplete="email"
                         placeholder="email@example.com"
-                        :invalid="!!errors.email"
                     />
                     <InputError :message="errors.email" />
                 </div>
@@ -58,13 +58,13 @@ import { Form, Head } from '@inertiajs/vue3';
                     <Label for="password">Password</Label>
                     <Input
                         id="password"
-                        type="password"
                         name="password"
+                        type="password"
                         required
+                        :invalid="!!errors.password"
                         :tabindex="3"
                         autocomplete="new-password"
                         placeholder="Password"
-                        :invalid="!!errors.password"
                     />
                     <InputError :message="errors.password" />
                 </div>
@@ -76,27 +76,28 @@ import { Form, Head } from '@inertiajs/vue3';
                         type="password"
                         name="password_confirmation"
                         required
+                        :invalid="!!errors.password_confirmation"
                         :tabindex="4"
                         autocomplete="new-password"
                         placeholder="Confirm password"
-                        :invalid="!!errors.password_confirmation"
                     />
                     <InputError :message="errors.password_confirmation" />
                 </div>
 
                 <Button
                     type="submit"
-                    :tabindex="5"
+                    class="mt-2"
+                    tabindex="5"
                     :disabled="processing"
                     data-test="register-user-button"
                 >
-                    <Spinner v-if="processing" size="sm" />
+                    <Spinner v-if="processing" />
                     Create account
                 </Button>
             </div>
 
-            <div class="d-flex gap-1 justify-content-center text-muted">
-                <span>Already have an account?</span>
+            <div class="text-center text-muted">
+                Already have an account?
                 <TextLink :href="login()" :tabindex="6">Log in</TextLink>
             </div>
         </Form>

@@ -13,8 +13,7 @@ class PasswordUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[Test]
-    public function password_update_page_is_displayed(): void
+    public function test_password_update_page_is_displayed()
     {
         if (! Features::canUpdatePasswords()) {
             $this->markTestSkipped('Password management is not enabled.');
@@ -24,7 +23,7 @@ class PasswordUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get(route('password.edit'));
+            ->get(route('user-password.edit'));
 
         $response->assertOk();
     }
@@ -40,7 +39,7 @@ class PasswordUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->from(route('password.edit'))
+            ->from(route('user-password.edit'))
             ->put(route('user-password.update'), [
                 'current_password' => 'password',
                 'password' => 'new-password',
@@ -49,7 +48,7 @@ class PasswordUpdateTest extends TestCase
 
         $response
             ->assertValid()
-            ->assertRedirect(route('password.edit'));
+            ->assertRedirect(route('user-password.edit'));
 
         $this->assertTrue(Hash::check('new-password', $user->refresh()->password));
     }
@@ -65,7 +64,7 @@ class PasswordUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->from(route('password.edit'))
+            ->from(route('user-password.edit'))
             ->put(route('user-password.update'), [
                 'current_password' => 'wrong-password',
                 'password' => 'new-password',
@@ -74,6 +73,6 @@ class PasswordUpdateTest extends TestCase
 
         $response
             ->assertInvalid('current_password')
-            ->assertRedirect(route('password.edit'));
+            ->assertRedirect(route('user-password.edit'));
     }
 }

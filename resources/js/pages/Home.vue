@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { CCol, CContainer, CRow } from '@coreui/vue';
+import { Head, Link } from '@inertiajs/vue3';
 import Icon from '@/components/Icon.vue';
 import {
     Card,
     CardContent,
     CardDescription,
     CardImage,
+    CardTitle,
 } from '@/components/ui/card';
 import {
     ListGroup,
@@ -17,17 +20,17 @@ import {
     NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 import { dashboard, login, logout, register } from '@/routes';
-import { CCol, CContainer, CRow } from '@coreui/vue';
-import { Head, Link, usePage } from '@inertiajs/vue3';
 
-defineProps<{
-    canRegister: boolean;
-    laravel?: string;
-    php?: string;
-}>();
-
-const page = usePage();
-const auth = page.props.auth;
+withDefaults(
+    defineProps<{
+        canRegister: boolean;
+        laravel?: string;
+        php?: string;
+    }>(),
+    {
+        canRegister: true,
+    },
+);
 </script>
 
 <template>
@@ -35,11 +38,11 @@ const auth = page.props.auth;
 
     <NavigationMenu container expand placement="fixed-top">
         <NavigationMenuList class="ms-auto align-items-center">
-            <template v-if="auth.user">
+            <template v-if="$page.props.auth.user">
                 <NavigationMenuLink as="button" :href="logout()">
                     Log out
                 </NavigationMenuLink>
-                <Link class="btn btn-secondary" :href="dashboard()">
+                <Link class="btn btn-danger" :href="dashboard()">
                     Dashboard
                 </Link>
             </template>
@@ -47,7 +50,7 @@ const auth = page.props.auth;
                 <NavigationMenuLink :href="login()">Log in</NavigationMenuLink>
                 <Link
                     v-if="canRegister"
-                    class="btn btn-secondary"
+                    class="btn btn-danger"
                     :href="register()"
                 >
                     Register
@@ -63,7 +66,7 @@ const auth = page.props.auth;
             <CCol md="7" lg="5">
                 <Card class="rounded-4 shadow-sm">
                     <CardContent>
-                        <h1 class="fs-3 fw-medium">Let's get started</h1>
+                        <CardTitle>Let's get started</CardTitle>
                         <CardDescription>
                             Laravel has an incredibly rich ecosystem. <br />
                             We suggest starting with the following.

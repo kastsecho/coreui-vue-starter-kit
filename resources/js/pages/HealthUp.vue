@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { CCol, CContainer, CRow } from '@coreui/vue';
+import { Head } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import {
     Card,
     CardContent,
@@ -6,9 +9,6 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
-import { CCol, CContainer, CRow } from '@coreui/vue';
-import { Head } from '@inertiajs/vue3';
-import { computed } from 'vue';
 
 const props = defineProps<{
     exception?: string;

@@ -9,7 +9,8 @@ const props = defineProps<{
 
 <template>
     <CNavGroup
-        data-slot="sidebar-trigger"
+        data-slot="sidebar-group"
+        data-sidebar="group"
         :class="props.class"
     >
         <template #togglerContent>

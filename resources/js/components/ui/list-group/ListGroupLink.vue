@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { cn, toUrl } from '@/lib/utils';
-import type { Color } from '@/types/coreui';
 import { CListGroupItem } from '@coreui/vue';
 import { type InertiaLinkProps, Link } from '@inertiajs/vue3';
-import { computed, type HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import { cn } from '@/lib/utils';
+import { type Color } from '@/types/coreui';
 
 const props = defineProps<InertiaLinkProps & {
     active?: boolean;
@@ -13,14 +14,14 @@ const props = defineProps<InertiaLinkProps & {
     class?: HTMLAttributes['class'];
 }>();
 
-const href = computed(() => toUrl(props.href ? props.href : ''));
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <Link
         v-if="as != 'a'"
         data-slot="list-group-link"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="cn({
             ['active']: active,
             ['disabled']: disabled,

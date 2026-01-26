@@ -1,15 +1,19 @@
 <script setup lang="ts">
-import { SidebarInset } from '@/components/ui/sidebar';
 import { CContainer } from '@coreui/vue';
-import { computed, type HTMLAttributes } from 'vue';
+import { computed } from 'vue';
+import { SidebarInset } from '@/components/ui/sidebar';
+import { type AppShellVariant } from '@/types';
 
-interface Props {
+type Props = {
     container?: boolean;
-    variant?: 'header' | 'sidebar';
-    class?: HTMLAttributes['class'];
-}
+    variant?: AppShellVariant;
+    class?: string;
+};
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    variant: 'header',
+});
+
 const className = computed(() => props.class);
 </script>
 
@@ -17,11 +21,7 @@ const className = computed(() => props.class);
     <SidebarInset v-if="props.variant === 'sidebar'" :class="className">
         <slot />
     </SidebarInset>
-    <main
-        v-else
-        class="d-flex h-100 w-100 flex-grow-1 flex-column"
-        :class="className"
-    >
+    <main v-else :class="className">
         <CContainer v-if="container">
             <slot />
         </CContainer>

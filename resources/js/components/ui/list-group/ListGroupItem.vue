@@ -1,23 +1,24 @@
 <script setup lang="ts">
-import type { Color } from '@/types/coreui';
 import { CListGroupItem } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import { type Color } from '@/types/coreui';
 
-interface Props {
+const props = defineProps<{
     active?: boolean;
     as?: string;
     color?: Color;
     disabled?: boolean;
     class?: HTMLAttributes['class'];
-}
+}>();
 
-const props = defineProps<Props>();
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CListGroupItem
         data-slot="list-group-item"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="props.class"
     >
         <slot/>

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { CCloseButton } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { type HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { useSidebar } from '.';
 
 const props = defineProps<{
     dark?: boolean;
@@ -8,14 +10,17 @@ const props = defineProps<{
     white?: boolean;
     class?: HTMLAttributes['class'];
 }>();
+
+const { toggleSidebar } = useSidebar();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CCloseButton
         data-slot="sidebar-menu-button"
+        v-bind="delegatedProps"
         :class="props.class"
-        :dark="dark"
-        :disabled="disabled"
-        :white="white"
+        @click="toggleSidebar"
     />
 </template>

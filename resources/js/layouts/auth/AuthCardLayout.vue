@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { CCol, CContainer, CRow } from '@coreui/vue';
+import { Link, usePage } from '@inertiajs/vue3';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import {
     Card,
@@ -8,8 +10,9 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { home } from '@/routes';
-import { CCol, CContainer, CRow } from '@coreui/vue';
-import { Link } from '@inertiajs/vue3';
+
+const page = usePage();
+const name = page.props.name;
 
 defineProps<{
     title?: string;
@@ -26,17 +29,17 @@ defineProps<{
                 <CCol md="7" lg="5">
                     <div class="d-flex flex-column align-items-center gap-4">
                         <Link
-                            class="link-danger fw-medium size-9"
                             :href="home()"
+                            class="link-danger fw-medium size-9"
                         >
                             <AppLogoIcon height="36" width="36" />
-                            <span class="visually-hidden">{{ title }}</span>
+                            <span class="visually-hidden">{{ name }}</span>
                         </Link>
 
                         <Card class="rounded-4 shadow-sm">
                             <CardHeader class="text-center rounded-top-4">
-                                <CardTitle v-if="title">{{ title }}</CardTitle>
-                                <CardDescription v-if="description">
+                                <CardTitle>{{ title }}</CardTitle>
+                                <CardDescription>
                                     {{ description }}
                                 </CardDescription>
                             </CardHeader>

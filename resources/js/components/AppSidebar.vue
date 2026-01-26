@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { Link, usePage } from '@inertiajs/vue3';
+import simplebar from 'simplebar-vue';
+import { computed } from 'vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
@@ -9,18 +12,14 @@ import {
     SidebarFooter,
     SidebarMenuButton,
     SidebarMenuHeader,
-    SidebarTrigger,
-    useSidebar,
+    SidebarRail,
 } from '@/components/ui/sidebar';
 import { dashboard, home } from '@/routes';
-import type { NavItem } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
-import simplebar from 'simplebar-vue';
-import { computed } from 'vue';
+import { type NavItem } from '@/types';
 
 const page = usePage();
 const auth = computed(() => page.props.auth);
-const sidebar = useSidebar();
+const isOpen = page.props.sidebarOpen;
 
 const mainNavItems: NavItem[] = [
     {
@@ -46,7 +45,7 @@ const footerNavItems: NavItem[] = [
 </script>
 
 <template>
-    <Sidebar>
+    <Sidebar :open="isOpen">
         <SidebarMenuHeader>
             <Link class="sidebar-brand link-danger" :href="home()">
                 <AppLogoIcon
@@ -60,21 +59,17 @@ const footerNavItems: NavItem[] = [
                     width="32"
                 />
             </Link>
-            <SidebarMenuButton
-                class="d-lg-none"
-                dark
-                @click="sidebar.toggleOpen()"
-            />
+            <SidebarMenuButton class="d-lg-none" dark />
         </SidebarMenuHeader>
 
         <SidebarContent :as="simplebar">
             <NavMain :items="mainNavItems" />
             <NavUser />
-            <NavFooter :items="footerNavItems" />
+            <NavFooter class="mt-auto" :items="footerNavItems" />
         </SidebarContent>
 
         <SidebarFooter>
-            <SidebarTrigger @click="sidebar.toggleOpenMobile()" />
+            <SidebarRail />
         </SidebarFooter>
     </Sidebar>
     <slot />

@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { ResolvedAppearance } from '@/composables/useAppearance';
-import type { Breakpoint, Color, Container } from '@/types/coreui';
 import { CNavbar } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import type { Breakpoint, Color, Container, ResolvedAppearance } from '@/types';
 
 type Placement = 'fixed-top' | 'fixed-bottom' | 'sticky-top';
 
@@ -14,14 +14,16 @@ const props = defineProps<{
     placement?: Placement;
     class?: HTMLAttributes['class'];
 }>();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CNavbar
         data-slot="navigation-menu"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="props.class"
     >
-        <slot/>
+        <slot />
     </CNavbar>
 </template>

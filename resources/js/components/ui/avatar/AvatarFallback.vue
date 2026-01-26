@@ -1,28 +1,33 @@
 <script setup lang="ts">
-import type { Color, Shape } from '@/types/coreui';
 import { CAvatar } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type ImgHTMLAttributes } from 'vue';
+import type { Color, Shape, TextColor } from '@/types';
 
-interface Props {
+type Props = {
     color?: Color
     shape?: Shape;
     size?: 'sm' | 'md' | 'lg' | 'xl';
     status?: Color;
-    class?: HTMLAttributes['class'];
-}
+    textColor?: TextColor;
+    class?: ImgHTMLAttributes['class'];
+};
 
 const props = withDefaults(defineProps<Props>(), {
     color: 'secondary',
     shape: 'rounded-circle',
+    textColor: 'body',
 });
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CAvatar
         data-slot="avatar-fallback"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="props.class"
     >
-        <slot/>
+        <slot />
     </CAvatar>
 </template>

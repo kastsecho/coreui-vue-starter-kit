@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
 import { CCollapse } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { type HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { cn } from '@/lib/utils';
 
 const props = defineProps<{
     visible: boolean;
     class?: HTMLAttributes['class'];
 }>();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CCollapse
         data-slot="navigation-menu-content"
+        v-bind="delegatedProps"
         :class="cn('navbar-collapse', props.class)"
-        :visible="visible"
     >
         <slot />
     </CCollapse>

@@ -1,23 +1,21 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { CBreadcrumbItem } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { type HTMLAttributes } from 'vue';
+import { cn } from '@/lib/utils';
 
-interface Props {
-    active?: boolean;
+const props = defineProps<{
     class?: HTMLAttributes['class'];
-}
-
-const props = withDefaults(defineProps<Props>(), {
-    active: true,
-});
+}>();
 </script>
 
 <template>
     <CBreadcrumbItem
         data-slot="breadcrumb-page"
-        :class="props.class"
-        :active="active"
+        role="link"
+        aria-disabled="true"
+        aria-current="page"
+        :class="cn('text-muted', props.class)"
     >
-        <slot/>
+        <slot />
     </CBreadcrumbItem>
 </template>

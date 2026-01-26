@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import HeadingSmall from '@/components/HeadingSmall.vue';
+import { Form, Head } from '@inertiajs/vue3';
+import { onUnmounted, ref } from 'vue';
+import Heading from '@/components/Heading.vue';
 import Icon from '@/components/Icon.vue';
 import TwoFactorRecoveryCodes from '@/components/TwoFactorRecoveryCodes.vue';
 import TwoFactorSetupModal from '@/components/TwoFactorSetupModal.vue';
@@ -8,17 +10,13 @@ import { Button } from '@/components/ui/button';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { edit as editProfile } from '@/routes/profile';
-import { disable, edit as editTwoFactor, enable } from '@/routes/two-factor';
-import { BreadcrumbItem } from '@/types';
-import { Form, Head } from '@inertiajs/vue3';
-// import { ShieldBan, ShieldCheck } from 'lucide-vue-next';
-import { onUnmounted, ref } from 'vue';
+import { disable, edit, enable } from '@/routes/two-factor';
+import { type BreadcrumbItem } from '@/types';
 
-interface Props {
+type Props = {
     requiresConfirmation?: boolean;
     twoFactorEnabled?: boolean;
-}
+};
 
 withDefaults(defineProps<Props>(), {
     requiresConfirmation: false,
@@ -27,12 +25,8 @@ withDefaults(defineProps<Props>(), {
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Settings',
-        href: editProfile().url,
-    },
-    {
         title: 'Two-Factor Authentication',
-        href: editTwoFactor.url(),
+        href: edit.url(),
     },
 ];
 
@@ -47,9 +41,13 @@ onUnmounted(() => {
 <template>
     <AppLayout :breadcrumbs="breadcrumbs">
         <Head title="Two-Factor Authentication" />
+
+        <h1 class="visually-hidden">Two-Factor Authentication Settings</h1>
+
         <SettingsLayout>
-            <div class="d-grid gap-3">
-                <HeadingSmall
+            <div class="d-flex flex-column gap-3">
+                <Heading
+                    variant="small"
                     title="Two-Factor Authentication"
                     description="Manage your two-factor authentication settings"
                 />
@@ -104,18 +102,17 @@ onUnmounted(() => {
 
                     <TwoFactorRecoveryCodes />
 
-                    <div class="relative inline">
-                        <Form v-bind="disable.form()" #default="{ processing }">
-                            <Button
-                                type="submit"
-                                color="danger"
-                                :disabled="processing"
-                            >
-                                <Icon class="me-2" name="shield-x" />
-                                Disable 2FA
-                            </Button>
-                        </Form>
-                    </div>
+                    <Form v-bind="disable.form()" #default="{ processing }">
+                        <Button
+                            type="submit"
+                            class="mt-1"
+                            color="danger"
+                            :disabled="processing"
+                        >
+                            <Icon class="me-2" name="shield-x" />
+                            Disable 2FA
+                        </Button>
+                    </Form>
                 </div>
 
                 <TwoFactorSetupModal

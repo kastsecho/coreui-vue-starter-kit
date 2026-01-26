@@ -1,30 +1,35 @@
 <script setup lang="ts">
 import Icon from '@/components/Icon.vue';
 import {
-    NavigationMenuItem,
-    NavigationMenuLink,
-} from '@/components/ui/navigation-menu';
-import { toUrl } from '@/lib/utils';
+    SidebarMenuItem,
+    SidebarMenuLink,
+} from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 
-defineProps<{
+type Props = {
     items: NavItem[];
     class?: string;
-}>();
+};
+
+const props = defineProps<Props>();
 </script>
 
 <template>
-    <div class="mt-auto">
-        <NavigationMenuItem v-for="item in items" :key="toUrl(item.href)">
-            <NavigationMenuLink
+    <div :class="props.class">
+        <SidebarMenuItem v-for="item in items" :key="item.title">
+            <SidebarMenuLink
                 as="a"
-                :href="toUrl(item.href)"
+                :href="item.href"
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <Icon v-if="item.icon" class="nav-icon" :name="item.icon" />
+                <Icon
+                    v-if="item.icon"
+                    class="nav-icon"
+                    :name="item.icon"
+                />
                 <span>{{ item.title }}</span>
-            </NavigationMenuLink>
-        </NavigationMenuItem>
+            </SidebarMenuLink>
+        </SidebarMenuItem>
     </div>
 </template>

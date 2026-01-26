@@ -1,19 +1,26 @@
 <script setup lang="ts">
-import { cn } from '@/lib/utils';
 import { CDropdownHeader } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import { cn } from '@/lib/utils';
 
-const props = defineProps<{
+type Props = {
     as?: string;
     class?: HTMLAttributes['class'];
-}>();
+};
+
+const props = withDefaults(defineProps<Props>(), {
+    as: 'h6',
+});
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CDropdownHeader
         data-slot="dropdown-menu-label"
+        v-bind="delegatedProps"
         :class="cn('fw-medium', props.class)"
-        :as="as"
     >
         <slot />
     </CDropdownHeader>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed, type HTMLAttributes } from 'vue';
 import Icon from '@/components/Icon.vue';
 import {
     DropdownMenu,
@@ -9,7 +10,6 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAppearance } from '@/composables/useAppearance';
-import { computed, type HTMLAttributes } from 'vue';
 
 defineProps<{
     iconClass?: HTMLAttributes['class'];

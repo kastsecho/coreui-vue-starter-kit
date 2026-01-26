@@ -1,14 +1,17 @@
 <script setup lang="ts">
+import { CCol, CRow } from '@coreui/vue';
 import Heading from '@/components/Heading.vue';
 import Icon from '@/components/Icon.vue';
 import { ListGroup, ListGroupLink } from '@/components/ui/list-group';
-import { toUrl, urlIsActive } from '@/lib/utils';
+import { useCurrentUrl } from '@/composables/useCurrentUrl';
+import { toUrl } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
-import { edit as editPassword } from '@/routes/password';
 import { edit as editProfile } from '@/routes/profile';
 import { edit as editTwoFactor } from '@/routes/two-factor';
-import type { NavItem } from '@/types';
-import { CCol, CRow } from '@coreui/vue';
+import { edit as editPassword } from '@/routes/user-password';
+import { type NavItem } from '@/types';
+
+const { isCurrentUrl } = useCurrentUrl();
 
 const sidebarNavItems: NavItem[] = [
     {
@@ -28,12 +31,10 @@ const sidebarNavItems: NavItem[] = [
         href: editAppearance(),
     },
 ];
-
-const currentPath = typeof window !== undefined ? window.location.pathname : '';
 </script>
 
 <template>
-    <div>
+    <div class="d-grid gap-3">
         <Heading
             title="Settings"
             description="Manage your profile and account settings"
@@ -41,13 +42,16 @@ const currentPath = typeof window !== undefined ? window.location.pathname : '';
 
         <CRow>
             <CCol md="4" lg="3">
-                <ListGroup class="rounded-4 shadow-sm" as="nav">
+                <ListGroup
+                    as="nav"
+                    class="rounded-4 shadow-sm"
+                    aria-label="Settings"
+                >
                     <ListGroupLink
                         v-for="item in sidebarNavItems"
                         :key="toUrl(item.href)"
-                        as="button"
                         :href="item.href"
-                        :active="urlIsActive(item.href, currentPath)"
+                        :active="isCurrentUrl(item.href)"
                     >
                         <Icon v-if="item.icon" :name="item.icon" />
                         {{ item.title }}

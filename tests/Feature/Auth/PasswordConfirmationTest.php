@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -16,11 +17,13 @@ class PasswordConfirmationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this
-            ->actingAs($user)
-            ->get(route('password.confirm'));
+        $response = $this->actingAs($user)->get(route('password.confirm'));
 
         $response->assertOk();
+
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('auth/ConfirmPassword')
+        );
     }
 
     #[Test]

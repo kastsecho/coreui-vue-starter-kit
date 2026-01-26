@@ -1,17 +1,26 @@
 <script setup lang="ts">
 import { CNavbarNav } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
 
-const props = defineProps<{
+type Props = {
+    as?: string;
     class?: HTMLAttributes['class'];
-}>();
+};
+
+const props = withDefaults(defineProps<Props>(), {
+    as: 'nav',
+});
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CNavbarNav
         data-slot="navigation-menu-list"
+        v-bind="delegatedProps"
         :class="props.class"
     >
-        <slot/>
+        <slot />
     </CNavbarNav>
 </template>

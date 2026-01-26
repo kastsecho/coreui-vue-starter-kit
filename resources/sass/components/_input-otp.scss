@@ -1,0 +1,6 @@
+.otp-ring {
+    outline: 0;
+    box-shadow: var(--cui-focus-ring-x, 0) var(--cui-focus-ring-y, 0)
+        var(--cui-focus-ring-blur, 0) var(--cui-focus-ring-width)
+        var(--cui-focus-ring-color);
+}

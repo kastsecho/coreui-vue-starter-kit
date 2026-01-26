@@ -1,38 +1,43 @@
-<script setup lang="ts">
-import { cn, toUrl } from '@/lib/utils';
+<script lang="ts" setup>
 import { CBreadcrumbItem } from '@coreui/vue';
+import { type Method } from '@inertiajs/core';
 import { type InertiaLinkProps, Link } from '@inertiajs/vue3';
-import { computed, type HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
+import { cn, toUrl } from '@/lib/utils';
 
 const props = defineProps<InertiaLinkProps & {
     active?: boolean;
     disabled?: boolean;
+    tabindex?: number;
+    method?: Method;
     class?: HTMLAttributes['class'];
 }>();
 
-const href = computed(() => toUrl(props.href ? props.href : ''));
+const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
 </script>
 
 <template>
     <Link
-        v-if="as != 'a'"
+        v-if="as !== 'a'"
         data-slot="breadcrumb-link"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="cn({
             ['active']: active,
             ['disabled']: disabled,
-        }, 'breadcrumb-item link-body-emphasis', props.class)"
+        }, 'dropdown-item', props.class)"
     >
-        <slot/>
+        <slot />
     </Link>
     <CBreadcrumbItem
         v-else
         data-slot="breadcrumb-link"
+        as="a"
+        :href="toUrl(href!)"
         :class="props.class"
-        :href="href"
         :active="active"
         :disabled="disabled"
     >
-        <slot/>
+        <slot />
     </CBreadcrumbItem>
 </template>

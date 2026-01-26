@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { CTooltip } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
 
 type Placement = 'top' | 'right' | 'bottom' | 'left';
 
@@ -11,12 +12,14 @@ const props = defineProps<{
     placement?: Placement;
     class?: HTMLAttributes['class'];
 }>();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CTooltip
         data-slot="tooltip"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="props.class"
     >
         <template #toggler="{ id, on }">

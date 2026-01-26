@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Form, Head } from '@inertiajs/vue3';
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -7,7 +8,6 @@ import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { login } from '@/routes';
 import { email } from '@/routes/password';
-import { Form, Head } from '@inertiajs/vue3';
 
 defineProps<{
     status?: string;
@@ -23,15 +23,14 @@ defineProps<{
 
         <Alert
             v-if="status"
-            class="text-center fw-medium rounded-4 shadow-sm"
             color="success"
+            class="text-center fw-medium rounded-4 shadow-sm"
         >
             {{ status }}
         </Alert>
 
         <Form
             v-bind="email.form()"
-            reset-on-success
             v-slot="{ errors, processing }"
             class="d-flex flex-column gap-3"
         >
@@ -43,28 +42,29 @@ defineProps<{
                         type="email"
                         name="email"
                         required
+                        autofocus
+                        :invalid="!!errors.email"
                         :tabindex="1"
                         autocomplete="off"
-                        autofocus
                         placeholder="email@example.com"
-                        :invalid="!!errors.email"
                     />
                     <InputError :message="errors.email" />
                 </div>
 
                 <Button
                     type="submit"
+                    class="mt-2"
                     :tabindex="2"
                     :disabled="processing"
                     data-test="email-password-reset-link-button"
                 >
-                    <Spinner v-if="processing" size="sm" />
+                    <Spinner v-if="processing" />
                     Email password reset link
                 </Button>
             </div>
 
-            <div class="d-flex gap-1 justify-content-center text-muted">
-                <span>Or, return to</span>
+            <div class="text-center text-muted">
+                Or, return to
                 <TextLink :href="login()" :tabindex="3">log in</TextLink>
             </div>
         </Form>

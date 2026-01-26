@@ -1,26 +1,30 @@
 <script setup lang="ts">
 import { CFormInput } from '@coreui/vue';
-import type { HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import { type HTMLAttributes } from 'vue';
 
-interface Props {
+type InputProps = {
     floatingLabel?: string;
     invalid?: boolean;
     size?: 'sm' | 'lg';
     plainText?: boolean;
     valid?: boolean;
+};
+
+const props = defineProps<InputProps & {
     class?: HTMLAttributes['class'];
-}
+}>();
 
-const props = defineProps<Props>();
+const modelValue = defineModel<string | number>();
 
-const modelValue = defineModel<number|string>();
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CFormInput
         v-model="modelValue"
         data-slot="input"
-        v-bind="props"
+        v-bind="delegatedProps"
         :class="props.class"
     />
 </template>
