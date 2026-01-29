@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import Icon from '@/components/Icon.vue';
-import {
-    SidebarMenuItem,
-    SidebarMenuLink,
-} from '@/components/ui/sidebar';
+import { SidebarMenuItem, SidebarMenuLink } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 
 type Props = {
@@ -23,11 +20,7 @@ const props = defineProps<Props>();
                 target="_blank"
                 rel="noopener noreferrer"
             >
-                <Icon
-                    v-if="item.icon"
-                    class="nav-icon"
-                    :name="item.icon"
-                />
+                <Icon v-if="item.icon" class="nav-icon" :name="item.icon" />
                 <span>{{ item.title }}</span>
             </SidebarMenuLink>
         </SidebarMenuItem>

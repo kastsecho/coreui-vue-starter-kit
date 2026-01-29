@@ -127,11 +127,7 @@ onMounted(() => {
 
             <SidebarHeaderList class="align-items-center">
                 <AppearanceDropdown icon-class="icon icon-lg" />
-                <DropdownMenu
-                    v-if="auth.user"
-                    align="end"
-                    variant="nav-item"
-                >
+                <DropdownMenu v-if="auth.user" align="end" variant="nav-item">
                     <DropdownMenuTrigger class="nav-link" :caret="false">
                         <AvatarImage
                             v-if="auth.user.avatar"
