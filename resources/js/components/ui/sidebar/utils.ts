@@ -8,22 +8,20 @@ export type SidebarContext = {
     open: Ref<boolean>;
     setOpen: (value: boolean) => void;
     isMobile: Ref<boolean>;
-    openMobile: Ref<boolean>;
-    setOpenMobile: (value: boolean) => void;
+    narrow: Ref<boolean>;
+    setNarrow: (value: boolean) => void;
+    toggleCollapse: () => void;
     toggleSidebar: () => void;
 };
 
 export const SIDEBAR_COOKIE_NAME = 'sidebar_state';
 export const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
-export const SIDEBAR_WIDTH = '16rem';
-export const SIDEBAR_WIDTH_MOBILE = '18rem';
-export const SIDEBAR_WIDTH_ICON = '3rem';
 export const SIDEBAR_KEYBOARD_SHORTCUT = 'b';
 
 export const useSidebar = defineStore('Sidebar', (): SidebarContext => {
     const isMobile = useMediaQuery('(max-width: 768px)');
     const open = ref<boolean>(true);
-    const openMobile = ref<boolean>(false);
+    const narrow = ref<boolean>(false);
     const state = computed(() => open.value ? 'expanded' : 'collapsed');
 
     const setOpen = (value: boolean) => {
@@ -32,20 +30,16 @@ export const useSidebar = defineStore('Sidebar', (): SidebarContext => {
         document.cookie = `${SIDEBAR_COOKIE_NAME}=${open.value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`;
     };
 
-    const toggleOpen = () => {
-        setOpen(!open.value);
+    const setNarrow = (value: boolean) => {
+        narrow.value = value;
     };
 
-    const setOpenMobile = (value: boolean) => {
-        openMobile.value = value;
-    };
-
-    const toggleOpenMobile = () => {
-        setOpenMobile(!openMobile.value);
+    const toggleCollapse = () => {
+        return setNarrow(!narrow.value);
     };
 
     const toggleSidebar = () => {
-        return isMobile.value ? toggleOpenMobile() : toggleOpen();
+        return setOpen(!open.value);
     };
 
     return {
@@ -53,8 +47,9 @@ export const useSidebar = defineStore('Sidebar', (): SidebarContext => {
         open,
         setOpen,
         isMobile,
-        openMobile,
-        setOpenMobile,
+        narrow,
+        setNarrow,
+        toggleCollapse,
         toggleSidebar,
     };
 });

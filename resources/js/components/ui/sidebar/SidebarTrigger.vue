@@ -16,7 +16,7 @@ const sidebar = useSidebar();
         data-sidebar="trigger"
         data-slot="sidebar-trigger"
         :class="props.class"
-        @click="sidebar.setOpen(!sidebar.open)"
+        @click="sidebar.toggleSidebar"
     >
         <Icon class="icon icon-lg" name="list" />
         <span class="visually-hidden">Toggle Sidebar</span>

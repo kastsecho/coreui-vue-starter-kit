@@ -21,6 +21,6 @@ const delegatedProps = reactiveOmit(props, 'class');
         data-slot="sidebar-menu-button"
         v-bind="delegatedProps"
         :class="props.class"
-        @click="sidebar.setOpen(!sidebar.open)"
+        @click="sidebar.toggleSidebar"
     />
 </template>

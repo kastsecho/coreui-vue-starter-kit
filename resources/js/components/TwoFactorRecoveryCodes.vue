@@ -72,6 +72,7 @@ onMounted(async () => {
                 >
                     <Button
                         type="submit"
+                        class="w-100"
                         color="secondary"
                         :disabled="processing"
                     >
@@ -82,7 +83,7 @@ onMounted(async () => {
             </div>
             <div
                 :class="[
-                    'relative overflow-hidden transition-all duration-300',
+                    'overflow-hidden transition-all duration-300',
                     isRecoveryCodesVisible
                         ? 'h-auto opacity-100'
                         : 'h-0 opacity-0',

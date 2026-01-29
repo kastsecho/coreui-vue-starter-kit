@@ -33,7 +33,6 @@ const statusColor = computed(() => (props.exception ? 'danger' : 'success'));
                     <CardContent class="d-flex align-items-center gap-4">
                         <Spinner
                             :color="statusColor"
-                            size="sm"
                             variant="grow"
                             style="--cui-spinner-animation-speed: 1.8s"
                         />

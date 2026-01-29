@@ -18,7 +18,7 @@ const props = defineProps<{
         aria-label="Toggle Sidebar"
         :tabindex="-1"
         title="Toggle Sidebar"
-        @click="sidebar.setOpenMobile(!sidebar.openMobile)"
+        @click="sidebar.toggleCollapse"
     >
         <slot />
     </CSidebarToggler>
