@@ -8,7 +8,7 @@ const props = defineProps<{
     class?: HTMLAttributes['class'];
 }>();
 
-const { toggleSidebar } = useSidebar();
+const sidebar = useSidebar();
 </script>
 
 <template>
@@ -16,7 +16,7 @@ const { toggleSidebar } = useSidebar();
         data-sidebar="trigger"
         data-slot="sidebar-trigger"
         :class="props.class"
-        @click="toggleSidebar"
+        @click="sidebar.setOpen(!sidebar.open)"
     >
         <Icon class="icon icon-lg" name="list" />
         <span class="visually-hidden">Toggle Sidebar</span>

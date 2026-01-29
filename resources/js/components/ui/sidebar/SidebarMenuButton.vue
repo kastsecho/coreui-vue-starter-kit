@@ -11,7 +11,7 @@ const props = defineProps<{
     class?: HTMLAttributes['class'];
 }>();
 
-const { toggleSidebar } = useSidebar();
+const sidebar = useSidebar();
 
 const delegatedProps = reactiveOmit(props, 'class');
 </script>
@@ -21,6 +21,6 @@ const delegatedProps = reactiveOmit(props, 'class');
         data-slot="sidebar-menu-button"
         v-bind="delegatedProps"
         :class="props.class"
-        @click="toggleSidebar"
+        @click="sidebar.setOpen(!sidebar.open)"
     />
 </template>
