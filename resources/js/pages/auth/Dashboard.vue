@@ -62,7 +62,7 @@ const toDateString = (date: string): string => {
             {{ status }}
         </Alert>
 
-        <CRow class="row-gap-3">
+        <CRow class="mt-3 row-gap-3">
             <CCol sm="6" lg="3">
                 <Card class="rounded-4 shadow-sm">
                     <CardContent class="d-flex align-items-center">
