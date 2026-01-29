@@ -10,7 +10,7 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    color: 'body-secondary',
+    color: 'body-emphasis',
     spacing: 4,
 });
 

@@ -145,9 +145,7 @@ watch(
                             </Button>
                         </div>
 
-                        <Separator color="info">
-                            or, enter the code manually
-                        </Separator>
+                        <Separator>or, enter the code manually</Separator>
 
                         <div
                             class="w-100 d-flex align-items-center justify-content-center"
