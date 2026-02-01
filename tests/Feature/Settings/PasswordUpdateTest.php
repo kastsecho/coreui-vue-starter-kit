@@ -13,7 +13,8 @@ class PasswordUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_password_update_page_is_displayed()
+    #[Test]
+    public function password_update_page_is_displayed(): void
     {
         if (! Features::canUpdatePasswords()) {
             $this->markTestSkipped('Password management is not enabled.');

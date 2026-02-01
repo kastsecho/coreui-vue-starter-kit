@@ -11,9 +11,8 @@ import { Input, InputError, Label } from '@/components/ui/input';
 import { getInitials } from '@/composables/useInitials';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { edit } from '@/routes/profile';
-import { destroy } from '@/routes/profile-photo';
-import { update } from '@/routes/user-profile-information';
+import { destroy } from '@/routes/current-user-photo';
+import { edit, update } from '@/routes/user-profile-information';
 import { send } from '@/routes/verification';
 import { type BreadcrumbItem } from '@/types';
 

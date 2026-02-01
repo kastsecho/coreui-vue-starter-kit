@@ -25,7 +25,7 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->get(route('profile.edit'));
+            ->get(route('user-profile-information.edit'));
 
         $response->assertOk();
     }
@@ -41,7 +41,7 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->from(route('profile.edit'))
+            ->from(route('user-profile-information.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
@@ -49,7 +49,7 @@ class ProfileUpdateTest extends TestCase
 
         $response
             ->assertValid()
-            ->assertRedirect(route('profile.edit'));
+            ->assertRedirect(route('user-profile-information.edit'));
 
         $user->refresh();
 
@@ -69,7 +69,7 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->from(route('profile.edit'))
+            ->from(route('user-profile-information.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => 'Test User',
                 'email' => $user->email,
@@ -77,7 +77,7 @@ class ProfileUpdateTest extends TestCase
 
         $response
             ->assertValid()
-            ->assertRedirect(route('profile.edit'));
+            ->assertRedirect(route('user-profile-information.edit'));
 
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
     }
@@ -93,7 +93,7 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->delete(route('profile.destroy'), [
+            ->delete(route('current-user.destroy'), [
                 'password' => 'password',
             ]);
 
@@ -116,14 +116,14 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->from(route('profile.edit'))
-            ->delete(route('profile.destroy'), [
+            ->from(route('user-profile-information.edit'))
+            ->delete(route('current-user.destroy'), [
                 'password' => 'wrong-password',
             ]);
 
         $response
             ->assertInvalid('password')
-            ->assertRedirect(route('profile.edit'));
+            ->assertRedirect(route('user-profile-information.edit'));
 
         $this->assertModelExists($user);
     }
@@ -141,7 +141,7 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->from(route('profile.edit'))
+            ->from(route('user-profile-information.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => $user->name,
                 'email' => $user->email,
@@ -150,7 +150,7 @@ class ProfileUpdateTest extends TestCase
 
         $response
             ->assertValid()
-            ->assertRedirect(route('profile.edit'));
+            ->assertRedirect(route('user-profile-information.edit'));
 
         $user->refresh();
 
@@ -171,7 +171,7 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->from(route('profile.edit'))
+            ->from(route('user-profile-information.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => $user->name,
                 'email' => $user->email,
@@ -180,7 +180,7 @@ class ProfileUpdateTest extends TestCase
 
         $response
             ->assertValid()
-            ->assertRedirect(route('profile.edit'));
+            ->assertRedirect(route('user-profile-information.edit'));
 
         $user->refresh();
 
@@ -191,11 +191,11 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->delete(route('profile-photo.destroy'));
+            ->delete(route('current-user-photo.destroy'));
 
         $response
             ->assertValid()
-            ->assertRedirect(route('profile.edit'));
+            ->assertRedirect(route('user-profile-information.edit'));
 
         $user->refresh();
 

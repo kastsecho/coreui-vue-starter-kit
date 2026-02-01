@@ -11,17 +11,15 @@ Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', '/settings/profile');
 
     Route::get('settings/profile', [ProfileController::class, 'edit'])
-        ->name('profile.edit');
-    Route::delete('settings/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+        ->name('user-profile-information.edit');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('settings/profile', [ProfileController::class, 'destroy'])
-        ->name('profile.destroy');
+        ->name('current-user.destroy');
 
     Route::delete('settings/profile-photo', [ProfilePhotoController::class, 'destroy'])
-        ->name('profile-photo.destroy');
+        ->name('current-user-photo.destroy');
 
     Route::get('settings/password', [PasswordController::class, 'edit'])
         ->name('user-password.edit');

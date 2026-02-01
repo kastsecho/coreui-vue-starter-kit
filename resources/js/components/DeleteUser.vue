@@ -13,7 +13,7 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import { Input, InputError, Label } from '@/components/ui/input';
-import { destroy } from '@/routes/profile';
+import { destroy } from '@/routes/current-user';
 
 const isOpen = ref(false);
 const passwordInput = useTemplateRef('passwordInput');

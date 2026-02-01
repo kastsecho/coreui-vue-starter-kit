@@ -6,9 +6,9 @@ import { ListGroup, ListGroupLink } from '@/components/ui/list-group';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { toUrl } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
-import { edit as editProfile } from '@/routes/profile';
 import { edit as editTwoFactor } from '@/routes/two-factor';
 import { edit as editPassword } from '@/routes/user-password';
+import { edit as editProfile } from '@/routes/user-profile-information';
 import { type NavItem } from '@/types';
 
 const { isCurrentUrl } = useCurrentUrl();

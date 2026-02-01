@@ -15,6 +15,6 @@ class ProfilePhotoController extends Controller
     {
         $request->user()->deleteProfilePhoto();
 
-        return to_route('profile.edit');
+        return to_route('user-profile-information.edit');
     }
 }

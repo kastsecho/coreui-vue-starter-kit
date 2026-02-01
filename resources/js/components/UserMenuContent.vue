@@ -9,7 +9,7 @@ import {
 import { SidebarMenuLink } from '@/components/ui/sidebar';
 import UserInfo from '@/components/UserInfo.vue';
 import { logout } from '@/routes';
-import { edit } from '@/routes/profile';
+import { edit } from '@/routes/user-profile-information';
 import { type User } from '@/types';
 
 type Props = {
