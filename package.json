@@ -32,7 +32,7 @@
     "dependencies": {
         "@coreui/coreui": "^5.5.0",
         "@coreui/vue": "^5.7.0",
-        "@inertiajs/vue3": "^2.3.12",
+        "@inertiajs/vue3": "^2.3.13",
         "@popperjs/core": "^2.11.8",
         "@vueuse/core": "^14.1.0",
         "bootstrap-icons": "^1.13.1",
