@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import {
-    type Meta,
     Pagination,
     PaginationLink,
     PaginationPage,
     usePagination,
 } from '@/components/ui/pagination';
+import { type PaginationMeta } from '@/types';
+
 
 const props = defineProps<{
-    meta: Meta;
+    meta: PaginationMeta;
 }>();
 
 const {

@@ -11,3 +11,20 @@ export type NavItem = {
     icon?: string;
     isActive?: boolean;
 };
+
+export type PaginationItem = {
+    url?: string;
+    label: string;
+    page?: number;
+    active: boolean;
+};
+
+export type PaginationMeta = {
+    current_page: number;
+    last_page: number;
+    from: number;
+    path: string;
+    to: number;
+    total: number;
+    links: PaginationItem[];
+};

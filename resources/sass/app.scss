@@ -11,7 +11,11 @@
         'Noto Color Emoji',
     ),
     $font-size-base: 0.9rem,
-    $line-height-base: 1.6
+    $line-height-base: 1.6,
+    $primary: #3490dc,
+    $warning: #f6993f,
+    $success: #38c172,
+    $info: #6cb2eb
 );
 @use 'components';
 @use 'utilities/size';

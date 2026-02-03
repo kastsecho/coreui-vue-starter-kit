@@ -25,7 +25,7 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
         :class="cn({
             ['active']: active,
             ['disabled']: disabled,
-        }, 'dropdown-item', props.class)"
+        }, 'breadcrumb-item link-body-emphasis', props.class)"
     >
         <slot />
     </Link>
@@ -34,7 +34,7 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
         data-slot="breadcrumb-link"
         as="a"
         :href="toUrl(href!)"
-        :class="props.class"
+        :class="cn('breadcrumb-item link-body-emphasis', props.class)"
         :active="active"
         :disabled="disabled"
     >
