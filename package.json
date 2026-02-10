@@ -34,7 +34,7 @@
         "@coreui/vue": "^5.7.0",
         "@inertiajs/vue3": "^2.3.12",
         "@popperjs/core": "^2.11.8",
-        "@vueuse/core": "^14.1.0",
+        "@vueuse/core": "^14.2.1",
         "bootstrap-icons": "^1.13.1",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
