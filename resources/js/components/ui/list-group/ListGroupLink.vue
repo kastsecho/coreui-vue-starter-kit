@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { CListGroupItem } from '@coreui/vue';
-import { type InertiaLinkProps, Link } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
+import type { InertiaLinkProps } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 import { cn } from '@/lib/utils';
-import { type Color } from '@/types/coreui';
+import type { Color } from '@/types';
 
 const props = defineProps<InertiaLinkProps & {
     active?: boolean;

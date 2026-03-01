@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { CSidebar } from '@coreui/vue';
-import { defaultDocument, reactiveOmit, useEventListener } from "@vueuse/core"
+import { defaultDocument, reactiveOmit, useEventListener } from '@vueuse/core';
 import { onMounted } from 'vue';
+import type { SidebarProps } from '@/components/ui/sidebar';
+import {
+    SIDEBAR_COOKIE_NAME,
+    SIDEBAR_KEYBOARD_SHORTCUT,
+    useSidebar
+} from '@/components/ui/sidebar/utils';
 import { cn } from '@/lib/utils';
-import { type SidebarProps } from '.';
-import { SIDEBAR_COOKIE_NAME, SIDEBAR_KEYBOARD_SHORTCUT, useSidebar } from './utils';
 
 const sidebar = useSidebar();
 

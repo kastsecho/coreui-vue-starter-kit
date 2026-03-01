@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { CSidebarToggler } from '@coreui/vue';
-import { type HTMLAttributes } from 'vue';
-import { useSidebar } from '.';
+import type { HTMLAttributes } from 'vue';
+import { useSidebar } from '@/components/ui/sidebar';
 
 const sidebar = useSidebar();
 
 const props = defineProps<{
-  class?: HTMLAttributes['class'];
+    class?: HTMLAttributes['class'];
 }>();
 </script>
 
@@ -15,9 +15,9 @@ const props = defineProps<{
         data-sidebar="rail"
         data-slot="sidebar-rail"
         :class="props.class"
-        aria-label="Toggle Sidebar"
+        aria-label="Toggle sidebar"
         :tabindex="-1"
-        title="Toggle Sidebar"
+        title="Toggle sidebar"
         @click="sidebar.toggleCollapse"
     >
         <slot />

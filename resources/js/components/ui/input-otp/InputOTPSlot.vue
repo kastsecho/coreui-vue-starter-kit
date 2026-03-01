@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { reactiveOmit } from '@vueuse/core'
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 import { computed } from 'vue';
 import { useVueOTPContext } from 'vue-input-otp';
 import { Input } from '@/components/ui/input';
-import { cn } from "@/lib/utils"
-import { type BgColor } from "@/types"
+import { cn } from '@/lib/utils';
+import type { BackgroundColor } from '@/types';
 
 type Props = {
     index: number;
-    color?: BgColor;
+    color?: BackgroundColor;
     class?: HTMLAttributes['class'];
 };
 

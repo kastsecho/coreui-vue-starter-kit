@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { CBreadcrumb } from '@coreui/vue';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 import { cn } from '@/lib/utils';
 
 const props = defineProps<{

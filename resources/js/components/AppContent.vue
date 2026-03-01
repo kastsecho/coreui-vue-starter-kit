@@ -2,7 +2,7 @@
 import { CContainer } from '@coreui/vue';
 import { computed } from 'vue';
 import { SidebarInset } from '@/components/ui/sidebar';
-import { type AppShellVariant } from '@/types';
+import type { AppShellVariant } from '@/types';
 
 type Props = {
     container?: boolean;

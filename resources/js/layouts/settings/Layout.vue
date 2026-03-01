@@ -9,9 +9,9 @@ import { edit as editAppearance } from '@/routes/appearance';
 import { edit as editTwoFactor } from '@/routes/two-factor';
 import { edit as editPassword } from '@/routes/user-password';
 import { edit as editProfile } from '@/routes/user-profile-information';
-import { type NavItem } from '@/types';
+import type { NavItem } from '@/types';
 
-const { isCurrentUrl } = useCurrentUrl();
+const { isCurrentOrParentUrl } = useCurrentUrl();
 
 const sidebarNavItems: NavItem[] = [
     {
@@ -51,7 +51,7 @@ const sidebarNavItems: NavItem[] = [
                         v-for="item in sidebarNavItems"
                         :key="toUrl(item.href)"
                         :href="item.href"
-                        :active="isCurrentUrl(item.href)"
+                        :active="isCurrentOrParentUrl(item.href)"
                     >
                         <Icon v-if="item.icon" :name="item.icon" />
                         {{ item.title }}

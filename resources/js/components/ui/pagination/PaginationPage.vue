@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CPaginationItem } from '@coreui/vue';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     active?: boolean;

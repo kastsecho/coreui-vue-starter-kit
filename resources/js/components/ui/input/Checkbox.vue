@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { CFormCheck } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 
-type CheckboxProps = {
+type Props = {
     label?: string;
     indeterminate?: boolean;
     inline?: boolean;
@@ -12,7 +12,7 @@ type CheckboxProps = {
     valid?: boolean;
 };
 
-const props = defineProps<CheckboxProps & {
+const props = defineProps<Props & {
     class?: HTMLAttributes['class'];
 }>();
 

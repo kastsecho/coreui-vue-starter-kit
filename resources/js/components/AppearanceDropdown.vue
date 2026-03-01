@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, type HTMLAttributes } from 'vue';
+import { computed } from 'vue';
+import type { HTMLAttributes } from 'vue';
 import Icon from '@/components/Icon.vue';
 import {
     DropdownMenu,

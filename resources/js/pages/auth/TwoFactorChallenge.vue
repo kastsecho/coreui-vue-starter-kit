@@ -11,12 +11,12 @@ import {
 import { Separator } from '@/components/ui/separator';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { store } from '@/routes/two-factor/login';
-import { type TwoFactorConfigContent } from '@/types';
+import type { TwoFactorConfigContent } from '@/types';
 
 const authConfigContent = computed<TwoFactorConfigContent>(() => {
     if (showRecoveryInput.value) {
         return {
-            title: 'Recovery Code',
+            title: 'Recovery code',
             description:
                 'Please confirm access to your account by entering one of your emergency recovery codes.',
             buttonText: 'or, using an authentication code',
@@ -24,7 +24,7 @@ const authConfigContent = computed<TwoFactorConfigContent>(() => {
     }
 
     return {
-        title: 'Authentication Code',
+        title: 'Authentication code',
         description:
             'Enter the authentication code provided by your authenticator application.',
         buttonText: 'or, login using a recovery code',
@@ -47,7 +47,7 @@ const code = ref<string>('');
         :title="authConfigContent.title"
         :description="authConfigContent.description"
     >
-        <Head title="Two-Factor Authentication" />
+        <Head title="Two-factor authentication" />
 
         <template v-if="!showRecoveryInput">
             <Form

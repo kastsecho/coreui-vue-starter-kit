@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CFormLabel } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     customClassName?: HTMLAttributes['class'];

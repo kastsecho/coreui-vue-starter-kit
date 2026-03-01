@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CDropdown } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
-import { type Placement } from '@/types';
+import type { HTMLAttributes } from 'vue';
+import type { Placement } from '@/types';
 
 type Props = {
     align?: 'start' | 'end';

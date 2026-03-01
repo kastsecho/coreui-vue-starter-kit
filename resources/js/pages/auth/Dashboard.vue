@@ -18,12 +18,12 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem, User } from '@/types';
 
-interface UserStats {
+type UserStats = {
     latest: string;
     total: number;
     unverified: number;
     verified: number;
-}
+};
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -37,7 +37,7 @@ defineProps<{
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard().url,
+        href: dashboard(),
     },
 ];
 

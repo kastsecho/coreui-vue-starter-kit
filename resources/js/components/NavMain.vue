@@ -2,9 +2,9 @@
 import Icon from '@/components/Icon.vue';
 import { SidebarMenuItem, SidebarMenuLink } from '@/components/ui/sidebar';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
-import { type NavItem } from '@/types';
+import type { NavItem } from '@/types';
 
-const { isCurrentUrl } = useCurrentUrl();
+const { isCurrentOrParentUrl } = useCurrentUrl();
 
 defineProps<{
     items: NavItem[];
@@ -18,7 +18,7 @@ defineProps<{
                 class="w-100"
                 as="button"
                 :href="item.href"
-                :active="isCurrentUrl(item.href)"
+                :active="isCurrentOrParentUrl(item.href)"
             >
                 <Icon v-if="item.icon" class="nav-icon" :name="item.icon" />
                 <span>{{ item.title }}</span>

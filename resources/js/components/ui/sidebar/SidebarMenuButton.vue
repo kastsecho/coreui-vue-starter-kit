@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CCloseButton } from '@coreui/vue';
-import { type HTMLAttributes } from 'vue';
 import { reactiveOmit } from '@vueuse/core';
-import { useSidebar } from '.';
+import type { HTMLAttributes } from 'vue';
+import { useSidebar } from '@/components/ui/sidebar';
 
 const props = defineProps<{
     dark?: boolean;

@@ -24,17 +24,13 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
 import { dashboard, home } from '@/routes';
-import type { BreadcrumbItem, NavItem } from '@/types';
+import type { AppBreadcrumbProps, NavItem } from '@/types';
 
 const page = usePage();
 const auth = computed(() => page.props.auth);
-const { isCurrentUrl } = useCurrentUrl();
+const { isCurrentOrParentUrl } = useCurrentUrl();
 
-type Props = {
-    breadcrumbs?: BreadcrumbItem[];
-};
-
-withDefaults(defineProps<Props>(), {
+withDefaults(defineProps<AppBreadcrumbProps>(), {
     breadcrumbs: () => [],
 });
 
@@ -51,7 +47,7 @@ const mainNavItems: NavItem[] = [
 
 const rightNavItems: NavItem[] = [
     {
-        title: 'Github Repo',
+        title: 'Repository',
         href: 'https://github.com/kastsecho/coreui-vue-starter-kit',
         icon: 'folder',
     },
@@ -79,7 +75,7 @@ const rightNavItems: NavItem[] = [
                             <NavigationMenuLink
                                 class="icon-link"
                                 :href="item.href"
-                                :active="isCurrentUrl(item.href)"
+                                :active="isCurrentOrParentUrl(item.href)"
                             >
                                 <Icon
                                     v-if="item.icon"

@@ -5,8 +5,7 @@ import {
     PaginationPage,
     usePagination,
 } from '@/components/ui/pagination';
-import { type PaginationMeta } from '@/types';
-
+import type { PaginationMeta } from '@/types';
 
 const props = defineProps<{
     meta: PaginationMeta;

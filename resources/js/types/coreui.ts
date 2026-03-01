@@ -1,15 +1,4 @@
-export type BaseAlignment = 'start' | 'end';
-type BasePlacement = 'auto' | 'top' | 'bottom' | 'left' | 'right';
-type SpacingScale = 1 | 2 | 3 | 4 | 5;
-
-export type Align = '' | 'left' | 'center' | 'right';
-export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
-export type Container = Breakpoint | 'fluid';
-export type Placement =
-    | BasePlacement
-    | `${Exclude<BasePlacement, 'auto'>}-${BaseAlignment}`;
-export type Spacing = SpacingScale | `${SpacingScale}`;
-
+// Colors
 export type Color =
     | 'primary'
     | 'secondary'
@@ -22,7 +11,7 @@ export type Color =
     | 'link'
     | 'transparent';
 
-export type BgColor =
+export type BackgroundColor =
     | Exclude<Color, 'link' | 'transparent'>
     | 'body'
     | 'body-secondary'
@@ -42,15 +31,29 @@ export type TextColor =
     | 'white'
     | 'white-50';
 
-export type Shape =
-    | 'rounded'
-    | 'rounded-top'
-    | 'rounded-end'
-    | 'rounded-bottom'
-    | 'rounded-start'
-    | 'rounded-circle'
-    | 'rounded-pill'
-    | 'rounded-0'
-    | 'rounded-1'
-    | 'rounded-2'
-    | 'rounded-3';
+// Alignment
+export type Alignment = 'start' | 'end';
+type PlacementType = 'auto' | 'top' | 'bottom' | 'left' | 'right';
+export type Placement =
+    | PlacementType
+    | `${Exclude<PlacementType, 'auto'>}-${Alignment}`;
+
+export type Spacing = 1 | 2 | 3 | 4 | 5;
+
+// Breakpoints
+export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+export type Container = Breakpoint | 'fluid';
+
+// Miscellaneous
+type ShapeType =
+    | 'top'
+    | 'end'
+    | 'bottom'
+    | 'start'
+    | 'circle'
+    | 'pill'
+    | '0'
+    | '1'
+    | '2'
+    | '3';
+export type Shape = 'rounded' | `rounded-${ShapeType}`;

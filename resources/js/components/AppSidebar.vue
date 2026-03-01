@@ -15,7 +15,7 @@ import {
     SidebarRail,
 } from '@/components/ui/sidebar';
 import { dashboard, home } from '@/routes';
-import { type NavItem } from '@/types';
+import type { NavItem } from '@/types';
 
 const page = usePage();
 const auth = computed(() => page.props.auth);
@@ -32,7 +32,7 @@ const mainNavItems: NavItem[] = [
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Github Repo',
+        title: 'Repository',
         href: 'https://github.com/kastsecho/coreui-vue-starter-kit',
         icon: 'folder',
     },

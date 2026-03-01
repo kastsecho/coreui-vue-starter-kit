@@ -11,7 +11,7 @@ import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { disable, edit, enable } from '@/routes/two-factor';
-import { type BreadcrumbItem } from '@/types';
+import type { BreadcrumbItem } from '@/types';
 
 type Props = {
     requiresConfirmation?: boolean;
@@ -25,8 +25,8 @@ withDefaults(defineProps<Props>(), {
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Two-Factor Authentication',
-        href: edit.url(),
+        title: 'Two-factor authentication',
+        href: edit(),
     },
 ];
 
@@ -42,7 +42,7 @@ onUnmounted(() => {
     <AppLayout :breadcrumbs="breadcrumbs">
         <Head title="Two-Factor Authentication" />
 
-        <h1 class="visually-hidden">Two-Factor Authentication Settings</h1>
+        <h1 class="visually-hidden">Two-factor authentication settings</h1>
 
         <SettingsLayout>
             <div class="d-flex flex-column gap-3">
@@ -71,7 +71,7 @@ onUnmounted(() => {
                             @click="showSetupModal = true"
                         >
                             <Icon class="me-2" name="shield-check" />
-                            Continue Setup
+                            Continue setup
                         </Button>
                         <Form
                             v-else

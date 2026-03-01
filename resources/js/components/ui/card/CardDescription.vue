@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CCardText } from '@coreui/vue';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 import { cn } from '@/lib/utils';
 
 const props = defineProps<{

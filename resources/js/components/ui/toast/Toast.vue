@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CToast } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
-import { type Color } from '@/types';
+import type { HTMLAttributes } from 'vue';
+import type { Color } from '@/types';
 
 type Props = {
     autohide?: boolean;

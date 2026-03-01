@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { CBreadcrumbItem } from '@coreui/vue';
-import { type Method } from '@inertiajs/core';
-import { type InertiaLinkProps, Link } from '@inertiajs/vue3';
+import type { Method } from '@inertiajs/core';
+import { Link } from '@inertiajs/vue3';
+import type { InertiaLinkProps } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 import { cn, toUrl } from '@/lib/utils';
 
 const props = defineProps<InertiaLinkProps & {

@@ -41,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
                 ->numbers()
                 ->symbols()
                 ->uncompromised()
-            : null
+            : null,
         );
     }
 }

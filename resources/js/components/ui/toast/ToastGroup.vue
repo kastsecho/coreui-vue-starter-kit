@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { CToaster } from '@coreui/vue';
-import { type HTMLAttributes } from 'vue';
+import { reactiveOmit } from '@vueuse/core';
+import type { HTMLAttributes } from 'vue';
 
 type Placement =
     | 'top-start'
@@ -17,12 +18,14 @@ const props = defineProps<{
     placement?: Placement;
     class?: HTMLAttributes['class'];
 }>();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
     <CToaster
         data-slot="toast-content"
-        :placement="placement"
+        v-bind="delegatedProps"
         :class="props.class"
     >
         <slot/>

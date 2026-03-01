@@ -1,5 +1,5 @@
 import { computed } from 'vue';
-import { type PaginationMeta } from '@/types';
+import type { PaginationMeta } from '@/types';
 
 export { default as Pagination } from './Pagination.vue';
 export { default as PaginationLink } from './PaginationLink.vue';

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { CFormSelect } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 
-type InputProps = {
+type Props = {
     floatingLabel?: string;
     invalid?: boolean;
     multiple?: boolean;
@@ -13,7 +13,7 @@ type InputProps = {
     valid?: boolean;
 };
 
-const props = defineProps<InputProps & {
+const props = defineProps<Props & {
     class?: HTMLAttributes['class'];
 }>();
 

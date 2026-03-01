@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CCardBody } from '@coreui/vue';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     class?: HTMLAttributes['class'];

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 import { cn } from '@/lib/utils';
-import { type AppShellVariant } from '@/types';
+import type { AppShellVariant } from '@/types';
 
 type Props = {
     variant?: AppShellVariant;

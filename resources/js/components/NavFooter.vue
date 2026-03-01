@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Icon from '@/components/Icon.vue';
 import { SidebarMenuItem, SidebarMenuLink } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
+import type { NavItem } from '@/types';
 
 type Props = {
     items: NavItem[];

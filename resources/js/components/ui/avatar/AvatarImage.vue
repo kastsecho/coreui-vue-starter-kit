@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CAvatar } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type ImgHTMLAttributes } from 'vue';
+import type { ImgHTMLAttributes } from 'vue';
 import type { Color, Shape } from '@/types';
 
 type Props = {

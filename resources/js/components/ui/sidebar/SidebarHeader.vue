@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CHeader } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
-import { Container } from '@/types';
+import type { HTMLAttributes } from 'vue';
+import type { Container } from '@/types';
 
 const props = defineProps<{
     container?: boolean | Container;

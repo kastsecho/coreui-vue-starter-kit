@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CListGroup } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
-import { type Breakpoint } from '@/types/coreui';
+import type { HTMLAttributes } from 'vue';
+import type { Breakpoint } from '@/types';
 
 type Layout = 'horizontal' | `horizontal-${Breakpoint}`;
 

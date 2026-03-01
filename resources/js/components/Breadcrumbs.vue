@@ -4,17 +4,13 @@ import {
     BreadcrumbLink,
     BreadcrumbPage,
 } from '@/components/ui/breadcrumb';
-import { type BreadcrumbItem } from '@/types';
+import type { AppBreadcrumbProps } from '@/types';
 
-type Props = {
-    breadcrumbs: BreadcrumbItem[];
-};
-
-defineProps<Props>();
+defineProps<AppBreadcrumbProps>();
 </script>
 
 <template>
-    <Breadcrumb>
+    <Breadcrumb v-if="breadcrumbs">
         <template v-for="(item, index) in breadcrumbs" :key="index">
             <template v-if="index === breadcrumbs.length - 1">
                 <BreadcrumbPage>{{ item.title }}</BreadcrumbPage>

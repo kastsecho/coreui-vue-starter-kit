@@ -1,14 +1,11 @@
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript';
-import prettier from 'eslint-config-prettier';
+import prettier from 'eslint-config-prettier/flat';
 import importPlugin from 'eslint-plugin-import';
 import vue from 'eslint-plugin-vue';
 
 export default defineConfigWithVueTs(
     vue.configs['flat/essential'],
     vueTsConfigs.recommended,
-    {
-        ignores: ['vendor', 'node_modules', 'public', 'bootstrap/ssr', 'vite.config.ts', 'resources/js/components/ui/*'],
-    },
     {
         plugins: {
             import: importPlugin,
@@ -19,6 +16,7 @@ export default defineConfigWithVueTs(
                     alwaysTryTypes: true,
                     project: './tsconfig.json',
                 },
+                node: true,
             },
         },
         rules: {
@@ -41,7 +39,24 @@ export default defineConfigWithVueTs(
                     },
                 },
             ],
+            'import/consistent-type-specifier-style': [
+                'error',
+                'prefer-top-level',
+            ],
         },
+    },
+    {
+        ignores: [
+            'vendor',
+            'node_modules',
+            'public',
+            'bootstrap/ssr',
+            'tailwind.config.js',
+            'vite.config.ts',
+            'resources/js/actions/**',
+            'resources/js/components/ui/*',
+            'resources/js/routes/**',
+        ],
     },
     prettier,
 );

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CTableRow } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     active?: boolean;

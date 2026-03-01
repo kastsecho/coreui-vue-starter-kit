@@ -44,7 +44,7 @@ onMounted(async () => {
         <CardHeader class="rounded-top-4">
             <CardTitle class="d-flex gap-3">
                 <Icon name="lock-fill" />
-                2FA Recovery Codes
+                2FA recovery codes
             </CardTitle>
             <CardDescription>
                 Recovery codes let you regain access if you lose your 2FA
@@ -58,8 +58,8 @@ onMounted(async () => {
                 <Button @click="toggleRecoveryCodesVisibility">
                     <Icon v-if="isRecoveryCodesVisible" name="eye-slash" />
                     <Icon v-else name="eye" />
-                    {{ isRecoveryCodesVisible ? 'Hide' : 'View' }} Recovery
-                    Codes
+                    {{ isRecoveryCodesVisible ? 'Hide' : 'View' }} recovery
+                    codes
                 </Button>
 
                 <Form
@@ -77,7 +77,7 @@ onMounted(async () => {
                         :disabled="processing"
                     >
                         <Icon name="arrow-clockwise" />
-                        Regenerate Codes
+                        Regenerate codes
                     </Button>
                 </Form>
             </div>

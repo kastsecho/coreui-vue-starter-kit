@@ -1,11 +1,11 @@
-import { type HTMLAttributes } from 'vue';
-import type { BaseAlignment, ResolvedAppearance } from '@/types';
+import type { HTMLAttributes } from 'vue';
+import type { Alignment, ResolvedAppearance } from '@/types';
 
 export type SidebarProps = {
     colorScheme?: ResolvedAppearance;
     narrow?: boolean;
     overlaid?: boolean;
-    placement?: BaseAlignment;
+    placement?: Alignment;
     position?: 'fixed';
     size?: 'sm' | 'lg' | 'xl';
     class?: HTMLAttributes['class'];

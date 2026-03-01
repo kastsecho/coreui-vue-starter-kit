@@ -14,7 +14,7 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { destroy } from '@/routes/current-user-photo';
 import { edit, update } from '@/routes/user-profile-information';
 import { send } from '@/routes/verification';
-import { type BreadcrumbItem } from '@/types';
+import type { BreadcrumbItem } from '@/types';
 
 type Props = {
     mustVerifyEmail: boolean;
@@ -29,7 +29,7 @@ defineProps<Props>();
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Profile settings',
-        href: edit().url,
+        href: edit(),
     },
 ];
 
@@ -73,7 +73,7 @@ const clearPhotoFileInput = () => {
     <AppLayout :breadcrumbs="breadcrumbs">
         <Head title="Profile settings" />
 
-        <h1 class="visually-hidden">Profile Settings</h1>
+        <h1 class="visually-hidden">Profile settings</h1>
 
         <SettingsLayout>
             <div class="d-flex flex-column gap-3">

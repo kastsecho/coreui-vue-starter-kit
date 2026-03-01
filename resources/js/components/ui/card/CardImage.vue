@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CCardImage } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type ImgHTMLAttributes } from 'vue';
+import type { ImgHTMLAttributes } from 'vue';
 
 const props = defineProps<{
     alt?: ImgHTMLAttributes['alt'];

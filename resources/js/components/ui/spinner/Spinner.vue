@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CSpinner } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
-import { type Color } from '@/types';
+import type { HTMLAttributes } from 'vue';
+import type { Color } from '@/types';
 
 type Props = {
     color?: Exclude<Color, 'link' | 'transparent'>;

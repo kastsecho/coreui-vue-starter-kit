@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CCollapse } from '@coreui/vue';
-import { type HTMLAttributes } from 'vue';
 import { reactiveOmit } from '@vueuse/core';
+import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     visible: boolean;

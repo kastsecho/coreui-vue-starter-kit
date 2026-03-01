@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CModal } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 
 type Props = {
     align?: 'top' | 'center';

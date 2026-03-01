@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CNavbar } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 import type { Breakpoint, Color, Container, ResolvedAppearance } from '@/types';
 
 type Placement = 'fixed-top' | 'fixed-bottom' | 'sticky-top';

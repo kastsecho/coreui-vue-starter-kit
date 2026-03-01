@@ -2,10 +2,10 @@
 import { CModalHeader } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
 
-interface Props {
+type Props = {
     closeButton?: boolean;
     class?: HTMLAttributes['class'];
-}
+};
 
 const props = withDefaults(defineProps<Props>(), {
     closeButton: false,

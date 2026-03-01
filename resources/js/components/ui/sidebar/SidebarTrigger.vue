@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CHeaderToggler } from '@coreui/vue';
-import { type HTMLAttributes } from 'vue';
+import type { HTMLAttributes } from 'vue';
 import Icon from '@/components/Icon.vue';
-import { useSidebar } from '.';
+import { useSidebar } from '@/components/ui/sidebar';
 
 const props = defineProps<{
     class?: HTMLAttributes['class'];
@@ -19,6 +19,6 @@ const sidebar = useSidebar();
         @click="sidebar.toggleSidebar"
     >
         <Icon class="icon icon-lg" name="list" />
-        <span class="visually-hidden">Toggle Sidebar</span>
+        <span class="visually-hidden">Toggle sidebar</span>
     </CHeaderToggler>
 </template>

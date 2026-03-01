@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CListGroupItem } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
-import { type Color } from '@/types/coreui';
+import type { HTMLAttributes } from 'vue';
+import type { Color } from '@/types';
 
 const props = defineProps<{
     active?: boolean;

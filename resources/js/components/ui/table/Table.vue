@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { CTable } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import { type HTMLAttributes } from 'vue';
-import { type TableColumn } from '@/types';
+import type { HTMLAttributes } from 'vue';
+import type { TableColumn } from '@/types';
 
 const props = defineProps<{
     align?: 'bottom' | 'middle' | 'top';
