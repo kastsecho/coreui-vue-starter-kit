@@ -13,7 +13,6 @@ const props = withDefaults(defineProps<Props>(), {
     color: 'body-emphasis',
     spacing: 4,
 });
-
 </script>
 
 <template>
