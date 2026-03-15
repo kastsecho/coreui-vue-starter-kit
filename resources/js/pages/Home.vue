@@ -21,20 +21,19 @@ import {
 } from '@/components/ui/navigation-menu';
 import { dashboard, login, logout, register } from '@/routes';
 
-withDefaults(
-    defineProps<{
-        canRegister: boolean;
-        laravel?: string;
-        php?: string;
-    }>(),
-    {
-        canRegister: true,
-    },
-);
+type Props = {
+    canRegister: boolean;
+    laravel: string;
+    php: string;
+};
+
+withDefaults(defineProps<Props>(), {
+    canRegister: true,
+});
 </script>
 
 <template>
-    <Head title="Home" />
+    <Head title="Welcome" />
 
     <NavigationMenu container expand placement="fixed-top">
         <NavigationMenuList class="ms-auto align-items-center">
@@ -58,7 +57,6 @@ withDefaults(
             </template>
         </NavigationMenuList>
     </NavigationMenu>
-
     <CContainer
         class="d-grid align-items-center justify-content-center min-vh-100"
     >

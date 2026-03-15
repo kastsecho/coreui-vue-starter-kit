@@ -31,16 +31,14 @@ class AuthenticationTest extends TestCase
             'password' => 'password',
         ]);
 
-        $this->assertAuthenticated();
         $response->assertRedirect(route('dashboard', absolute: false));
+        $this->assertAuthenticated();
     }
 
     #[Test]
     public function users_with_two_factor_enabled_are_redirected_to_two_factor_challenge(): void
     {
-        if (! Features::canManageTwoFactorAuthentication()) {
-            $this->markTestSkipped('Two-factor authentication is not enabled.');
-        }
+        $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
 
         Features::twoFactorAuthentication([
             'confirm' => true,
@@ -60,8 +58,9 @@ class AuthenticationTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertRedirect(route('two-factor.login'));
-        $response->assertSessionHas('login.id', $user->id);
+        $response
+            ->assertRedirect(route('two-factor.login'))
+            ->assertSessionHas('login.id', $user->id);
         $this->assertGuest();
     }
 
@@ -83,10 +82,12 @@ class AuthenticationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->post(route('logout'));
+        $response = $this
+            ->actingAs($user)
+            ->post(route('logout'));
 
-        $this->assertGuest();
         $response->assertRedirect(route('home'));
+        $this->assertGuest();
     }
 
     #[Test]

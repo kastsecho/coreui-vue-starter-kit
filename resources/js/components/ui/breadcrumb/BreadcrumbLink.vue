@@ -19,26 +19,26 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
 </script>
 
 <template>
-    <Link
-        v-if="as !== 'a'"
-        data-slot="breadcrumb-link"
-        v-bind="delegatedProps"
-        :class="cn({
-            ['active']: active,
-            ['disabled']: disabled,
-        }, 'breadcrumb-item link-body-emphasis', props.class)"
-    >
-        <slot />
-    </Link>
     <CBreadcrumbItem
-        v-else
+        v-if="as === 'a'"
         data-slot="breadcrumb-link"
-        as="a"
         :href="toUrl(href!)"
+        as="a"
         :class="cn('breadcrumb-item link-body-emphasis', props.class)"
         :active="active"
         :disabled="disabled"
     >
         <slot />
     </CBreadcrumbItem>
+    <Link
+        v-else
+        data-slot="breadcrumb-link"
+        :class="cn({
+            ['active']: active,
+            ['disabled']: disabled,
+        }, 'breadcrumb-item link-body-emphasis', props.class)"
+        v-bind="delegatedProps"
+    >
+        <slot />
+    </Link>
 </template>

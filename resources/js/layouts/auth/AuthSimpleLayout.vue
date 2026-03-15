@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import { CCol, CContainer, CRow } from '@coreui/vue';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { home } from '@/routes';
-
-const page = usePage();
-const name = page.props.name;
 
 defineProps<{
     title?: string;
@@ -22,17 +19,14 @@ defineProps<{
                 <CCol md="7" lg="5">
                     <div class="d-flex flex-column align-items-center gap-4">
                         <Link
-                            class="link-danger fw-medium size-9"
                             :href="home()"
+                            class="link-danger fw-medium size-9"
                         >
                             <AppLogoIcon height="36" width="36" />
-                            <span class="visually-hidden">{{ name }}</span>
+                            <span class="visually-hidden">{{ title }}</span>
                         </Link>
-
                         <div class="d-flex flex-column align-items-center">
-                            <h1 class="fs-4 fw-medium">
-                                {{ title }}
-                            </h1>
+                            <h1 class="fs-4 fw-medium">{{ title }}</h1>
                             <p class="text-center text-muted">
                                 {{ description }}
                             </p>

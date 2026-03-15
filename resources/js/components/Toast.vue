@@ -15,22 +15,23 @@ interface Props {
     visible?: boolean;
 }
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     autohide: true,
     visible: true,
 });
 
 const page = usePage();
+const name = page.props.name;
 
 const closeToast = () => emit('close');
 </script>
 
 <template>
     <ToastGroup class="p-3" placement="bottom-end">
-        <Toast :autohide="autohide" :visible="visible" @close="closeToast">
+        <Toast v-bind="props" @close="closeToast">
             <ToastHeader :close-button="!autohide" class="gap-3">
                 <AppLogoIcon class="size-5 text-danger" />
-                <strong class="me-auto">{{ page.props.name }}</strong>
+                <strong class="me-auto">{{ name }}</strong>
             </ToastHeader>
 
             <ToastContent>

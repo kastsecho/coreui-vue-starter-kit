@@ -17,13 +17,15 @@ class PasswordConfirmationTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->actingAs($user)->get(route('password.confirm'));
+        $response = $this
+            ->actingAs($user)
+            ->get(route('password.confirm'));
 
-        $response->assertOk();
-
-        $response->assertInertia(fn (Assert $page) => $page
-            ->component('auth/ConfirmPassword'),
-        );
+        $response
+            ->assertOk()
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('auth/ConfirmPassword'),
+            );
     }
 
     #[Test]

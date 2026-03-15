@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
+use Laravel\Fortify\Features;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -14,12 +15,21 @@ class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->skipUnlessFortifyFeature(Features::emailVerification());
+    }
+
     #[Test]
     public function email_verification_screen_can_be_rendered(): void
     {
         $user = User::factory()->unverified()->create();
 
-        $response = $this->actingAs($user)->get(route('verification.notice'));
+        $response = $this
+            ->actingAs($user)
+            ->get(route('verification.notice'));
 
         $response->assertOk();
     }
@@ -37,7 +47,9 @@ class EmailVerificationTest extends TestCase
             ['id' => $user->id, 'hash' => sha1($user->email)],
         );
 
-        $response = $this->actingAs($user)->get($verificationUrl);
+        $response = $this
+            ->actingAs($user)
+            ->get($verificationUrl);
 
         Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
@@ -89,7 +101,9 @@ class EmailVerificationTest extends TestCase
 
         Event::fake();
 
-        $response = $this->actingAs($user)->get(route('verification.notice'));
+        $response = $this
+            ->actingAs($user)
+            ->get(route('verification.notice'));
 
         Event::assertNotDispatched(Verified::class);
         $response->assertRedirect(route('dashboard', absolute: false));
@@ -108,7 +122,8 @@ class EmailVerificationTest extends TestCase
             ['id' => $user->id, 'hash' => sha1($user->email)],
         );
 
-        $this->actingAs($user)->get($verificationUrl)
+        $this->actingAs($user)
+            ->get($verificationUrl)
             ->assertRedirect(route('dashboard', absolute: false).'?verified=1');
 
         Event::assertNotDispatched(Verified::class);

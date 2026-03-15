@@ -7,24 +7,21 @@ import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Input, InputError, Label } from '@/components/ui/input';
+import { Input, InputError } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { getInitials } from '@/composables/useInitials';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { destroy } from '@/routes/current-user-photo';
-import { edit, update } from '@/routes/user-profile-information';
+import { edit } from '@/routes/profile';
+import { destroy } from '@/routes/profile-photo';
+import { update } from '@/routes/user-profile-information';
 import { send } from '@/routes/verification';
 import type { BreadcrumbItem } from '@/types';
 
-type Props = {
+defineProps<{
     mustVerifyEmail: boolean;
     status?: string;
-};
-
-const page = usePage();
-const user = computed(() => page.props.auth.user);
-
-defineProps<Props>();
+}>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -32,6 +29,9 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: edit(),
     },
 ];
+
+const page = usePage();
+const user = computed(() => page.props.auth.user);
 
 const photoPreview = ref<string | null>(null);
 const photoInput = ref<HTMLInputElement | null>(null);
@@ -42,7 +42,11 @@ const selectNewPhoto = () => {
 
 const updatePhotoPreview = () => {
     const file = photoInput.value?.files?.[0];
-    if (!file || !file.type.startsWith('image/')) return;
+
+    if (!file || !file.type.startsWith('image/')) {
+        return;
+    }
+
     const reader = new FileReader();
     reader.onload = (e) => {
         if (e.target?.result) {
@@ -134,8 +138,8 @@ const clearPhotoFileInput = () => {
                                     v-if="user.avatar || photoPreview"
                                     type="button"
                                     color="secondary"
-                                    @click="deletePhoto"
                                     :tabindex="2"
+                                    @click="deletePhoto"
                                     :disabled="processing"
                                     data-test="remove-profile-photo-button"
                                 >
@@ -155,29 +159,28 @@ const clearPhotoFileInput = () => {
                                 type="text"
                                 name="name"
                                 required
-                                :invalid="!!errors.name"
-                                :value="user.name"
-                                :tabindex="3"
+                                :tabindex="1"
+                                :model-value="user.name"
                                 autocomplete="name"
+                                :invalid="!!errors.name"
                                 placeholder="Full name"
                             />
                             <InputError :message="errors.name" />
                         </div>
 
-                        <div class="d-grid">
+                        <div class="grid gap-2">
                             <Label for="email">Email address</Label>
                             <Input
                                 id="email"
                                 type="email"
                                 name="email"
                                 required
-                                :invalid="!!errors.email"
-                                :value="user.email"
-                                :tabindex="4"
-                                autocomplete="email"
+                                :tabindex="2"
+                                :model-value="user.email"
+                                autocomplete="username"
                                 placeholder="Email address"
                             />
-                            <InputError class="mt-2" :message="errors.email" />
+                            <InputError :message="errors.email" />
                         </div>
                     </div>
 
@@ -185,10 +188,10 @@ const clearPhotoFileInput = () => {
                         <p class="-mt-4 text-muted">
                             Your email address is unverified.
                             <TextLink
-                                class="btn btn-link"
                                 :href="send()"
-                                :tabindex="4"
                                 as="button"
+                                class="btn btn-link"
+                                :tabindex="4"
                             >
                                 Click here to resend the verification email.
                             </TextLink>
@@ -207,8 +210,8 @@ const clearPhotoFileInput = () => {
                     <div class="d-flex align-items-center gap-4">
                         <Button
                             type="submit"
-                            :disabled="processing"
                             :tabindex="5"
+                            :disabled="processing"
                             data-test="update-profile-button"
                         >
                             Save

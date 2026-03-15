@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { CFormLabel } from '@coreui/vue';
+import { CCollapse } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
-    customClassName?: HTMLAttributes['class'];
+    visible: boolean;
     class?: HTMLAttributes['class'];
 }>();
 
@@ -12,11 +12,11 @@ const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CFormLabel
-        data-slot="label"
-        v-bind="delegatedProps"
+    <CCollapse
+        data-slot="collapsible"
         :class="props.class"
+        v-bind="delegatedProps"
     >
-        <slot/>
-    </CFormLabel>
+        <slot />
+    </CCollapse>
 </template>

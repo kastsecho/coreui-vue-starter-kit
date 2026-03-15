@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
+import PasswordInput from '@/components/PasswordInput.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { Checkbox, Input, InputError, Label } from '@/components/ui/input';
+import { Checkbox, Input, InputError } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { register } from '@/routes';
@@ -46,10 +48,10 @@ defineProps<{
                         type="email"
                         name="email"
                         required
-                        autofocus
-                        :invalid="!!errors.email"
                         :tabindex="1"
                         autocomplete="email"
+                        autofocus
+                        :invalid="!!errors.email"
                         placeholder="email@example.com"
                     />
                     <InputError :message="errors.email" />
@@ -57,25 +59,25 @@ defineProps<{
 
                 <div class="d-grid">
                     <div
-                        class="d-flex align-items-center justify-content-between"
+                        class="form-label d-flex align-items-center justify-content-between"
                     >
-                        <Label for="password">Password</Label>
+                        <Label class="mb-0" for="password">Password</Label>
                         <TextLink
                             v-if="canResetPassword"
                             :href="request()"
+                            class="text-sm"
                             :tabindex="5"
                         >
                             Forgot password?
                         </TextLink>
                     </div>
-                    <Input
+                    <PasswordInput
                         id="password"
-                        type="password"
                         name="password"
                         required
-                        :invalid="!!errors.password"
                         :tabindex="2"
                         autocomplete="current-password"
+                        :invalid="!!errors.password"
                         placeholder="Password"
                     />
                     <InputError :message="errors.password" />
@@ -100,7 +102,7 @@ defineProps<{
                 </Button>
             </div>
 
-            <div class="text-center text-muted" v-if="canRegister">
+            <div v-if="canRegister" class="text-center text-muted">
                 Don't have an account?
                 <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
             </div>

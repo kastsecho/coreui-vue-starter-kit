@@ -2,14 +2,14 @@
 import { CAvatar } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { ImgHTMLAttributes } from 'vue';
-import type { Color, Shape, TextColor } from '@/types';
+import type { CColor, CShape, CTextColor } from '@/types';
 
 type Props = {
-    color?: Color
-    shape?: Shape;
+    color?: CColor
+    shape?: CShape;
     size?: 'sm' | 'md' | 'lg' | 'xl';
-    status?: Color;
-    textColor?: TextColor;
+    status?: CColor;
+    textColor?: CTextColor;
     class?: ImgHTMLAttributes['class'];
 };
 
@@ -25,8 +25,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CAvatar
         data-slot="avatar-fallback"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     >
         <slot />
     </CAvatar>

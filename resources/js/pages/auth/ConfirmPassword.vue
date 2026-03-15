@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
+import PasswordInput from '@/components/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
-import { Input, InputError, Label } from '@/components/ui/input';
+import { InputError } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { store } from '@/routes/password/confirm';
@@ -18,23 +20,20 @@ import { store } from '@/routes/password/confirm';
             v-bind="store.form()"
             reset-on-success
             v-slot="{ errors, processing }"
-            class="d-flex flex-column gap-3"
         >
             <div class="d-grid gap-3">
                 <div class="d-grid">
                     <Label for="password">Password</Label>
-                    <Input
+                    <PasswordInput
                         id="password"
-                        type="password"
                         name="password"
                         required
-                        autofocus
-                        :invalid="!!errors.email"
                         :tabindex="1"
                         autocomplete="current-password"
+                        autofocus
+                        :invalid="!!errors.password"
                         placeholder="Password"
                     />
-
                     <InputError :message="errors.password" />
                 </div>
 

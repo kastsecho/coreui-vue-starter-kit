@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { CNavItem } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import type { HTMLAttributes } from 'vue';
 
 type Props = {
     as?: string;
-    class?: HTMLAttributes['class'];
+    class?: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {
@@ -18,8 +17,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CNavItem
         data-slot="navigation-menu-item"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     >
         <slot />
     </CNavItem>

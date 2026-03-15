@@ -16,8 +16,8 @@ import {
     NavigationMenuLink,
 } from '@/components/ui/navigation-menu';
 import {
-    SidebarHeader,
-    SidebarHeaderList,
+    SidebarMenuHeader,
+    SidebarMenuHeaderList,
     SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { Tooltip } from '@/components/ui/tooltip';
@@ -26,15 +26,19 @@ import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
-import type { AppBreadcrumbProps, NavItem } from '@/types';
+import type { BreadcrumbItem, NavItem } from '@/types';
+
+type Props = {
+    breadcrumbs?: BreadcrumbItem[];
+};
+
+withDefaults(defineProps<Props>(), {
+    breadcrumbs: () => [],
+});
 
 const page = usePage();
 const auth = computed(() => page.props.auth);
 const { isCurrentOrParentUrl } = useCurrentUrl();
-
-withDefaults(defineProps<AppBreadcrumbProps>(), {
-    breadcrumbs: () => [],
-});
 
 const headerClassNames = ref<string | null>(null);
 
@@ -73,13 +77,16 @@ onMounted(() => {
 </script>
 
 <template>
-    <SidebarHeader :class="cn('mb-4 p-0', headerClassNames)" position="sticky">
+    <SidebarMenuHeader
+        :class="cn('mb-4 p-0', headerClassNames)"
+        position="sticky"
+    >
         <CContainer class="border-bottom px-4" fluid>
             <!-- Hamburger -->
             <SidebarTrigger style="margin-inline-start: -14px" />
 
             <!-- Navigation Links -->
-            <SidebarHeaderList class="d-none d-md-flex">
+            <SidebarMenuHeaderList class="d-none d-md-flex">
                 <template v-for="item in mainNavItems" :key="item.title">
                     <NavigationMenuItem v-if="item.isActive ?? true">
                         <NavigationMenuLink
@@ -91,9 +98,9 @@ onMounted(() => {
                         </NavigationMenuLink>
                     </NavigationMenuItem>
                 </template>
-            </SidebarHeaderList>
+            </SidebarMenuHeaderList>
 
-            <SidebarHeaderList class="ms-auto align-items-center">
+            <SidebarMenuHeaderList class="ms-auto align-items-center">
                 <NavigationMenuItem
                     v-for="item in rightNavItems"
                     :key="item.title"
@@ -119,9 +126,9 @@ onMounted(() => {
                         </NavigationMenuLink>
                     </Tooltip>
                 </NavigationMenuItem>
-            </SidebarHeaderList>
+            </SidebarMenuHeaderList>
 
-            <SidebarHeaderList class="align-items-center">
+            <SidebarMenuHeaderList class="align-items-center">
                 <AppearanceDropdown icon-class="icon icon-lg" />
                 <DropdownMenu v-if="auth.user" align="end" variant="nav-item">
                     <DropdownMenuTrigger class="nav-link" :caret="false">
@@ -143,7 +150,7 @@ onMounted(() => {
                         <UserMenuContent :user="auth.user" />
                     </DropdownMenuContent>
                 </DropdownMenu>
-            </SidebarHeaderList>
+            </SidebarMenuHeaderList>
         </CContainer>
 
         <CContainer
@@ -153,5 +160,5 @@ onMounted(() => {
         >
             <Breadcrumbs :breadcrumbs="breadcrumbs" />
         </CContainer>
-    </SidebarHeader>
+    </SidebarMenuHeader>
 </template>

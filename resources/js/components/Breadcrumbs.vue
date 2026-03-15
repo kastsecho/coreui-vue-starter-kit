@@ -4,9 +4,11 @@ import {
     BreadcrumbLink,
     BreadcrumbPage,
 } from '@/components/ui/breadcrumb';
-import type { AppBreadcrumbProps } from '@/types';
+import type { BreadcrumbItem } from '@/types';
 
-defineProps<AppBreadcrumbProps>();
+defineProps<{
+    breadcrumbs: BreadcrumbItem[];
+}>();
 </script>
 
 <template>

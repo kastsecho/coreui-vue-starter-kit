@@ -4,9 +4,13 @@ import AppContent from '@/components/AppContent.vue';
 import AppShell from '@/components/AppShell.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
 import AppSidebarHeader from '@/components/AppSidebarHeader.vue';
-import type { AppBreadcrumbProps } from '@/types';
+import type { BreadcrumbItem } from '@/types';
 
-withDefaults(defineProps<AppBreadcrumbProps>(), {
+type Props = {
+    breadcrumbs?: BreadcrumbItem[];
+};
+
+withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
 </script>

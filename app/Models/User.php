@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Traits\HasProfilePhoto;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\HasProfilePhoto;
+use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,7 +12,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
+    /** @use HasFactory<UserFactory> */
     use HasFactory, HasProfilePhoto, Notifiable, TwoFactorAuthenticatable;
 
     /**
@@ -32,8 +33,8 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'two_factor_recovery_codes',
         'two_factor_secret',
+        'two_factor_recovery_codes',
         'remember_token',
     ];
 

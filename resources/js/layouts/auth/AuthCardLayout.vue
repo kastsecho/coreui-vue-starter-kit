@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { CCol, CContainer, CRow } from '@coreui/vue';
-import { Link, usePage } from '@inertiajs/vue3';
+import { Link } from '@inertiajs/vue3';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import {
     Card,
@@ -10,9 +10,6 @@ import {
     CardTitle,
 } from '@/components/ui/card';
 import { home } from '@/routes';
-
-const page = usePage();
-const name = page.props.name;
 
 defineProps<{
     title?: string;
@@ -33,7 +30,6 @@ defineProps<{
                             class="link-danger fw-medium size-9"
                         >
                             <AppLogoIcon height="36" width="36" />
-                            <span class="visually-hidden">{{ name }}</span>
                         </Link>
 
                         <Card class="rounded-4 shadow-sm">

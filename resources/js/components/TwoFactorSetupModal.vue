@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Form } from '@inertiajs/vue3';
 import { useClipboard } from '@vueuse/core';
-import { computed, ref, watch } from 'vue';
+import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
 import AlertError from '@/components/AlertError.vue';
 import Icon from '@/components/Icon.vue';
 import { Button } from '@/components/ui/button';
@@ -39,6 +39,8 @@ const { qrCodeSvg, manualSetupKey, clearSetupData, fetchSetupData, errors } =
 const showVerificationStep = ref(false);
 const code = ref<string>('');
 
+const pinInputContainerRef = useTemplateRef('pinInputContainerRef');
+
 const modalConfig = computed<TwoFactorConfigContent>(() => {
     if (props.twoFactorEnabled) {
         return {
@@ -69,6 +71,10 @@ const handleModalNextStep = () => {
     if (props.requiresConfirmation) {
         showVerificationStep.value = true;
 
+        nextTick(() => {
+            pinInputContainerRef.value?.querySelector('input')?.focus();
+        });
+
         return;
     }
 
@@ -90,6 +96,7 @@ watch(
     async (isOpen) => {
         if (!isOpen) {
             resetModalState();
+
             return;
         }
 
@@ -115,7 +122,6 @@ watch(
                 {{ modalConfig.description }}
             </DialogDescription>
         </DialogHeader>
-
         <DialogContent>
             <div
                 class="d-flex flex-column align-items-center justify-content-center gap-3"
@@ -165,7 +171,7 @@ watch(
                                     />
                                     <Button
                                         type="button"
-                                        color="light"
+                                        color="secondary"
                                         @click="copy(manualSetupKey || '')"
                                     >
                                         <Icon
@@ -192,7 +198,7 @@ watch(
                         class="d-flex flex-column align-items-center gap-3"
                     >
                         <input type="hidden" name="code" :value="code" />
-                        <div class="d-grid">
+                        <div ref="pinInputContainerRef" class="d-grid">
                             <InputOTP
                                 id="otp"
                                 v-model="code"
@@ -203,15 +209,12 @@ watch(
                                     <InputOTPSlot
                                         v-for="index in 6"
                                         :key="index"
-                                        color="body-tertiary"
                                         :index="index - 1"
+                                        color="body-tertiary"
                                     />
                                 </InputOTPGroup>
                             </InputOTP>
-                            <InputError
-                                :class="{ ['d-block']: errors?.code }"
-                                :message="errors?.code"
-                            />
+                            <InputError :message="errors?.code" />
                         </div>
 
                         <div
@@ -221,8 +224,8 @@ watch(
                                 type="button"
                                 color="secondary"
                                 class="flex-grow-1"
-                                :disabled="processing"
                                 @click="showVerificationStep = false"
+                                :disabled="processing"
                             >
                                 Back
                             </Button>

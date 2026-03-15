@@ -10,8 +10,8 @@ import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
+    SidebarHeader,
     SidebarMenuButton,
-    SidebarMenuHeader,
     SidebarRail,
 } from '@/components/ui/sidebar';
 import { dashboard, home } from '@/routes';
@@ -34,7 +34,7 @@ const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
         href: 'https://github.com/kastsecho/coreui-vue-starter-kit',
-        icon: 'folder',
+        icon: 'github',
     },
     {
         title: 'Documentation',
@@ -46,7 +46,7 @@ const footerNavItems: NavItem[] = [
 
 <template>
     <Sidebar :open="isOpen">
-        <SidebarMenuHeader>
+        <SidebarHeader>
             <Link class="sidebar-brand link-danger" :href="home()">
                 <AppLogoIcon
                     class="sidebar-brand-full"
@@ -60,12 +60,12 @@ const footerNavItems: NavItem[] = [
                 />
             </Link>
             <SidebarMenuButton class="d-lg-none" dark />
-        </SidebarMenuHeader>
+        </SidebarHeader>
 
         <SidebarContent :as="simplebar">
             <NavMain :items="mainNavItems" />
-            <NavUser />
             <NavFooter class="mt-auto" :items="footerNavItems" />
+            <NavUser />
         </SidebarContent>
 
         <SidebarFooter>

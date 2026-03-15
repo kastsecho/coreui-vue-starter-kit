@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
 import { cn } from '@/lib/utils';
-import type { Spacing, TextColor } from '@/types';
+import type { CSpacing, CTextColor } from '@/types';
 
 type Props = {
-    color?: TextColor;
-    spacing?: Spacing;
+    color?: CTextColor;
+    spacing?: CSpacing;
     class?: HTMLAttributes['class'];
 };
 
@@ -18,9 +18,9 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
     <div
         data-slot="separator"
+        role="separator"
         class="d-flex w-100 align-items-center justify-content-center"
         :class="props.class"
-        role="separator"
     >
         <hr class="flex-grow-1" aria-hidden="true" />
         <span

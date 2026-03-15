@@ -3,11 +3,11 @@ import { CSidebarToggler } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
 import { useSidebar } from '@/components/ui/sidebar';
 
-const sidebar = useSidebar();
-
 const props = defineProps<{
     class?: HTMLAttributes['class'];
 }>();
+
+const sidebar = useSidebar();
 </script>
 
 <template>

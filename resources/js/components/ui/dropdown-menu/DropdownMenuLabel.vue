@@ -19,8 +19,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CDropdownHeader
         data-slot="dropdown-menu-label"
-        v-bind="delegatedProps"
         :class="cn('fw-medium', props.class)"
+        v-bind="delegatedProps"
     >
         <slot />
     </CDropdownHeader>

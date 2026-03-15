@@ -19,21 +19,8 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
 </script>
 
 <template>
-    <li v-if="as != 'a'" class="page-item">
-        <Link
-            v-if="as != 'a'"
-            data-slot="pagination-link"
-            v-bind="delegatedProps"
-            :class="cn({
-                ['active']: active,
-                ['disabled']: disabled,
-            }, 'page-link', props.class)"
-        >
-            <slot/>
-        </Link>
-    </li>
     <CPaginationItem
-        v-else
+        v-if="as === 'a'"
         data-slot="pagination-link"
         as="a"
         :href="toUrl(href!)"
@@ -43,4 +30,17 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
     >
         <slot/>
     </CPaginationItem>
+    <li v-else class="page-item">
+        <Link
+            v-if="as != 'a'"
+            data-slot="pagination-link"
+            :class="cn({
+                ['active']: active,
+                ['disabled']: disabled,
+            }, 'page-link', props.class)"
+            v-bind="delegatedProps"
+        >
+            <slot/>
+        </Link>
+    </li>
 </template>

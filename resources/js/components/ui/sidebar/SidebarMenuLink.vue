@@ -20,28 +20,28 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
 </script>
 
 <template>
-    <Link
-        v-if="as !== 'a'"
-        data-slot="sidebar-menu-link"
-        data-sidebar="menu-link"
-        v-bind="delegatedProps"
-        :class="cn({
-            ['active']: active,
-            ['disabled']: disabled,
-        }, 'nav-link', props.class)"
-    >
-        <slot />
-    </Link>
     <CNavLink
-        v-else
-        data-slot="sidebar-menu-link"
+        v-if="as === 'a'"
+        data-slot="sidebar-menu-item"
         data-sidebar="menu-link"
-        as="a"
         :href="toUrl(href!)"
+        as="a"
         :class="props.class"
         :active="active"
         :disabled="disabled"
     >
         <slot />
     </CNavLink>
+    <Link
+        v-else
+        data-slot="sidebar-menu-link"
+        data-sidebar="menu-link"
+        :class="cn({
+            ['active']: active,
+            ['disabled']: disabled,
+        }, 'nav-link', props.class)"
+        v-bind="delegatedProps"
+    >
+        <slot />
+    </Link>
 </template>

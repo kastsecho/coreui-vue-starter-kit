@@ -13,8 +13,8 @@ const props = defineProps<{
     <ul
         data-slot="pagination"
         :class="cn('mb-0 pagination', {
-            [`justify-content-${props.align}`]: props.align,
-            [`pagination-${props.size}`]: props.size,
+            [`justify-content-${props.align}`]: align,
+            [`pagination-${props.size}`]: size,
         }, props.class)"
     >
         <slot/>

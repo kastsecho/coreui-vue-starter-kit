@@ -56,8 +56,13 @@ onMounted(async () => {
                 class="d-flex flex-column gap-3 flex-sm-row align-items-sm-center justify-content-sm-between"
             >
                 <Button @click="toggleRecoveryCodesVisibility">
-                    <Icon v-if="isRecoveryCodesVisible" name="eye-slash" />
-                    <Icon v-else name="eye" />
+                    <Icon
+                        :name="
+                            isRecoveryCodesVisible
+                                ? 'eye-slash-fill'
+                                : 'eye-fill'
+                        "
+                    />
                     {{ isRecoveryCodesVisible ? 'Hide' : 'View' }} recovery
                     codes
                 </Button>
@@ -68,12 +73,11 @@ onMounted(async () => {
                     method="post"
                     :options="{ preserveScroll: true }"
                     @success="fetchRecoveryCodes"
-                    #default="{ processing }"
+                    v-slot="{ processing }"
                 >
                     <Button
-                        type="submit"
-                        class="w-100"
                         color="secondary"
+                        type="submit"
                         :disabled="processing"
                     >
                         <Icon name="arrow-clockwise" />
@@ -81,14 +85,7 @@ onMounted(async () => {
                     </Button>
                 </Form>
             </div>
-            <div
-                :class="[
-                    'overflow-hidden transition-all duration-300',
-                    isRecoveryCodesVisible
-                        ? 'h-auto opacity-100'
-                        : 'h-0 opacity-0',
-                ]"
-            >
+            <div v-if="isRecoveryCodesVisible">
                 <div v-if="errors?.length" class="mt-3">
                     <AlertError :errors="errors" />
                 </div>
@@ -97,9 +94,9 @@ onMounted(async () => {
                         ref="recoveryCodeSectionRef"
                         class="d-grid gap-1 rounded-4 bg-body-tertiary p-3 img-thumbnail"
                     >
-                        <template v-if="!recoveryCodesList.length">
+                        <div v-if="!recoveryCodesList.length">
                             <Spinner v-for="n in 8" :key="n" />
-                        </template>
+                        </div>
                         <code
                             v-else
                             v-for="(code, index) in recoveryCodesList"
@@ -114,9 +111,9 @@ onMounted(async () => {
                         account and will be removed after use. If you need more,
                         click
                         <span class="fw-bold text-decoration-underline">
-                            Regenerate Codes
+                            Regenerate codes
                         </span>
-                        &nbsp;above.
+                        above.
                     </CardDescription>
                 </div>
             </div>

@@ -1,27 +1,26 @@
 <script setup lang="ts">
-import { computed } from 'vue';
 import type { HTMLAttributes } from 'vue';
 import { cn } from '@/lib/utils';
-import type { Color } from '@/types';
+import type { CColor } from '@/types';
 
-type Props = {
+const props = defineProps<{
     name: string;
-    color?: Color;
+    color?: CColor;
     class?: HTMLAttributes['class'];
-};
-
-const props = withDefaults(defineProps<Props>(), {
-    class: '',
-});
-
-const className = computed(() => cn(icon.value, props.class));
-
-const icon = computed(() => {
-    const iconName = `bi-${props.name}`;
-    return props.color ? `${iconName} text-${props.color}` : iconName;
-});
+}>();
 </script>
 
 <template>
-    <span :class="className" aria-hidden="true" />
+    <span
+        :class="
+            cn(
+                {
+                    [`bi-${name}`]: name,
+                    [`text-${color}`]: color,
+                },
+                props.class,
+            )
+        "
+        aria-hidden="true"
+    />
 </template>

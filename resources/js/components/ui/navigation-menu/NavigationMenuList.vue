@@ -9,7 +9,7 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    as: 'nav',
+    as: 'ul',
 });
 
 const delegatedProps = reactiveOmit(props, 'class');
@@ -18,8 +18,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CNavbarNav
         data-slot="navigation-menu-list"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     >
         <slot />
     </CNavbarNav>

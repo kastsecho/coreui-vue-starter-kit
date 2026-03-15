@@ -2,18 +2,22 @@
 
 namespace App\Traits;
 
+use Illuminate\Database\Eloquent\Attributes\Boot;
+use Illuminate\Database\Eloquent\Attributes\Initialize;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 trait HasProfilePhoto
 {
-    protected static function bootHasProfilePhoto(): void
+    #[Boot]
+    public static function bootHasProfilePhoto(): void
     {
         static::deleting(fn (self $model) => $model->deleteProfilePhoto());
     }
 
-    protected function initializeHasProfilePhoto(): void
+    #[Initialize]
+    public function initializeHasProfilePhoto(): void
     {
         $this->mergeAppends(['avatar']);
     }

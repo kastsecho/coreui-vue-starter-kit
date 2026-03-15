@@ -12,12 +12,9 @@ type Props = {
     valid?: boolean;
 };
 
-const props = defineProps<Props & {
-    class?: HTMLAttributes['class'];
-}>();
+const props = defineProps<Props & { class?: HTMLAttributes["class"] }>();
 
 const modelValue = defineModel<string | boolean | string[]>();
-
 const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
@@ -25,7 +22,7 @@ const delegatedProps = reactiveOmit(props, 'class');
     <CFormCheck
         v-model="modelValue"
         data-slot="checkbox"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     />
 </template>

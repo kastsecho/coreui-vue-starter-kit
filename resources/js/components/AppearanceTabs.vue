@@ -2,6 +2,7 @@
 import Icon from '@/components/Icon.vue';
 import { Button, ButtonGroup } from '@/components/ui/button';
 import { useAppearance } from '@/composables/useAppearance';
+import { cn } from '@/lib/utils';
 
 const { appearance, updateAppearance } = useAppearance();
 
@@ -17,11 +18,17 @@ const tabs = [
         <Button
             v-for="{ value, icon, label } in tabs"
             :key="value"
-            class="rounded-4"
-            :class="{ 'shadow-sm': appearance === value }"
+            :class="
+                cn(
+                    {
+                        ['shadow-sm']: appearance === value,
+                    },
+                    'rounded-4',
+                )
+            "
+            @click="updateAppearance(value)"
             :active="appearance === value"
             :color="appearance === value ? 'primary' : 'transparent'"
-            @click="updateAppearance(value)"
         >
             <Icon :name="icon" />
             <span class="ms-2">{{ label }}</span>

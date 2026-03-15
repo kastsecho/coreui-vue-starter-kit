@@ -2,12 +2,12 @@
 import { CDropdown } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { Placement } from '@/types';
+import type { CDropdownPlacement } from '@/types';
 
 type Props = {
     align?: 'start' | 'end';
     autoClose?: boolean | 'inside' | 'outside';
-    placement?: Placement;
+    placement?: CDropdownPlacement;
     teleport?: boolean;
     variant?: 'btn-group' | 'dropdown' | 'input-group' | 'nav-item';
     class?: HTMLAttributes['class'];
@@ -23,8 +23,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CDropdown
         data-slot="dropdown-menu"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     >
         <slot />
     </CDropdown>
