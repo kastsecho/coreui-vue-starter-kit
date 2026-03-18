@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { Form, Head } from '@inertiajs/vue3';
+import PasswordInput from '@/components/PasswordInput.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
-import { Input, InputError, Label } from '@/components/ui/input';
+import { Input, InputError } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { login } from '@/routes';
@@ -31,9 +33,9 @@ import { store } from '@/routes/register';
                         name="name"
                         required
                         autofocus
-                        :invalid="!!errors.name"
                         :tabindex="1"
                         autocomplete="name"
+                        :invalid="!!errors.name"
                         placeholder="Full name"
                     />
                     <InputError :message="errors.name" />
@@ -46,9 +48,9 @@ import { store } from '@/routes/register';
                         type="email"
                         name="email"
                         required
-                        :invalid="!!errors.email"
                         :tabindex="2"
                         autocomplete="email"
+                        :invalid="!!errors.email"
                         placeholder="email@example.com"
                     />
                     <InputError :message="errors.email" />
@@ -56,14 +58,13 @@ import { store } from '@/routes/register';
 
                 <div class="d-grid">
                     <Label for="password">Password</Label>
-                    <Input
+                    <PasswordInput
                         id="password"
                         name="password"
-                        type="password"
                         required
-                        :invalid="!!errors.password"
                         :tabindex="3"
                         autocomplete="new-password"
+                        :invalid="!!errors.password"
                         placeholder="Password"
                     />
                     <InputError :message="errors.password" />
@@ -71,14 +72,13 @@ import { store } from '@/routes/register';
 
                 <div class="d-grid">
                     <Label for="password_confirmation">Confirm password</Label>
-                    <Input
+                    <PasswordInput
                         id="password_confirmation"
-                        type="password"
                         name="password_confirmation"
                         required
-                        :invalid="!!errors.password_confirmation"
                         :tabindex="4"
                         autocomplete="new-password"
+                        :invalid="!!errors.password_confirmation"
                         placeholder="Confirm password"
                     />
                     <InputError :message="errors.password_confirmation" />
@@ -87,7 +87,7 @@ import { store } from '@/routes/register';
                 <Button
                     type="submit"
                     class="mt-2"
-                    tabindex="5"
+                    :tabindex="5"
                     :disabled="processing"
                     data-test="register-user-button"
                 >

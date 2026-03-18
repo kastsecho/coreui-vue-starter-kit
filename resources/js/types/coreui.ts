@@ -1,59 +1,40 @@
-// Colors
-export type Color =
-    | 'primary'
-    | 'secondary'
-    | 'success'
-    | 'danger'
-    | 'warning'
-    | 'info'
-    | 'dark'
-    | 'light'
-    | 'link'
-    | 'transparent';
+import type { CButton, CCard, CDropdown, CNavbar, CSidebar } from '@coreui/vue';
 
-export type BackgroundColor =
-    | Exclude<Color, 'link' | 'transparent'>
+// Props
+type ButtonProps = InstanceType<typeof CButton>['$props'];
+type CardProps = InstanceType<typeof CCard>['$props'];
+type DropdownProps = InstanceType<typeof CDropdown>['$props'];
+type NavbarProps = InstanceType<typeof CNavbar>['$props'];
+type SidebarProps = InstanceType<typeof CSidebar>['$props'];
+
+// Shared Types
+export type CShape = ButtonProps['shape'];
+
+export type CColor = ButtonProps['color'];
+export type CTextColor = CardProps['textColor'];
+export type CBgColor =
+    | Exclude<CColor, 'link' | 'transparent'>
     | 'body'
     | 'body-secondary'
     | 'body-tertiary'
     | 'black'
     | 'white';
+export type CBgTextColor = CardProps['textBgColor'];
 
-export type TextColor =
-    | Exclude<Color, 'link' | 'transparent'>
-    | `${Exclude<Color, 'link' | 'transparent' | 'dark'>}-emphasis`
-    | 'body'
-    | 'body-emphasis'
-    | 'body-secondary'
-    | 'body-tertiary'
-    | 'black'
-    | 'black-50'
-    | 'white'
-    | 'white-50';
+export type CContainer = NavbarProps['container'];
+export type CExpand = NavbarProps['expand'];
+export type CSpacing = 1 | 2 | 3 | 4 | 5;
 
-// Alignment
-export type Alignment = 'start' | 'end';
-type PlacementType = 'auto' | 'top' | 'bottom' | 'left' | 'right';
-export type Placement =
-    | PlacementType
-    | `${Exclude<PlacementType, 'auto'>}-${Alignment}`;
+// Component Types
+export type CButtonSize = ButtonProps['size'];
+export type CButtonVariant = ButtonProps['variant'];
 
-export type Spacing = 1 | 2 | 3 | 4 | 5;
+export type CDropdownPlacement = DropdownProps['placement'];
+export type CNavbarPlacement = NavbarProps['placement'];
+export type CSidebarPlacement = SidebarProps['placement'];
 
-// Breakpoints
-export type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
-export type Container = Breakpoint | 'fluid';
-
-// Miscellaneous
-type ShapeType =
-    | 'top'
-    | 'end'
-    | 'bottom'
-    | 'start'
-    | 'circle'
-    | 'pill'
-    | '0'
-    | '1'
-    | '2'
-    | '3';
-export type Shape = 'rounded' | `rounded-${ShapeType}`;
+export type CTableColumn = {
+    key: string;
+    label?: string;
+    [key: string]: unknown;
+};

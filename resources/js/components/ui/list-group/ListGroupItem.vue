@@ -2,12 +2,12 @@
 import { CListGroupItem } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { Color } from '@/types';
+import type { CColor } from '@/types';
 
 const props = defineProps<{
     active?: boolean;
     as?: string;
-    color?: Color;
+    color?: CColor;
     disabled?: boolean;
     class?: HTMLAttributes['class'];
 }>();

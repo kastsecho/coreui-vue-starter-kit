@@ -14,18 +14,21 @@ class ProfileUpdateTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->skipUnlessFortifyFeature(Features::updateProfileInformation());
+    }
+
     #[Test]
     public function profile_page_is_displayed(): void
     {
-        if (! Features::canUpdateProfileInformation()) {
-            $this->markTestSkipped('Profile management is not enabled.');
-        }
-
         $user = User::factory()->create();
 
         $response = $this
             ->actingAs($user)
-            ->get(route('user-profile-information.edit'));
+            ->get(route('profile.edit'));
 
         $response->assertOk();
     }
@@ -33,15 +36,11 @@ class ProfileUpdateTest extends TestCase
     #[Test]
     public function profile_information_can_be_updated(): void
     {
-        if (! Features::canUpdateProfileInformation()) {
-            $this->markTestSkipped('Profile management is not enabled.');
-        }
-
         $user = User::factory()->create();
 
         $response = $this
             ->actingAs($user)
-            ->from(route('user-profile-information.edit'))
+            ->from(route('profile.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => 'Test User',
                 'email' => 'test@example.com',
@@ -49,7 +48,7 @@ class ProfileUpdateTest extends TestCase
 
         $response
             ->assertValid()
-            ->assertRedirect(route('user-profile-information.edit'));
+            ->assertRedirect(route('profile.edit'));
 
         $user->refresh();
 
@@ -61,15 +60,11 @@ class ProfileUpdateTest extends TestCase
     #[Test]
     public function email_verification_status_is_unchanged_when_the_email_address_is_unchanged(): void
     {
-        if (! Features::canUpdateProfileInformation()) {
-            $this->markTestSkipped('Profile management is not enabled.');
-        }
-
         $user = User::factory()->create();
 
         $response = $this
             ->actingAs($user)
-            ->from(route('user-profile-information.edit'))
+            ->from(route('profile.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => 'Test User',
                 'email' => $user->email,
@@ -77,23 +72,18 @@ class ProfileUpdateTest extends TestCase
 
         $response
             ->assertValid()
-            ->assertRedirect(route('user-profile-information.edit'));
-
+            ->assertRedirect(route('profile.edit'));
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
     }
 
     #[Test]
-    public function users_can_delete_their_account(): void
+    public function user_can_delete_their_account(): void
     {
-        if (! Features::canUpdateProfileInformation()) {
-            $this->markTestSkipped('Profile management is not enabled.');
-        }
-
         $user = User::factory()->create();
 
         $response = $this
             ->actingAs($user)
-            ->delete(route('current-user.destroy'), [
+            ->delete(route('profile.destroy'), [
                 'password' => 'password',
             ]);
 
@@ -108,40 +98,31 @@ class ProfileUpdateTest extends TestCase
     #[Test]
     public function correct_password_must_be_provided_to_delete_account(): void
     {
-        if (! Features::canUpdateProfileInformation()) {
-            $this->markTestSkipped('Profile management is not enabled.');
-        }
-
         $user = User::factory()->create();
 
         $response = $this
             ->actingAs($user)
-            ->from(route('user-profile-information.edit'))
-            ->delete(route('current-user.destroy'), [
+            ->from(route('profile.edit'))
+            ->delete(route('profile.destroy'), [
                 'password' => 'wrong-password',
             ]);
 
         $response
             ->assertInvalid('password')
-            ->assertRedirect(route('user-profile-information.edit'));
-
+            ->assertRedirect(route('profile.edit'));
         $this->assertModelExists($user);
     }
 
     #[Test]
     public function profile_photo_can_be_uploaded(): void
     {
-        if (! Features::canUpdateProfileInformation()) {
-            $this->markTestSkipped('Profile management is not enabled.');
-        }
-
         $user = User::factory()->create();
 
         Storage::fake('public');
 
         $response = $this
             ->actingAs($user)
-            ->from(route('user-profile-information.edit'))
+            ->from(route('profile.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => $user->name,
                 'email' => $user->email,
@@ -150,7 +131,7 @@ class ProfileUpdateTest extends TestCase
 
         $response
             ->assertValid()
-            ->assertRedirect(route('user-profile-information.edit'));
+            ->assertRedirect(route('profile.edit'));
 
         $user->refresh();
 
@@ -161,17 +142,13 @@ class ProfileUpdateTest extends TestCase
     #[Test]
     public function profile_photo_can_be_removed(): void
     {
-        if (! Features::canUpdateProfileInformation()) {
-            $this->markTestSkipped('Profile management is not enabled.');
-        }
-
         $user = User::factory()->create();
 
         Storage::fake('public');
 
         $response = $this
             ->actingAs($user)
-            ->from(route('user-profile-information.edit'))
+            ->from(route('profile.edit'))
             ->put(route('user-profile-information.update'), [
                 'name' => $user->name,
                 'email' => $user->email,
@@ -180,7 +157,7 @@ class ProfileUpdateTest extends TestCase
 
         $response
             ->assertValid()
-            ->assertRedirect(route('user-profile-information.edit'));
+            ->assertRedirect(route('profile.edit'));
 
         $user->refresh();
 
@@ -191,11 +168,11 @@ class ProfileUpdateTest extends TestCase
 
         $response = $this
             ->actingAs($user)
-            ->delete(route('current-user-photo.destroy'));
+            ->delete(route('profile-photo.destroy'));
 
         $response
             ->assertValid()
-            ->assertRedirect(route('user-profile-information.edit'));
+            ->assertRedirect(route('profile.edit'));
 
         $user->refresh();
 

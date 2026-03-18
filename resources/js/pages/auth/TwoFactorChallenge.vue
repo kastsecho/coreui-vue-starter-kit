@@ -81,7 +81,7 @@ const code = ref<string>('');
                         />
                     </div>
 
-                    <Button type="submit" :disabled="processing">
+                    <Button type="submit" class="mt-2" :disabled="processing">
                         Continue
                     </Button>
                 </div>
@@ -102,24 +102,24 @@ const code = ref<string>('');
         <template v-else>
             <Form
                 v-bind="store.form()"
-                class="d-flex flex-column gap-3"
                 reset-on-error
-                #default="{ errors, processing, clearErrors }"
+                v-slot="{ errors, processing, clearErrors }"
+                class="d-flex flex-column gap-3"
             >
                 <div class="d-grid gap-3">
                     <div class="d-grid">
                         <Input
                             id="recovery_code"
-                            type="text"
                             name="recovery_code"
+                            type="text"
                             required
-                            placeholder="Enter recovery code"
                             :autofocus="showRecoveryInput"
+                            placeholder="Enter recovery code"
                         />
                         <InputError :message="errors.recovery_code" />
                     </div>
 
-                    <Button type="submit" :disabled="processing">
+                    <Button type="submit" class="mt-2" :disabled="processing">
                         Continue
                     </Button>
                 </div>

@@ -19,8 +19,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CTooltip
         data-slot="tooltip"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     >
         <template #toggler="{ id, on }">
             <slot :id="id" :on="on" />

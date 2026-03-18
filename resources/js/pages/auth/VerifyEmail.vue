@@ -45,10 +45,10 @@ defineProps<{
             </Button>
 
             <TextLink
-                as="button"
                 :href="logout()"
-                class="btn btn-link"
                 :tabindex="2"
+                as="button"
+                class="btn btn-link"
             >
                 Log out
             </TextLink>

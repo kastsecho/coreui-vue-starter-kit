@@ -2,17 +2,21 @@
 import AppContent from '@/components/AppContent.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppShell from '@/components/AppShell.vue';
-import type { AppBreadcrumbProps } from '@/types';
+import type { BreadcrumbItem } from '@/types';
 
-withDefaults(defineProps<AppBreadcrumbProps>(), {
+type Props = {
+    breadcrumbs?: BreadcrumbItem[];
+};
+
+withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
 </script>
 
 <template>
-    <AppShell class="flex-column">
+    <AppShell variant="header">
         <AppHeader :breadcrumbs="breadcrumbs" />
-        <AppContent class="py-4" container>
+        <AppContent variant="header" container>
             <slot />
         </AppContent>
     </AppShell>

@@ -19,26 +19,26 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
 </script>
 
 <template>
-    <Link
-        v-if="as !== 'a'"
-        data-slot="dropdown-menu-link"
-        v-bind="delegatedProps"
-        :class="cn({
-            ['active']: active,
-            ['disabled']: disabled,
-        }, 'dropdown-item', props.class)"
-    >
-        <slot />
-    </Link>
     <CDropdownItem
-        v-else
+        v-if="as === 'a'"
         data-slot="dropdown-menu-link"
-        as="a"
         :href="toUrl(href!)"
+        as="a"
         :class="props.class"
         :active="active"
         :disabled="disabled"
     >
         <slot />
     </CDropdownItem>
+    <Link
+        v-else
+        data-slot="dropdown-menu-link"
+        :class="cn({
+            ['active']: active,
+            ['disabled']: disabled,
+        }, 'dropdown-item', props.class)"
+        v-bind="delegatedProps"
+    >
+        <slot />
+    </Link>
 </template>

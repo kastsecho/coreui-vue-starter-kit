@@ -2,19 +2,20 @@
 import { CAvatar } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { ImgHTMLAttributes } from 'vue';
-import type { Color, Shape } from '@/types';
+import type { CColor, CShape } from '@/types';
 
-type Props = {
-    alt?: ImgHTMLAttributes['alt'];
-    src?: ImgHTMLAttributes['src'];
-    shape?: Shape;
+type Props = ImgHTMLAttributes & {
+    color?: CColor
+    shape?: CShape;
     size?: 'sm' | 'md' | 'lg' | 'xl';
-    status?: Color;
+    status?: CColor;
     class?: ImgHTMLAttributes['class'];
 };
 
 const props = withDefaults(defineProps<Props>(), {
+    color: 'secondary',
     shape: 'rounded-circle',
+    textColor: 'body',
 });
 
 const delegatedProps = reactiveOmit(props, 'class');
@@ -23,7 +24,7 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CAvatar
         data-slot="avatar-image"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     />
 </template>

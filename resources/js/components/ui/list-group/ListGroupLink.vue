@@ -5,40 +5,39 @@ import type { InertiaLinkProps } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 import { cn } from '@/lib/utils';
-import type { Color } from '@/types';
+import type { CColor } from '@/types';
 
 const props = defineProps<InertiaLinkProps & {
     active?: boolean;
-    as?: string;
-    color?: Color;
+    color?: CColor;
     disabled?: boolean;
     class?: HTMLAttributes['class'];
 }>();
 
-const delegatedProps = reactiveOmit(props, 'class');
+const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
 </script>
 
 <template>
-    <Link
-        v-if="as != 'a'"
+    <CListGroupItem
+        v-if="as === 'a'"
         data-slot="list-group-link"
-        v-bind="delegatedProps"
+        :href="href"
+        as="a"
+        :class="props.class"
+        :active="active"
+        :disabled="disabled"
+    >
+        <slot />
+    </CListGroupItem>
+    <Link
+        v-else
+        data-slot="list-group-link"
         :class="cn({
             ['active']: active,
             ['disabled']: disabled,
         }, 'list-group-item list-group-item-action', props.class)"
+        v-bind="delegatedProps"
     >
-        <slot/>
+        <slot />
     </Link>
-    <CListGroupItem
-        v-else
-        data-slot="list-group-link"
-        as="a"
-        :class="props.class"
-        :href="href"
-        :active="active"
-        :disabled="disabled"
-    >
-        <slot/>
-    </CListGroupItem>
 </template>

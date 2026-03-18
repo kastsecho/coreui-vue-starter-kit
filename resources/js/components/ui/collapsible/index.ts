@@ -1,1 +1,1 @@
-export { default as CollapsibleContent } from './CollapsibleContent.vue';
+export { default as Collapsible } from './Collapsible.vue';

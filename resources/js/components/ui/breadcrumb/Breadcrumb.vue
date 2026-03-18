@@ -10,8 +10,8 @@ const props = defineProps<{
 
 <template>
     <CBreadcrumb
-        data-slot="breadcrumb"
         aria-label="Breadcrumb"
+        data-slot="breadcrumb"
         :class="cn('mb-0', props.class)"
     >
         <slot />

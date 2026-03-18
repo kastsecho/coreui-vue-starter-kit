@@ -6,12 +6,9 @@ import { ListGroup, ListGroupLink } from '@/components/ui/list-group';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { toUrl } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
-import { edit as editTwoFactor } from '@/routes/two-factor';
-import { edit as editPassword } from '@/routes/user-password';
-import { edit as editProfile } from '@/routes/user-profile-information';
+import { edit as editProfile } from '@/routes/profile';
+import { edit as editSecurity } from '@/routes/security';
 import type { NavItem } from '@/types';
-
-const { isCurrentOrParentUrl } = useCurrentUrl();
 
 const sidebarNavItems: NavItem[] = [
     {
@@ -19,18 +16,16 @@ const sidebarNavItems: NavItem[] = [
         href: editProfile(),
     },
     {
-        title: 'Password',
-        href: editPassword(),
-    },
-    {
-        title: 'Two-Factor Auth',
-        href: editTwoFactor(),
+        title: 'Security',
+        href: editSecurity(),
     },
     {
         title: 'Appearance',
         href: editAppearance(),
     },
 ];
+
+const { isCurrentOrParentUrl } = useCurrentUrl();
 </script>
 
 <template>
@@ -43,8 +38,8 @@ const sidebarNavItems: NavItem[] = [
         <CRow>
             <CCol md="4" lg="3">
                 <ListGroup
-                    as="nav"
                     class="rounded-4 shadow-sm"
+                    as="nav"
                     aria-label="Settings"
                 >
                     <ListGroupLink

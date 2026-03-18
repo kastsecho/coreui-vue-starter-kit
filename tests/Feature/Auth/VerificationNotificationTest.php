@@ -6,12 +6,20 @@ use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+use Laravel\Fortify\Features;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class VerificationNotificationTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->skipUnlessFortifyFeature(Features::emailVerification());
+    }
 
     #[Test]
     public function sends_verification_notification(): void
@@ -20,10 +28,11 @@ class VerificationNotificationTest extends TestCase
 
         $user = User::factory()->unverified()->create();
 
-        $this->actingAs($user)
-            ->post(route('verification.send'))
-            ->assertRedirect(route('home'));
+        $response = $this
+            ->actingAs($user)
+            ->post(route('verification.send'));
 
+        $response->assertRedirect(route('home'));
         Notification::assertSentTo($user, VerifyEmail::class);
     }
 
@@ -34,10 +43,11 @@ class VerificationNotificationTest extends TestCase
 
         $user = User::factory()->create();
 
-        $this->actingAs($user)
-            ->post(route('verification.send'))
-            ->assertRedirect(route('dashboard', absolute: false));
+        $response = $this
+            ->actingAs($user)
+            ->post(route('verification.send'));
 
+        $response->assertRedirect(route('dashboard', absolute: false));
         Notification::assertNothingSent();
     }
 }

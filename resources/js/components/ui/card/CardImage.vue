@@ -3,12 +3,15 @@ import { CCardImage } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { ImgHTMLAttributes } from 'vue';
 
-const props = defineProps<{
-    alt?: ImgHTMLAttributes['alt'];
-    src?: ImgHTMLAttributes['src'];
+type Props = ImgHTMLAttributes & {
+    as?: string;
     orientation?: 'top' | 'bottom';
     class?: ImgHTMLAttributes['class'];
-}>();
+};
+
+const props = withDefaults(defineProps<Props>(), {
+    as: 'img',
+});
 
 const delegatedProps = reactiveOmit(props, 'class');
 </script>

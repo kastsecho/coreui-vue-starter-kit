@@ -10,8 +10,6 @@ import {
 } from '@/components/ui/sidebar/utils';
 import { cn } from '@/lib/utils';
 
-const sidebar = useSidebar();
-
 const props = withDefaults(defineProps<SidebarProps>(), {
     colorScheme: 'dark',
     position: 'fixed',
@@ -22,6 +20,8 @@ const visible = defineModel<boolean>('open', {
 });
 
 const delegatedProps = reactiveOmit(props, 'class');
+
+const sidebar = useSidebar();
 
 onMounted(() => {
     sidebar.setOpen(visible.value);

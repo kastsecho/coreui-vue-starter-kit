@@ -15,8 +15,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CModalFooter
         data-slot="dialog-footer"
-        v-bind="delegatedProps"
         :class="cn('d-flex justify-content-end gap-2', props.class)"
+        v-bind="delegatedProps"
     >
         <slot />
     </CModalFooter>

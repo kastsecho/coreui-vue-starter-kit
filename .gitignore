@@ -10,7 +10,6 @@
 /resources/js/routes
 /resources/js/wayfinder
 /vendor
-*.log
 .DS_Store
 .env
 .env.backup
@@ -19,7 +18,8 @@
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
-Thumbs.db
+npm-debug.log
+yarn-error.log
 /auth.json
 /.fleet
 /.idea

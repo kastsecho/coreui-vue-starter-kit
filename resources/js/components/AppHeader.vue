@@ -23,18 +23,23 @@ import { Tooltip } from '@/components/ui/tooltip';
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
+import { toUrl } from '@/lib/utils';
 import { dashboard, home } from '@/routes';
-import type { AppBreadcrumbProps, NavItem } from '@/types';
+import type { BreadcrumbItem, NavItem } from '@/types';
 
-const page = usePage();
-const auth = computed(() => page.props.auth);
-const { isCurrentOrParentUrl } = useCurrentUrl();
+type Props = {
+    breadcrumbs?: BreadcrumbItem[];
+};
 
-withDefaults(defineProps<AppBreadcrumbProps>(), {
+withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
 
-const navOpen = ref(false);
+const page = usePage();
+const auth = computed(() => page.props.auth);
+const { isCurrentUrl } = useCurrentUrl();
+
+const isNavOpen = ref<boolean>(false);
 
 const mainNavItems: NavItem[] = [
     {
@@ -49,7 +54,7 @@ const rightNavItems: NavItem[] = [
     {
         title: 'Repository',
         href: 'https://github.com/kastsecho/coreui-vue-starter-kit',
-        icon: 'folder',
+        icon: 'github',
     },
     {
         title: 'Documentation',
@@ -66,16 +71,16 @@ const rightNavItems: NavItem[] = [
             <Link class="navbar-brand link-danger" :href="home()">
                 <AppLogoIcon height="32" width="32" />
             </Link>
-            <NavigationMenuTrigger @click="navOpen = !navOpen" />
+            <NavigationMenuTrigger @click="isNavOpen = !isNavOpen" />
 
-            <NavigationMenuContent :visible="navOpen">
+            <NavigationMenuContent :visible="isNavOpen">
                 <NavigationMenuList class="me-auto">
                     <template v-for="item in mainNavItems" :key="item.title">
                         <NavigationMenuItem v-if="item.isActive ?? true">
                             <NavigationMenuLink
+                                :href="toUrl(item.href)"
                                 class="icon-link"
-                                :href="item.href"
-                                :active="isCurrentOrParentUrl(item.href)"
+                                :active="isCurrentUrl(item.href)"
                             >
                                 <Icon
                                     v-if="item.icon"
@@ -89,6 +94,11 @@ const rightNavItems: NavItem[] = [
                 </NavigationMenuList>
 
                 <NavigationMenuList class="ms-auto align-items-center">
+                    <NavigationMenuItem>
+                        <NavigationMenuLink as="button">
+                            <Icon name="search" />
+                        </NavigationMenuLink>
+                    </NavigationMenuItem>
                     <NavigationMenuItem
                         v-for="item in rightNavItems"
                         :key="item.title"
@@ -102,7 +112,7 @@ const rightNavItems: NavItem[] = [
                             <NavigationMenuLink
                                 v-on="on"
                                 as="a"
-                                :href="item.href"
+                                :href="toUrl(item.href)"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 :aria-describedby="id"
@@ -143,7 +153,7 @@ const rightNavItems: NavItem[] = [
                 </NavigationMenuList>
             </NavigationMenuContent>
         </NavigationMenu>
-
+        <!-- Breadcrumbs -->
         <NavigationMenu
             v-if="breadcrumbs && breadcrumbs.length > 0"
             class="bg-body"

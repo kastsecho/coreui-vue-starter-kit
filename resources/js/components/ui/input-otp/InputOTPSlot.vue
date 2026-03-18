@@ -5,11 +5,11 @@ import { computed } from 'vue';
 import { useVueOTPContext } from 'vue-input-otp';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-import type { BackgroundColor } from '@/types';
+import type { CBgColor } from '@/types';
 
 type Props = {
     index: number;
-    color?: BackgroundColor;
+    color?: CBgColor;
     class?: HTMLAttributes['class'];
 };
 
@@ -17,10 +17,9 @@ const props = withDefaults(defineProps<Props>(), {
     color: 'dark',
 });
 
-const delegatedProps = reactiveOmit(props, 'class')
+const delegatedProps = reactiveOmit(props, 'class');
 
 const context = useVueOTPContext();
-
 const slot = computed(() => context?.value.slots[props.index])
 </script>
 

@@ -2,16 +2,20 @@
 import { CNavbar } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { Breakpoint, Color, Container, ResolvedAppearance } from '@/types';
-
-type Placement = 'fixed-top' | 'fixed-bottom' | 'sticky-top';
+import type {
+    CColor,
+    CContainer,
+    CExpand,
+    CNavbarPlacement,
+    ResolvedAppearance,
+} from '@/types';
 
 const props = defineProps<{
-    color?: Color;
+    color?: CColor;
     colorScheme?: ResolvedAppearance;
-    container?: boolean | Container;
-    expand?: boolean | Breakpoint;
-    placement?: Placement;
+    container?: CContainer;
+    expand?: CExpand;
+    placement?: CNavbarPlacement;
     class?: HTMLAttributes['class'];
 }>();
 
@@ -21,8 +25,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CNavbar
         data-slot="navigation-menu"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     >
         <slot />
     </CNavbar>

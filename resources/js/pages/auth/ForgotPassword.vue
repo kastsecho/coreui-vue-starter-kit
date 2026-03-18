@@ -3,7 +3,8 @@ import { Form, Head } from '@inertiajs/vue3';
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { Input, InputError, Label } from '@/components/ui/input';
+import { Input, InputError } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import { login } from '@/routes';
@@ -42,10 +43,10 @@ defineProps<{
                         type="email"
                         name="email"
                         required
-                        autofocus
-                        :invalid="!!errors.email"
                         :tabindex="1"
                         autocomplete="off"
+                        autofocus
+                        :invalid="!!errors.email"
                         placeholder="email@example.com"
                     />
                     <InputError :message="errors.email" />

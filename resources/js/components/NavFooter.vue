@@ -3,20 +3,17 @@ import Icon from '@/components/Icon.vue';
 import { SidebarMenuItem, SidebarMenuLink } from '@/components/ui/sidebar';
 import type { NavItem } from '@/types';
 
-type Props = {
+defineProps<{
     items: NavItem[];
-    class?: string;
-};
-
-const props = defineProps<Props>();
+}>();
 </script>
 
 <template>
-    <div :class="props.class">
+    <div>
         <SidebarMenuItem v-for="item in items" :key="item.title">
             <SidebarMenuLink
-                as="a"
                 :href="item.href"
+                as="a"
                 target="_blank"
                 rel="noopener noreferrer"
             >

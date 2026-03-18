@@ -25,14 +25,20 @@ type UserStats = {
     verified: number;
 };
 
-const page = usePage();
-const user = computed(() => page.props.auth.user);
-
 defineProps<{
     status?: string;
     users: UserStats;
     recentUsers: User[];
 }>();
+
+const page = usePage();
+const user = computed(() => page.props.auth.user);
+
+const columns: string[] = ['ID', 'Name', 'Status', 'Created'];
+
+const toDateString = (date: string): string => {
+    return new Date(date).toISOString().slice(0, 10);
+};
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -40,12 +46,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: dashboard(),
     },
 ];
-
-const columns: string[] = ['ID', 'Name', 'Status', 'Created'];
-
-const toDateString = (date: string): string => {
-    return new Date(date).toISOString().slice(0, 10);
-};
 </script>
 
 <template>
@@ -57,8 +57,8 @@ const toDateString = (date: string): string => {
 
             <Alert
                 v-if="status"
-                class="text-center fw-medium rounded-4 shadow-sm"
                 color="success"
+                class="text-center fw-medium rounded-4 shadow-sm"
             >
                 {{ status }}
             </Alert>

@@ -2,16 +2,16 @@
 import { CBadge } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { Color, Shape, TextColor } from '@/types';
+import type { CColor, CShape, CTextColor } from '@/types';
 
 const props = defineProps<{
     as?: string;
-    color?: Color;
+    color?: CColor;
     position?: 'top-start' | 'top-end' | 'bottom-end' | 'bottom-start';
-    shape?: Shape;
+    shape?: CShape;
     size?: 'sm';
-    textBgColor?: Color;
-    textColor?: TextColor;
+    textBgColor?: CColor;
+    textColor?: CTextColor;
     class?: HTMLAttributes['class'];
 }>();
 
@@ -21,8 +21,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CBadge
         data-slot="badge"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     >
         <slot />
     </CBadge>

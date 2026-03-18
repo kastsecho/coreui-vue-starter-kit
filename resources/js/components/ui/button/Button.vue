@@ -2,14 +2,14 @@
 import { CButton } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { Color, Shape } from '@/types';
+import type { ButtonVariants } from '.';
 
 type Props = {
     active?: boolean;
-    color?: Color;
-    shape?: Shape;
-    size?: 'sm' | 'lg';
-    variant?: 'ghost' | 'outline';
+    color?: ButtonVariants['color'];
+    shape?: ButtonVariants['shape'];
+    size?: ButtonVariants['size'];
+    variant?: ButtonVariants['variant'];
     class?: HTMLAttributes['class'];
 };
 
@@ -21,11 +21,11 @@ const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-  <CButton
-    data-slot="button"
-    v-bind="delegatedProps"
-    :class="props.class"
-  >
-    <slot />
-  </CButton>
+    <CButton
+        data-slot="button"
+        :class="props.class"
+        v-bind="delegatedProps"
+    >
+        <slot />
+    </CButton>
 </template>

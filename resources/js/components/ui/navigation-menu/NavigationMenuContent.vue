@@ -15,8 +15,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CCollapse
         data-slot="navigation-menu-content"
-        v-bind="delegatedProps"
         :class="cn('navbar-collapse', props.class)"
+        v-bind="delegatedProps"
     >
         <slot />
     </CCollapse>

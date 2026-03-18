@@ -1,26 +1,24 @@
 <script setup lang="ts">
-import type { HTMLAttributes } from 'vue';
-import { cn } from '@/lib/utils';
-import type { AppShellVariant } from '@/types';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import type { AppVariant } from '@/types';
 
 type Props = {
-    variant?: AppShellVariant;
-    class?: HTMLAttributes['class'];
+    variant?: AppVariant;
 };
 
-const props = withDefaults(defineProps<Props>(), {
-    variant: 'header',
+withDefaults(defineProps<Props>(), {
+    variant: 'sidebar',
 });
 </script>
 
 <template>
     <div
         v-if="variant === 'header'"
-        :class="cn('d-flex min-vh-100 w-100', props.class)"
+        class="d-flex flex-column min-vh-100 w-100"
     >
         <slot />
     </div>
-    <div v-else :class="props.class">
+    <SidebarProvider v-else>
         <slot />
-    </div>
+    </SidebarProvider>
 </template>

@@ -4,9 +4,9 @@ import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 
 type Props = {
-    align?: 'top' | 'center';
+    alignment?: 'top' | 'center';
     backdrop?: boolean | 'static';
-    contentClassName?: HTMLAttributes['class'];
+    contentClassName?: string;
     scrollable?: boolean;
     size?: 'sm' | 'lg' | 'xl';
     teleport?: boolean;
@@ -14,25 +14,23 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    align: 'top',
+    alignment: 'top',
     backdrop: true,
     teleport: true,
 });
 
 const emit = defineEmits(['close']);
-const visible = defineModel<boolean>('open');
-
-const closeDialog = () => emit('close');
-
 const delegatedProps = reactiveOmit(props, 'class');
+
+const visible = defineModel<boolean>('open');
+const closeDialog = () => emit('close');
 </script>
 
 <template>
     <CModal
         data-slot="dialog"
-        v-bind="delegatedProps"
         :class="props.class"
-        :alignment="align"
+        v-bind="delegatedProps"
         :visible="visible"
         @close="closeDialog"
     >

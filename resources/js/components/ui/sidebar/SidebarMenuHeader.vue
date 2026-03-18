@@ -1,18 +1,24 @@
 <script setup lang="ts">
-import { CSidebarHeader } from '@coreui/vue';
+import { CHeader } from '@coreui/vue';
+import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import { cn } from '@/lib/utils';
+import type { CContainer } from '@/types';
 
 const props = defineProps<{
+    container?: CContainer;
+    position?: 'fixed' | 'sticky';
     class?: HTMLAttributes['class'];
 }>();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CSidebarHeader
+    <CHeader
         data-slot="sidebar-menu-header"
-        :class="cn('border-bottom', props.class)"
+        :class="props.class"
+        v-bind="delegatedProps"
     >
         <slot />
-    </CSidebarHeader>
+    </CHeader>
 </template>

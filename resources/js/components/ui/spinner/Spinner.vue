@@ -2,10 +2,10 @@
 import { CSpinner } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { Color } from '@/types';
+import type { CColor } from '@/types';
 
 type Props = {
-    color?: Exclude<Color, 'link' | 'transparent'>;
+    color?: CColor;
     label?: string;
     size?: 'sm';
     variant?: 'border' | 'grow';
@@ -16,7 +16,7 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
     size: 'sm',
     variant: 'border',
-    visuallyHiddenLabel: 'Loading...',
+    visuallyHiddenLabel: 'Loading',
 });
 
 const delegatedProps = reactiveOmit(props, 'class');
@@ -26,8 +26,8 @@ const delegatedProps = reactiveOmit(props, 'class');
     <CSpinner
         data-slot="spinner"
         role="status"
-        aria-label="Loading"
-        v-bind="delegatedProps"
+        :aria-label="visuallyHiddenLabel"
         :class="props.class"
+        v-bind="delegatedProps"
     />
 </template>

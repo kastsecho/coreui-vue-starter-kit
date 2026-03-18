@@ -14,8 +14,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CModalTitle
         data-slot="dialog-title"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     >
         <slot />
     </CModalTitle>

@@ -2,11 +2,11 @@
 import { CTable } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { TableColumn } from '@/types';
+import type { CTableColumn } from '@/types';
 
 const props = defineProps<{
     align?: 'bottom' | 'middle' | 'top';
-    columns?: TableColumn[]|string[];
+    columns?: CTableColumn[]|string[];
     small?: boolean;
     striped?: boolean;
     stripedColumns?: boolean;
@@ -19,8 +19,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CTable
         data-slot="table"
-        v-bind="delegatedProps"
         :class="props.class"
+        v-bind="delegatedProps"
     >
         <slot />
     </CTable>
