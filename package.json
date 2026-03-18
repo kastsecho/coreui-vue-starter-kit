@@ -29,7 +29,7 @@
         "sass": "^1.98.0",
         "typescript": "^5.2.2",
         "typescript-eslint": "^8.57.1",
-        "vite": "^7.3.1",
+        "vite": "^8.0.0",
         "vue-tsc": "^3.2.6"
     },
     "dependencies": {
@@ -41,7 +41,7 @@
         "bootstrap-icons": "^1.13.1",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
-        "laravel-vite-plugin": "^2.1.0",
+        "laravel-vite-plugin": "^3.0.0",
         "pinia": "^3.0.4",
         "simplebar-vue": "^2.4.0",
         "vue": "^3.5.29",
