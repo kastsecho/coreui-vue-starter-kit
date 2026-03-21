@@ -24,7 +24,7 @@ import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
 import { toUrl } from '@/lib/utils';
-import { dashboard, home } from '@/routes';
+import { dashboard, home, login, register } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
@@ -60,6 +60,19 @@ const rightNavItems: NavItem[] = [
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#vue',
         icon: 'book',
+    },
+];
+
+const authNavItems: NavItem[] = [
+    {
+        title: 'Log in',
+        href: login(),
+        isActive: !auth.value.user,
+    },
+    {
+        title: 'Register',
+        href: register(),
+        isActive: !auth.value.user,
     },
 ];
 </script>
@@ -125,6 +138,7 @@ const rightNavItems: NavItem[] = [
                         </Tooltip>
                     </NavigationMenuItem>
                     <AppearanceDropdown />
+
                     <DropdownMenu
                         v-if="auth.user"
                         align="end"
@@ -150,6 +164,26 @@ const rightNavItems: NavItem[] = [
                             <UserMenuContent :user="auth.user" />
                         </DropdownMenuContent>
                     </DropdownMenu>
+                    <template
+                        v-else
+                        v-for="item in authNavItems"
+                        :key="item.title"
+                    >
+                        <NavigationMenuItem v-if="item.isActive ?? true">
+                            <NavigationMenuLink
+                                :href="toUrl(item.href)"
+                                class="icon-link"
+                                :active="isCurrentUrl(item.href)"
+                            >
+                                <Icon
+                                    v-if="item.icon"
+                                    class="me-2"
+                                    :name="item.icon"
+                                />
+                                {{ item.title }}
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    </template>
                 </NavigationMenuList>
             </NavigationMenuContent>
         </NavigationMenu>
