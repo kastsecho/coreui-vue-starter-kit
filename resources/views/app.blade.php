@@ -19,8 +19,6 @@
             })();
         </script>
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
-
         <link rel="icon" href="/favicon.ico" sizes="any">
         <link rel="icon" href="/favicon.svg" type="image/svg+xml">
         <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -28,10 +26,12 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-        @vite(['resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
-        @inertiaHead
+        @vite(['resources/sass/app.scss', 'resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
+        <x-inertia::head>
+            <title>{{ config('app.name', 'Laravel') }}</title>
+        </x-inertia::head>
     </head>
     <body class="bg-body-tertiary">
-        @inertia
+        <x-inertia::app />
     </body>
 </html>

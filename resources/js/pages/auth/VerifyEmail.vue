@@ -1,57 +1,57 @@
 <script setup lang="ts">
-import { Form, Head } from '@inertiajs/vue3';
+import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/ui/spinner';
-import AuthLayout from '@/layouts/AuthLayout.vue';
 import { logout } from '@/routes';
 import { send } from '@/routes/verification';
 
 defineProps<{
     status?: string;
 }>();
+
+setLayoutProps({
+    title: 'Verify email',
+    description:
+        'Please verify your email address by clicking on the link we just emailed to you.',
+});
 </script>
 
 <template>
-    <AuthLayout
-        title="Verify email"
-        description="Please verify your email address by clicking on the link we just emailed to you."
+    <Head title="Email verification" />
+
+    <Alert
+        v-if="status === 'verification-link-sent'"
+        color="success"
+        class="text-center fw-medium rounded-4 shadow-sm"
     >
-        <Head title="Email verification" />
+        A new verification link has been sent to the email address you provided
+        during registration.
+    </Alert>
 
-        <Alert
-            v-if="status === 'verification-link-sent'"
-            color="success"
-            class="text-center fw-medium rounded-4 shadow-sm"
+    <Form
+        v-bind="send.form()"
+        v-slot="{ processing }"
+        class="d-flex gap-3 justify-content-center"
+    >
+        <Button
+            type="submit"
+            :tabindex="1"
+            :disabled="processing"
+            data-test="verify-email-button"
         >
-            A new verification link has been sent to the email address you
-            provided during registration.
-        </Alert>
+            <Spinner v-if="processing" />
+            Resend verification email
+        </Button>
 
-        <Form
-            v-bind="send.form()"
-            v-slot="{ processing }"
-            class="d-flex gap-3 justify-content-center"
+        <TextLink
+            :href="logout()"
+            :tabindex="2"
+            as="button"
+            class="btn btn-link"
         >
-            <Button
-                type="submit"
-                :tabindex="1"
-                :disabled="processing"
-                data-test="verify-email-button"
-            >
-                <Spinner v-if="processing" />
-                Resend verification email
-            </Button>
-
-            <TextLink
-                :href="logout()"
-                :tabindex="2"
-                as="button"
-                class="btn btn-link"
-            >
-                Log out
-            </TextLink>
-        </Form>
-    </AuthLayout>
+            Log out
+        </TextLink>
+    </Form>
 </template>

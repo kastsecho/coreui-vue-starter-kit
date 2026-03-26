@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -23,7 +22,7 @@ class DashboardController extends Controller
 
         $recentUsers = User::latest('id')->limit(5)->get();
 
-        return inertia('auth/Dashboard', [
+        return inertia('Dashboard', [
             'status' => session('status'),
             'users' => $users,
             'recentUsers' => $recentUsers,

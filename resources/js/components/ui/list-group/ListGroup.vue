@@ -2,9 +2,9 @@
 import { CListGroup } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { Breakpoint } from '@/types';
+import type { CExpand } from '@/types';
 
-type Layout = 'horizontal' | `horizontal-${Breakpoint}`;
+type Layout = 'horizontal' | `horizontal-${Exclude<CExpand, boolean>}`;
 
 const props = defineProps<{
     as?: string;

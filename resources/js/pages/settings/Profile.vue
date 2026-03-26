@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Form, Head, router, usePage } from '@inertiajs/vue3';
+import { Form, Head, router, setLayoutProps, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import DeleteUser from '@/components/DeleteUser.vue';
 import Heading from '@/components/Heading.vue';
@@ -10,25 +10,24 @@ import { Button } from '@/components/ui/button';
 import { Input, InputError } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getInitials } from '@/composables/useInitials';
-import AppLayout from '@/layouts/AppLayout.vue';
-import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { edit } from '@/routes/profile';
 import { destroy } from '@/routes/profile-photo';
 import { update } from '@/routes/user-profile-information';
 import { send } from '@/routes/verification';
-import type { BreadcrumbItem } from '@/types';
 
 defineProps<{
     mustVerifyEmail: boolean;
     status?: string;
 }>();
 
-const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Profile settings',
-        href: edit(),
-    },
-];
+setLayoutProps({
+    breadcrumbs: [
+        {
+            title: 'Profile settings',
+            href: edit(),
+        },
+    ],
+});
 
 const page = usePage();
 const user = computed(() => page.props.auth.user);
@@ -74,167 +73,155 @@ const clearPhotoFileInput = () => {
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <Head title="Profile settings" />
+    <Head title="Profile settings" />
 
-        <h1 class="visually-hidden">Profile settings</h1>
+    <h1 class="visually-hidden">Profile settings</h1>
 
-        <SettingsLayout>
-            <div class="d-flex flex-column gap-3">
-                <Heading
-                    variant="small"
-                    title="Profile information"
-                    description="Update your avatar, name and email address"
-                />
+    <div class="d-flex flex-column gap-3">
+        <Heading
+            variant="small"
+            title="Profile information"
+            description="Update your avatar, name and email address"
+        />
 
-                <Form
-                    v-bind="update.form()"
-                    v-slot="{ errors, processing, recentlySuccessful }"
-                    class="d-flex flex-column gap-3"
-                >
-                    <div class="d-grid gap-3">
-                        <div class="d-grid">
-                            <Label for="photo">Photo</Label>
-                            <input
-                                ref="photoInput"
-                                id="photo"
-                                name="photo"
-                                type="file"
-                                class="d-none"
-                                accept="image/*"
-                                @change="updatePhotoPreview"
-                            />
-                            <div class="d-flex align-items-center gap-4">
-                                <AvatarImage
-                                    v-if="user.avatar || photoPreview"
-                                    :src="photoPreview || user.avatar"
-                                    :alt="user.name"
-                                    size="xl"
-                                />
-                                <AvatarFallback
-                                    v-else
-                                    class="fw-semibold"
-                                    size="xl"
-                                >
-                                    {{ getInitials(user.name) }}
-                                </AvatarFallback>
-
-                                <Button
-                                    type="button"
-                                    color="secondary"
-                                    @click="selectNewPhoto"
-                                    :tabindex="1"
-                                    :disabled="processing"
-                                    data-test="update-profile-photo-button"
-                                >
-                                    <template v-if="user.avatar">
-                                        Change Photo
-                                    </template>
-
-                                    <template v-else>Upload Photo</template>
-                                </Button>
-
-                                <Button
-                                    v-if="user.avatar || photoPreview"
-                                    type="button"
-                                    color="secondary"
-                                    :tabindex="2"
-                                    @click="deletePhoto"
-                                    :disabled="processing"
-                                    data-test="remove-profile-photo-button"
-                                >
-                                    Remove Photo
-                                </Button>
-                            </div>
-                            <InputError
-                                :class="{ ['d-block']: errors.photo }"
-                                :message="errors.photo"
-                            />
-                        </div>
-
-                        <div class="d-grid">
-                            <Label for="name">Name</Label>
-                            <Input
-                                id="name"
-                                type="text"
-                                name="name"
-                                required
-                                :tabindex="1"
-                                :model-value="user.name"
-                                autocomplete="name"
-                                :invalid="!!errors.name"
-                                placeholder="Full name"
-                            />
-                            <InputError :message="errors.name" />
-                        </div>
-
-                        <div class="grid gap-2">
-                            <Label for="email">Email address</Label>
-                            <Input
-                                id="email"
-                                type="email"
-                                name="email"
-                                required
-                                :tabindex="2"
-                                :model-value="user.email"
-                                autocomplete="username"
-                                placeholder="Email address"
-                            />
-                            <InputError :message="errors.email" />
-                        </div>
-                    </div>
-
-                    <div v-if="mustVerifyEmail && !user.email_verified_at">
-                        <p class="-mt-4 text-muted">
-                            Your email address is unverified.
-                            <TextLink
-                                :href="send()"
-                                as="button"
-                                class="btn btn-link"
-                                :tabindex="4"
-                            >
-                                Click here to resend the verification email.
-                            </TextLink>
-                        </p>
-
-                        <Alert
-                            v-if="status === 'verification-link-sent'"
-                            class="fw-medium rounded-4 shadow-sm"
-                            color="success"
-                        >
-                            A new verification link has been sent to your email
-                            address.
-                        </Alert>
-                    </div>
-
+        <Form
+            v-bind="update.form()"
+            v-slot="{ errors, processing, recentlySuccessful }"
+            class="d-flex flex-column gap-3"
+        >
+            <div class="d-grid gap-3">
+                <div class="d-grid">
+                    <Label for="photo">Photo</Label>
+                    <input
+                        ref="photoInput"
+                        id="photo"
+                        name="photo"
+                        type="file"
+                        class="d-none"
+                        accept="image/*"
+                        @change="updatePhotoPreview"
+                    />
                     <div class="d-flex align-items-center gap-4">
+                        <AvatarImage
+                            v-if="user.avatar || photoPreview"
+                            :src="photoPreview || user.avatar"
+                            :alt="user.name"
+                            size="xl"
+                        />
+                        <AvatarFallback v-else class="fw-semibold" size="xl">
+                            {{ getInitials(user.name) }}
+                        </AvatarFallback>
+
                         <Button
-                            type="submit"
-                            :tabindex="5"
+                            type="button"
+                            color="secondary"
+                            @click="selectNewPhoto"
+                            :tabindex="1"
                             :disabled="processing"
-                            data-test="update-profile-button"
+                            data-test="update-profile-photo-button"
                         >
-                            Save
+                            <template v-if="user.avatar">
+                                Change Photo
+                            </template>
+
+                            <template v-else>Upload Photo</template>
                         </Button>
 
-                        <Transition
-                            enter-active-class="transition ease-in-out"
-                            enter-from-class="opacity-0"
-                            leave-active-class="transition ease-in-out"
-                            leave-to-class="opacity-0"
+                        <Button
+                            v-if="user.avatar || photoPreview"
+                            type="button"
+                            color="secondary"
+                            :tabindex="2"
+                            @click="deletePhoto"
+                            :disabled="processing"
+                            data-test="remove-profile-photo-button"
                         >
-                            <p
-                                v-show="recentlySuccessful"
-                                class="mb-0 text-muted"
-                            >
-                                Saved.
-                            </p>
-                        </Transition>
+                            Remove Photo
+                        </Button>
                     </div>
-                </Form>
+                    <InputError
+                        :class="{ ['d-block']: errors.photo }"
+                        :message="errors.photo"
+                    />
+                </div>
 
-                <DeleteUser />
+                <div class="d-grid">
+                    <Label for="name">Name</Label>
+                    <Input
+                        id="name"
+                        type="text"
+                        name="name"
+                        required
+                        :tabindex="1"
+                        :model-value="user.name"
+                        autocomplete="name"
+                        :invalid="!!errors.name"
+                        placeholder="Full name"
+                    />
+                    <InputError :message="errors.name" />
+                </div>
+
+                <div class="grid gap-2">
+                    <Label for="email">Email address</Label>
+                    <Input
+                        id="email"
+                        type="email"
+                        name="email"
+                        required
+                        :tabindex="2"
+                        :model-value="user.email"
+                        autocomplete="username"
+                        placeholder="Email address"
+                    />
+                    <InputError :message="errors.email" />
+                </div>
             </div>
-        </SettingsLayout>
-    </AppLayout>
+
+            <div v-if="mustVerifyEmail && !user.email_verified_at">
+                <p class="-mt-4 text-muted">
+                    Your email address is unverified.
+                    <TextLink
+                        :href="send()"
+                        as="button"
+                        class="btn btn-link"
+                        :tabindex="4"
+                    >
+                        Click here to resend the verification email.
+                    </TextLink>
+                </p>
+
+                <Alert
+                    v-if="status === 'verification-link-sent'"
+                    class="fw-medium rounded-4 shadow-sm"
+                    color="success"
+                >
+                    A new verification link has been sent to your email address.
+                </Alert>
+            </div>
+
+            <div class="d-flex align-items-center gap-4">
+                <Button
+                    type="submit"
+                    :tabindex="5"
+                    :disabled="processing"
+                    data-test="update-profile-button"
+                >
+                    Save
+                </Button>
+
+                <Transition
+                    enter-active-class="transition ease-in-out"
+                    enter-from-class="opacity-0"
+                    leave-active-class="transition ease-in-out"
+                    leave-to-class="opacity-0"
+                >
+                    <p v-show="recentlySuccessful" class="mb-0 text-muted">
+                        Saved.
+                    </p>
+                </Transition>
+            </div>
+        </Form>
+
+        <DeleteUser />
+    </div>
 </template>

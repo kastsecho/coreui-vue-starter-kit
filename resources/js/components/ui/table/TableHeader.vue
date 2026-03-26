@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { CTableHead } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
-import type { Color } from '@/types';
+import type { CColor } from '@/types';
 
 const props = defineProps<{
-    color?: Color;
+    color?: CColor;
     class?: HTMLAttributes['class'];
 }>();
 </script>

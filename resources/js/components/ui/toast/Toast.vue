@@ -2,12 +2,12 @@
 import { CToast } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { Color } from '@/types';
+import type { CColor } from '@/types';
 
 type Props = {
     autohide?: boolean;
     delay?: number;
-    color?: Color;
+    color?: CColor;
     dismissible?: boolean;
     visible?: boolean;
     class?: HTMLAttributes['class'];
