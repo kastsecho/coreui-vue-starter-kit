@@ -15,7 +15,7 @@ class RegistrationTest extends TestCase
     {
         parent::setUp();
 
-        $this->skipUnlessFortifyFeature(Features::registration());
+        $this->skipUnlessFortifyHas(Features::registration());
     }
 
     #[Test]

@@ -18,7 +18,7 @@ class VerificationNotificationTest extends TestCase
     {
         parent::setUp();
 
-        $this->skipUnlessFortifyFeature(Features::emailVerification());
+        $this->skipUnlessFortifyHas(Features::emailVerification());
     }
 
     #[Test]

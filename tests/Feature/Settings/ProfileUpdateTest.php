@@ -18,7 +18,7 @@ class ProfileUpdateTest extends TestCase
     {
         parent::setUp();
 
-        $this->skipUnlessFortifyFeature(Features::updateProfileInformation());
+        $this->skipUnlessFortifyHas(Features::updateProfileInformation());
     }
 
     #[Test]

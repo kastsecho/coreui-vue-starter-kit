@@ -17,7 +17,7 @@ class SecurityTest extends TestCase
     #[Test]
     public function security_page_is_displayed(): void
     {
-        $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+        $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
         Features::twoFactorAuthentication([
             'confirm' => true,
@@ -41,7 +41,7 @@ class SecurityTest extends TestCase
     #[Test]
     public function security_page_requires_password_confirmation_when_enabled(): void
     {
-        $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+        $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
         $user = User::factory()->create();
 
@@ -60,7 +60,7 @@ class SecurityTest extends TestCase
     #[Test]
     public function security_page_does_not_require_password_confirmation_when_disabled(): void
     {
-        $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+        $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
         $user = User::factory()->create();
 
@@ -83,7 +83,7 @@ class SecurityTest extends TestCase
     #[Test]
     public function security_page_renders_without_two_factor_when_feature_is_disabled(): void
     {
-        $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+        $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
         config(['fortify.features' => []]);
 
@@ -106,7 +106,7 @@ class SecurityTest extends TestCase
     #[Test]
     public function password_can_be_updated(): void
     {
-        $this->skipUnlessFortifyFeature(Features::updatePasswords());
+        $this->skipUnlessFortifyHas(Features::updatePasswords());
 
         $user = User::factory()->create();
 
@@ -128,7 +128,7 @@ class SecurityTest extends TestCase
     #[Test]
     public function correct_password_must_be_provided_to_update_password(): void
     {
-        $this->skipUnlessFortifyFeature(Features::updatePasswords());
+        $this->skipUnlessFortifyHas(Features::updatePasswords());
 
         $user = User::factory()->create();
 
