@@ -35,7 +35,7 @@
     "dependencies": {
         "@coreui/coreui": "^5.6.1",
         "@coreui/vue": "^5.7.0",
-        "@inertiajs/vite": "^3.0.0",
+        "@inertiajs/vite": "^3.0.1",
         "@inertiajs/vue3": "^3.0.0",
         "@popperjs/core": "^2.11.8",
         "@vueuse/core": "^14.2.1",
