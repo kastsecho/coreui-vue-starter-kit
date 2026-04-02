@@ -17,7 +17,7 @@ class TwoFactorChallengeTest extends TestCase
     {
         parent::setUp();
 
-        $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+        $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
     }
 
     #[Test]

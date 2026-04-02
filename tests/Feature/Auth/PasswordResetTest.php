@@ -18,7 +18,7 @@ class PasswordResetTest extends TestCase
     {
         parent::setUp();
 
-        $this->skipUnlessFortifyFeature(Features::resetPasswords());
+        $this->skipUnlessFortifyHas(Features::resetPasswords());
     }
 
     #[Test]

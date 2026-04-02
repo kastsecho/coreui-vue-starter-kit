@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Link, usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
-import AppearanceDropdown from '@/components/AppearanceDropdown.vue';
+import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import Icon from '@/components/Icon.vue';
+import TeamSwitcher from '@/components/TeamSwitcher.vue';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     DropdownMenu,
@@ -39,16 +40,20 @@ const page = usePage();
 const auth = computed(() => page.props.auth);
 const { isCurrentUrl } = useCurrentUrl();
 
+const dashboardUrl = computed(() =>
+    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
+);
+
 const isNavOpen = ref<boolean>(false);
 
-const mainNavItems: NavItem[] = [
+const mainNavItems = computed<NavItem[]>(() => [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: dashboardUrl.value,
         icon: 'grid',
         isActive: !!auth.value.user,
     },
-];
+]);
 
 const rightNavItems: NavItem[] = [
     {
@@ -137,8 +142,7 @@ const authNavItems: NavItem[] = [
                             </NavigationMenuLink>
                         </Tooltip>
                     </NavigationMenuItem>
-                    <AppearanceDropdown />
-
+                    <AppearanceSwitcher />
                     <DropdownMenu
                         v-if="auth.user"
                         align="end"
@@ -184,6 +188,7 @@ const authNavItems: NavItem[] = [
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                     </template>
+                    <TeamSwitcher :in-header="true" />
                 </NavigationMenuList>
             </NavigationMenuContent>
         </NavigationMenu>

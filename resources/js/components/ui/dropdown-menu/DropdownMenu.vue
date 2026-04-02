@@ -17,13 +17,14 @@ const props = withDefaults(defineProps<Props>(), {
     autoClose: true,
 });
 
-const delegatedProps = reactiveOmit(props, 'class');
+const delegatedProps = reactiveOmit(props, 'class', 'align');
 </script>
 
 <template>
     <CDropdown
         data-slot="dropdown-menu"
         :class="props.class"
+        :alignment="props.align"
         v-bind="delegatedProps"
     >
         <slot />

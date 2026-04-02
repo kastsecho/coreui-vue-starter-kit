@@ -31,14 +31,14 @@ class AuthenticationTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect(route('dashboard'));
         $this->assertAuthenticated();
     }
 
     #[Test]
     public function users_with_two_factor_enabled_are_redirected_to_two_factor_challenge(): void
     {
-        $this->skipUnlessFortifyFeature(Features::twoFactorAuthentication());
+        $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
 
         Features::twoFactorAuthentication([
             'confirm' => true,

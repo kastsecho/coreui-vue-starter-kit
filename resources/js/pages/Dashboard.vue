@@ -33,6 +33,10 @@ defineProps<{
 const page = usePage();
 const user = computed(() => page.props.auth.user);
 
+const dashboardUrl = computed(() =>
+    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
+);
+
 const columns: string[] = ['ID', 'Name', 'Status', 'Created'];
 
 const toDateString = (date: string): string => {
@@ -43,7 +47,7 @@ setLayoutProps({
     breadcrumbs: [
         {
             title: 'Dashboard',
-            href: dashboard(),
+            href: dashboardUrl.value,
         },
     ],
 });

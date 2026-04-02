@@ -102,8 +102,8 @@ const passwordInput = useTemplateRef('passwordInput');
                     <Button
                         type="submit"
                         color="danger"
-                        :disabled="processing"
                         data-test="confirm-delete-user-button"
+                        :disabled="processing"
                     >
                         Delete account
                     </Button>

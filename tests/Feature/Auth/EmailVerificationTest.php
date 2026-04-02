@@ -7,20 +7,12 @@ use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
-use Laravel\Fortify\Features;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class EmailVerificationTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->skipUnlessFortifyFeature(Features::emailVerification());
-    }
 
     #[Test]
     public function email_verification_screen_can_be_rendered(): void
@@ -53,7 +45,7 @@ class EmailVerificationTest extends TestCase
 
         Event::assertDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
-        $response->assertRedirect(route('dashboard', absolute: false).'?verified=1');
+        $response->assertRedirect('/dashboard?verified=1');
     }
 
     #[Test]
@@ -106,7 +98,7 @@ class EmailVerificationTest extends TestCase
             ->get(route('verification.notice'));
 
         Event::assertNotDispatched(Verified::class);
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect('/dashboard');
     }
 
     #[Test]
@@ -122,11 +114,12 @@ class EmailVerificationTest extends TestCase
             ['id' => $user->id, 'hash' => sha1($user->email)],
         );
 
-        $this->actingAs($user)
-            ->get($verificationUrl)
-            ->assertRedirect(route('dashboard', absolute: false).'?verified=1');
+        $response = $this
+            ->actingAs($user)
+            ->get($verificationUrl);
 
         Event::assertNotDispatched(Verified::class);
         $this->assertTrue($user->fresh()->hasVerifiedEmail());
+        $response->assertRedirect('/dashboard?verified=1');
     }
 }
