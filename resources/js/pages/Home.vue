@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { CCol, CContainer, CRow } from '@coreui/vue';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import Icon from '@/components/Icon.vue';
 import {
     Card,
@@ -30,6 +31,11 @@ type Props = {
 withDefaults(defineProps<Props>(), {
     canRegister: true,
 });
+
+const page = usePage();
+const dashboardUrl = computed(() =>
+    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
+);
 </script>
 
 <template>
@@ -41,7 +47,7 @@ withDefaults(defineProps<Props>(), {
                 <NavigationMenuLink as="button" :href="logout()">
                     Log out
                 </NavigationMenuLink>
-                <Link class="btn btn-danger" :href="dashboard()">
+                <Link class="btn btn-danger" :href="dashboardUrl">
                     Dashboard
                 </Link>
             </template>
