@@ -23,6 +23,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '25'
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
