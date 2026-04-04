@@ -27,7 +27,7 @@ defineProps<{
                         </Link>
                         <div class="d-flex flex-column align-items-center">
                             <h1 class="fs-4 fw-medium">{{ title }}</h1>
-                            <p class="text-center text-muted">
+                            <p class="text-muted text-center">
                                 {{ description }}
                             </p>
                         </div>

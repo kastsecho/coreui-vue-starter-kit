@@ -3,13 +3,17 @@ import { reactiveOmit } from '@vueuse/core';
 import type { OTPInputEmits, OTPInputProps } from 'vue-input-otp';
 import { OTPInput } from 'vue-input-otp';
 
-const props = defineProps<OTPInputProps & {
-    class?: string;
-}>();
+const props = defineProps<
+    OTPInputProps & {
+        class?: string;
+    }
+>();
 
-const emit = defineEmits<OTPInputEmits & {
-    (e: 'update:modelValue', value: any): void
-}>();
+const emit = defineEmits<
+    OTPInputEmits & {
+        (e: 'update:modelValue', value: any): void;
+    }
+>();
 
 const delegatedProps = reactiveOmit(props, 'class');
 </script>

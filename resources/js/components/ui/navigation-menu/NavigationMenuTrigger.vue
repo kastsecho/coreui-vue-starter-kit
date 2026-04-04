@@ -8,8 +8,5 @@ const props = defineProps<{
 </script>
 
 <template>
-    <CNavbarToggler
-        data-slot="navigation-menu-trigger"
-        :class="props.class"
-    />
+    <CNavbarToggler data-slot="navigation-menu-trigger" :class="props.class" />
 </template>

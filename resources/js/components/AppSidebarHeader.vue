@@ -105,7 +105,7 @@ onMounted(() => {
                 </template>
             </SidebarMenuHeaderList>
 
-            <SidebarMenuHeaderList class="ms-auto align-items-center">
+            <SidebarMenuHeaderList class="align-items-center ms-auto">
                 <NavigationMenuItem
                     v-for="item in rightNavItems"
                     :key="item.title"

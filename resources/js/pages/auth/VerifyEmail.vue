@@ -24,7 +24,7 @@ setLayoutProps({
     <Alert
         v-if="status === 'verification-link-sent'"
         color="success"
-        class="text-center fw-medium rounded-4 shadow-sm"
+        class="fw-medium rounded-4 shadow-sm text-center"
     >
         A new verification link has been sent to the email address you provided
         during registration.

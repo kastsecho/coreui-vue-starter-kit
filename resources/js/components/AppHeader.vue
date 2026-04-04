@@ -111,7 +111,7 @@ const authNavItems: NavItem[] = [
                     </template>
                 </NavigationMenuList>
 
-                <NavigationMenuList class="ms-auto align-items-center">
+                <NavigationMenuList class="align-items-center ms-auto">
                     <NavigationMenuItem>
                         <NavigationMenuLink as="button">
                             <Icon name="search" />

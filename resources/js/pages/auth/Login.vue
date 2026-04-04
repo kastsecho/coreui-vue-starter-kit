@@ -29,7 +29,7 @@ setLayoutProps({
     <Alert
         v-if="status"
         color="success"
-        class="text-center fw-medium rounded-4 shadow-sm"
+        class="fw-medium rounded-4 shadow-sm text-center"
     >
         {{ status }}
     </Alert>
@@ -102,7 +102,7 @@ setLayoutProps({
             </Button>
         </div>
 
-        <div v-if="canRegister" class="text-center text-muted">
+        <div v-if="canRegister" class="text-muted text-center">
             Don't have an account?
             <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
         </div>

@@ -7,12 +7,14 @@ import type { HTMLAttributes } from 'vue';
 import { cn } from '@/lib/utils';
 import type { CColor } from '@/types';
 
-const props = defineProps<InertiaLinkProps & {
-    active?: boolean;
-    color?: CColor;
-    disabled?: boolean;
-    class?: HTMLAttributes['class'];
-}>();
+const props = defineProps<
+    InertiaLinkProps & {
+        active?: boolean;
+        color?: CColor;
+        disabled?: boolean;
+        class?: HTMLAttributes['class'];
+    }
+>();
 
 const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
 </script>
@@ -32,10 +34,16 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
     <Link
         v-else
         data-slot="list-group-link"
-        :class="cn({
-            ['active']: active,
-            ['disabled']: disabled,
-        }, 'list-group-item list-group-item-action', props.class)"
+        :class="
+            cn(
+                {
+                    ['active']: active,
+                    ['disabled']: disabled,
+                },
+                'list-group-item list-group-item-action',
+                props.class,
+            )
+        "
         v-bind="delegatedProps"
     >
         <slot />

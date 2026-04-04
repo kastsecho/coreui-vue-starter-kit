@@ -33,7 +33,7 @@ defineProps<{
                         </Link>
 
                         <Card class="rounded-4 shadow-sm">
-                            <CardHeader class="text-center rounded-top-4">
+                            <CardHeader class="rounded-top-4 text-center">
                                 <CardTitle>{{ title }}</CardTitle>
                                 <CardDescription>
                                     {{ description }}

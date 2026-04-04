@@ -72,7 +72,7 @@ const passwordInput = useTemplateRef('passwordInput');
                     </DialogDescription>
                 </DialogHeader>
                 <DialogContent>
-                    <div class="grid gap-2">
+                    <div class="d-grid">
                         <Label for="password" class="visually-hidden">
                             Password
                         </Label>

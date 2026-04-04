@@ -12,11 +12,17 @@ const props = defineProps<{
 <template>
     <ul
         data-slot="pagination"
-        :class="cn('mb-0 pagination', {
-            [`justify-content-${props.align}`]: align,
-            [`pagination-${props.size}`]: size,
-        }, props.class)"
+        :class="
+            cn(
+                'mb-0 pagination',
+                {
+                    [`justify-content-${props.align}`]: align,
+                    [`pagination-${props.size}`]: size,
+                },
+                props.class,
+            )
+        "
     >
-        <slot/>
+        <slot />
     </ul>
 </template>

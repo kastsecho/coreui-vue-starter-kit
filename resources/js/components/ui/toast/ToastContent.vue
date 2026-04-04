@@ -8,10 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <CToastBody
-        data-slot="toast-content"
-        :class="props.class"
-    >
-        <slot/>
+    <CToastBody data-slot="toast-content" :class="props.class">
+        <slot />
     </CToastBody>
 </template>

@@ -7,13 +7,15 @@ import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 import { cn, toUrl } from '@/lib/utils';
 
-const props = defineProps<InertiaLinkProps & {
-    active?: boolean;
-    disabled?: boolean;
-    tabindex?: number;
-    method?: Method;
-    class?: HTMLAttributes['class'];
-}>();
+const props = defineProps<
+    InertiaLinkProps & {
+        active?: boolean;
+        disabled?: boolean;
+        tabindex?: number;
+        method?: Method;
+        class?: HTMLAttributes['class'];
+    }
+>();
 
 const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
 </script>
@@ -28,19 +30,25 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
         :active="active"
         :disabled="disabled"
     >
-        <slot/>
+        <slot />
     </CPaginationItem>
     <li v-else class="page-item">
         <Link
             v-if="as != 'a'"
             data-slot="pagination-link"
-            :class="cn({
-                ['active']: active,
-                ['disabled']: disabled,
-            }, 'page-link', props.class)"
+            :class="
+                cn(
+                    {
+                        ['active']: active,
+                        ['disabled']: disabled,
+                    },
+                    'page-link',
+                    props.class,
+                )
+            "
             v-bind="delegatedProps"
         >
-            <slot/>
+            <slot />
         </Link>
     </li>
 </template>

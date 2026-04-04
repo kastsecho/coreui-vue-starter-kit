@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactiveOmit } from '@vueuse/core'
+import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 import { computed } from 'vue';
 import { useVueOTPContext } from 'vue-input-otp';
@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
 const delegatedProps = reactiveOmit(props, 'class');
 
 const context = useVueOTPContext();
-const slot = computed(() => context?.value.slots[props.index])
+const slot = computed(() => context?.value.slots[props.index]);
 </script>
 
 <template>
@@ -30,11 +30,16 @@ const slot = computed(() => context?.value.slots[props.index])
         :data-active="slot?.isActive"
         type="text"
         inputmode="numeric"
-        class="text-center focus-ring-primary"
-        :class="cn({
-            ['otp-ring focus-ring-primary']: slot?.isActive,
-            [`bg-${props.color}`]: props.color,
-        }, props.class)"
+        class="focus-ring-primary text-center"
+        :class="
+            cn(
+                {
+                    ['otp-ring focus-ring-primary']: slot?.isActive,
+                    [`bg-${props.color}`]: props.color,
+                },
+                props.class,
+            )
+        "
         :value="slot?.char"
         :maxlength="1"
         placeholder="o"

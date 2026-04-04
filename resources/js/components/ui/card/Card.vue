@@ -2,11 +2,7 @@
 import { CCard } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type {
-    CBgTextColor,
-    CColor,
-    CTextColor,
-} from '@/types';
+import type { CBgTextColor, CColor, CTextColor } from '@/types';
 
 const props = defineProps<{
     color?: CColor;
@@ -19,11 +15,7 @@ const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CCard
-        data-slot="card"
-        :class="props.class"
-        v-bind="delegatedProps"
-    >
+    <CCard data-slot="card" :class="props.class" v-bind="delegatedProps">
         <slot />
     </CCard>
 </template>

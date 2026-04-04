@@ -28,6 +28,6 @@ const delegatedProps = reactiveOmit(props, 'class');
         :class="props.class"
         v-bind="delegatedProps"
     >
-        <slot/>
+        <slot />
     </CToaster>
 </template>

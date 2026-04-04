@@ -5,7 +5,7 @@ import type { ImgHTMLAttributes } from 'vue';
 import type { CColor, CShape } from '@/types';
 
 type Props = ImgHTMLAttributes & {
-    color?: CColor
+    color?: CColor;
     shape?: CShape;
     size?: 'sm' | 'md' | 'lg' | 'xl';
     status?: CColor;

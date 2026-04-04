@@ -16,10 +16,15 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
     <strong
         v-show="message"
-        :class="cn({
-            ['invalid-feedback']: variant === 'default',
-            ['invalid-tooltip']: variant === 'tooltip',
-        }, props.class)"
+        :class="
+            cn(
+                {
+                    ['invalid-feedback']: variant === 'default',
+                    ['invalid-tooltip']: variant === 'tooltip',
+                },
+                props.class,
+            )
+        "
         role="alert"
     >
         {{ message }}

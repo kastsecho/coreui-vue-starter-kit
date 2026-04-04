@@ -1,4 +1,4 @@
-import type { HTMLAttributes } from "vue"
+import type { HTMLAttributes } from 'vue';
 import type { CSidebarPlacement, ResolvedAppearance } from '@/types';
 
 export type SidebarProps = {

@@ -161,7 +161,7 @@ const clearPhotoFileInput = () => {
                     <InputError :message="errors.name" />
                 </div>
 
-                <div class="grid gap-2">
+                <div class="d-grid">
                     <Label for="email">Email address</Label>
                     <Input
                         id="email"

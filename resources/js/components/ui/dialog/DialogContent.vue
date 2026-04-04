@@ -8,10 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <CModalBody
-        data-slot="dialog-content"
-        :class="props.class"
-    >
+    <CModalBody data-slot="dialog-content" :class="props.class">
         <slot />
     </CModalBody>
 </template>

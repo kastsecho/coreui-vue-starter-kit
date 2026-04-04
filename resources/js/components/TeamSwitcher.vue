@@ -80,7 +80,7 @@ const switchTeam = (team: Team) => {
                 {{ team.name }}
                 <Icon
                     v-if="currentTeam?.id === team.id"
-                    class="ms-auto nav-icon"
+                    class="nav-icon ms-auto"
                     name="check"
                 />
             </DropdownMenuItem>

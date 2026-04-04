@@ -22,7 +22,7 @@ export const useSidebar = defineStore('Sidebar', (): SidebarContext => {
     const isMobile = useMediaQuery('(max-width: 768px)');
     const open = ref<boolean>(true);
     const narrow = ref<boolean>(false);
-    const state = computed(() => open.value ? 'expanded' : 'collapsed');
+    const state = computed(() => (open.value ? 'expanded' : 'collapsed'));
 
     const setOpen = (value: boolean) => {
         open.value = value;

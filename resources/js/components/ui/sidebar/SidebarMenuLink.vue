@@ -8,13 +8,15 @@ import type { HTMLAttributes } from 'vue';
 import { toUrl } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
-const props = defineProps<InertiaLinkProps & {
-    active?: boolean;
-    disabled?: boolean;
-    tabindex?: number;
-    method?: Method;
-    class?: HTMLAttributes['class'];
-}>();
+const props = defineProps<
+    InertiaLinkProps & {
+        active?: boolean;
+        disabled?: boolean;
+        tabindex?: number;
+        method?: Method;
+        class?: HTMLAttributes['class'];
+    }
+>();
 
 const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
 </script>
@@ -36,10 +38,16 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
         v-else
         data-slot="sidebar-menu-link"
         data-sidebar="menu-link"
-        :class="cn({
-            ['active']: active,
-            ['disabled']: disabled,
-        }, 'nav-link', props.class)"
+        :class="
+            cn(
+                {
+                    ['active']: active,
+                    ['disabled']: disabled,
+                },
+                'nav-link',
+                props.class,
+            )
+        "
         v-bind="delegatedProps"
     >
         <slot />

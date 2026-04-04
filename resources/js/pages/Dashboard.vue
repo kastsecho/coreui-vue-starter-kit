@@ -62,7 +62,7 @@ setLayoutProps({
         <Alert
             v-if="status"
             color="success"
-            class="text-center fw-medium rounded-4 shadow-sm"
+            class="fw-medium rounded-4 shadow-sm text-center"
         >
             {{ status }}
         </Alert>
@@ -77,7 +77,7 @@ setLayoutProps({
                         </div>
 
                         <Icon
-                            class="mb-0 flex-shrink-0 card-title"
+                            class="mb-0 card-title flex-shrink-0"
                             name="people-fill"
                             color="info"
                         />
@@ -93,7 +93,7 @@ setLayoutProps({
                         </div>
 
                         <Icon
-                            class="mb-0 flex-shrink-0 card-title"
+                            class="mb-0 card-title flex-shrink-0"
                             name="person-badge-fill"
                             color="info"
                         />
@@ -109,7 +109,7 @@ setLayoutProps({
                         </div>
 
                         <Icon
-                            class="mb-0 flex-shrink-0 card-title"
+                            class="mb-0 card-title flex-shrink-0"
                             name="check-circle-fill"
                             color="success"
                         />
@@ -128,7 +128,7 @@ setLayoutProps({
                         </div>
 
                         <Icon
-                            class="mb-0 flex-shrink-0 card-title"
+                            class="mb-0 card-title flex-shrink-0"
                             name="x-circle-fill"
                             color="warning"
                         />
@@ -142,7 +142,7 @@ setLayoutProps({
                         <Icon class="me-2" name="table" />
                         Recent Users
                     </CardHeader>
-                    <CardContent class="text-center p-0">
+                    <CardContent class="p-0 text-center">
                         <Table
                             class="m-0 rounded-bottom-4 overflow-hidden"
                             :columns="columns"

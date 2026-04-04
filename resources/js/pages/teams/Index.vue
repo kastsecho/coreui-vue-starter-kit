@@ -99,7 +99,7 @@ setLayoutProps({
             </ListGroupItem>
         </ListGroup>
 
-        <p v-if="teams.length === 0" class="text-center text-muted">
+        <p v-if="teams.length === 0" class="text-muted text-center">
             You don't belong to any teams yet.
         </p>
     </div>
