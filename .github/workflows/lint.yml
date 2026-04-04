@@ -37,10 +37,10 @@ jobs:
         run: composer lint
 
       - name: Format Frontend
-        run: npm run format
+        run: npm run check:fix
 
       - name: Lint Frontend
-        run: npm run lint
+        run: npm run types:check
 
       # - name: Commit Changes
       #   uses: stefanzweifel/git-auto-commit-action@v7
