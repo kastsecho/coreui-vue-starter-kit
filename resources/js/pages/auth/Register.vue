@@ -96,7 +96,7 @@ setLayoutProps({
             </Button>
         </div>
 
-        <div class="text-center text-muted">
+        <div class="text-muted text-center">
             Already have an account?
             <TextLink :href="login()" :tabindex="6">Log in</TextLink>
         </div>

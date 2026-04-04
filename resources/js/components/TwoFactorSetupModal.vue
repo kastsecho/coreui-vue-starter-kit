@@ -158,7 +158,7 @@ watch(
                         >
                             <div
                                 v-if="!manualSetupKey"
-                                class="d-flex align-items-center justify-content-center bg-transparent p-2"
+                                class="d-flex align-items-center justify-content-center p-2 bg-transparent"
                             >
                                 <Spinner />
                             </div>

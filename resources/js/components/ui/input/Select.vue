@@ -11,11 +11,10 @@ type Props = {
     size?: 'sm' | 'lg';
     plainText?: boolean;
     valid?: boolean;
+    class?: HTMLAttributes['class'];
 };
 
-const props = defineProps<Props & {
-    class?: HTMLAttributes['class'];
-}>();
+const props = defineProps<Props>();
 
 const modelValue = defineModel<string | string[]>();
 

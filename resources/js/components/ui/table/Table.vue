@@ -6,7 +6,7 @@ import type { CTableColumn } from '@/types';
 
 const props = defineProps<{
     align?: 'bottom' | 'middle' | 'top';
-    columns?: CTableColumn[]|string[];
+    columns?: CTableColumn[] | string[];
     small?: boolean;
     striped?: boolean;
     stripedColumns?: boolean;
@@ -17,11 +17,7 @@ const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CTable
-        data-slot="table"
-        :class="props.class"
-        v-bind="delegatedProps"
-    >
+    <CTable data-slot="table" :class="props.class" v-bind="delegatedProps">
         <slot />
     </CTable>
 </template>

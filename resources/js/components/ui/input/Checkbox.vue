@@ -10,9 +10,10 @@ type Props = {
     invalid?: boolean;
     reverse?: boolean;
     valid?: boolean;
+    class?: HTMLAttributes['class'];
 };
 
-const props = defineProps<Props & { class?: HTMLAttributes["class"] }>();
+const props = defineProps<Props>();
 
 const modelValue = defineModel<string | boolean | string[]>();
 const delegatedProps = reactiveOmit(props, 'class');

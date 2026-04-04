@@ -8,10 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <CHeaderNav
-        data-slot="sidebar-header-list"
-        :class="props.class"
-    >
-        <slot/>
+    <CHeaderNav data-slot="sidebar-header-list" :class="props.class">
+        <slot />
     </CHeaderNav>
 </template>

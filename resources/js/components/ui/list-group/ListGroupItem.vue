@@ -21,6 +21,6 @@ const delegatedProps = reactiveOmit(props, 'class');
         v-bind="delegatedProps"
         :class="props.class"
     >
-        <slot/>
+        <slot />
     </CListGroupItem>
 </template>

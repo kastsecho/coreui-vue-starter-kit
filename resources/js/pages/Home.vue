@@ -42,7 +42,7 @@ const dashboardUrl = computed(() =>
     <Head title="Welcome" />
 
     <NavigationMenu container expand placement="fixed-top">
-        <NavigationMenuList class="ms-auto align-items-center">
+        <NavigationMenuList class="align-items-center ms-auto">
             <template v-if="$page.props.auth.user">
                 <NavigationMenuLink as="button" :href="logout()">
                     Log out
@@ -154,7 +154,7 @@ const dashboardUrl = computed(() =>
             <CCol md="5" lg="7">
                 <Card class="rounded-4 shadow-sm">
                     <CardImage
-                        class="rounded-4 border border-secondary"
+                        class="rounded-4 border-secondary border"
                         orientation="top"
                         src="/img/coreui-screenshot.jpg"
                         alt="Dashboard Preview"

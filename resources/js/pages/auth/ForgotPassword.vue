@@ -25,7 +25,7 @@ setLayoutProps({
     <Alert
         v-if="status"
         color="success"
-        class="text-center fw-medium rounded-4 shadow-sm"
+        class="fw-medium rounded-4 shadow-sm text-center"
     >
         {{ status }}
     </Alert>
@@ -64,7 +64,7 @@ setLayoutProps({
             </Button>
         </div>
 
-        <div class="text-center text-muted">
+        <div class="text-muted text-center">
             Or, return to
             <TextLink :href="login()" :tabindex="3">log in</TextLink>
         </div>

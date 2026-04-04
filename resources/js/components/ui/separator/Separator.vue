@@ -24,11 +24,13 @@ const props = withDefaults(defineProps<Props>(), {
     >
         <hr class="flex-grow-1" aria-hidden="true" />
         <span
-            :class="cn(
-                `text-${props.color}`,
-                `px-${props.spacing}`,
-                'fw-semibold small',
-            )"
+            :class="
+                cn(
+                    `text-${props.color}`,
+                    `px-${props.spacing}`,
+                    'fw-semibold small',
+                )
+            "
         >
             <slot />
         </span>

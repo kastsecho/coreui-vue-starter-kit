@@ -2,12 +2,7 @@
 import { CDropdownToggle } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type {
-    CButtonSize,
-    CButtonVariant,
-    CColor,
-    CShape,
-} from '@/types';
+import type { CButtonSize, CButtonVariant, CColor, CShape } from '@/types';
 
 type Props = {
     as?: string;

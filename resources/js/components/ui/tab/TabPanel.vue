@@ -1,26 +1,28 @@
 <script setup lang="ts">
-import { CModalHeader } from '@coreui/vue';
+import { CTabPanel } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
-import type { HTMLAttributes } from 'vue';
+import { HTMLAttributes } from 'vue';
 
 type Props = {
-    closeButton?: boolean;
+    itemKey: number | string;
+    transition?: boolean;
+    visible?: boolean;
     class?: HTMLAttributes['class'];
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    closeButton: false,
+    transition: true,
 });
 
 const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CModalHeader
-        data-slot="dialog-header"
-        :class="props.class"
+    <CTabPanel
+        data-slot="tab-panel"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
-    </CModalHeader>
+    </CTabPanel>
 </template>

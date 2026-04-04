@@ -12,13 +12,7 @@ export type CShape = ButtonProps['shape'];
 
 export type CColor = ButtonProps['color'];
 export type CTextColor = CardProps['textColor'];
-export type CBgColor =
-    | Exclude<CColor, 'link' | 'transparent'>
-    | 'body'
-    | 'body-secondary'
-    | 'body-tertiary'
-    | 'black'
-    | 'white';
+export type CBgColor = Exclude<CColor, 'link' | 'transparent'>;
 export type CBgTextColor = CardProps['textBgColor'];
 
 export type CContainer = NavbarProps['container'];

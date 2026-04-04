@@ -24,7 +24,7 @@ const {
 <template>
     <nav
         v-if="hasPages"
-        class="d-flex justify-items-center justify-content-between"
+        class="d-flex justify-content-between justify-items-center"
     >
         <div class="d-flex justify-content-between flex-fill d-sm-none">
             <Pagination>
@@ -51,7 +51,7 @@ const {
         <div
             class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between"
         >
-            <p class="mb-0 flex-shrink-0 small text-muted">
+            <p class="mb-0 small text-muted flex-shrink-0">
                 Showing
                 <span class="fw-semibold" v-text="meta.from" />
                 to

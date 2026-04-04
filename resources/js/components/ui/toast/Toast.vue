@@ -23,11 +23,7 @@ const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CToast
-        data-slot="toast"
-        :class="props.class"
-        v-bind="delegatedProps"
-    >
-        <slot/>
+    <CToast data-slot="toast" :class="props.class" v-bind="delegatedProps">
+        <slot />
     </CToast>
 </template>

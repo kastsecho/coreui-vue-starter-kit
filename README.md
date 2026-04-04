@@ -2,7 +2,7 @@
 
 ### Introduction
 
-Our Vue starter kit provides a robust, modern starting point for building Laravel applications with a Vue frontend 
+Our Vue starter kit provides a robust, modern starting point for building Laravel applications with a Vue frontend
 using [Inertia](https://inertiajs.com) and [Fortify](https://laravel.com/docs/fortify).
 
 This Vue starter kit utilities Vue 3 and the Composition API, TypeScript, and the [CoreUI for Vue](https://www.coreui.io/vue) component library.
@@ -18,18 +18,19 @@ This Vue starter kit utilities Vue 3 and the Composition API, TypeScript, and th
 
 This Vue starter kit includes the following features:
 
-* Authentication
-  * Log in / Register
-  * Email Verification
-  * Password Confirmation
-  * Password Reset
-* Profile Management
-  * Update Profile / Avatar
-  * Update Password
-  * 2FA Verification
-* Design
-  * Responsive
-  * Dark Mode
+- Authentication
+    - Log in / Register
+    - Email Verification
+    - Password Confirmation
+    - Password Reset
+- Profile Management
+    - Update Profile / Avatar
+    - Update Password
+    - 2FA Verification
+    - Teams
+- Design
+    - Responsive
+    - Dark Mode
 
 ### Installation
 

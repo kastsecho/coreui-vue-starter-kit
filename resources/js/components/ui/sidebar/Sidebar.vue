@@ -6,7 +6,7 @@ import type { SidebarProps } from '@/components/ui/sidebar';
 import {
     SIDEBAR_COOKIE_NAME,
     SIDEBAR_KEYBOARD_SHORTCUT,
-    useSidebar
+    useSidebar,
 } from '@/components/ui/sidebar/utils';
 import { cn } from '@/lib/utils';
 
@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 });
 
 const visible = defineModel<boolean>('open', {
-    default: !defaultDocument?.cookie.includes(`${SIDEBAR_COOKIE_NAME}=false`)
+    default: !defaultDocument?.cookie.includes(`${SIDEBAR_COOKIE_NAME}=false`),
 });
 
 const delegatedProps = reactiveOmit(props, 'class');
@@ -27,11 +27,14 @@ onMounted(() => {
     sidebar.setOpen(visible.value);
 
     useEventListener('keydown', (event: KeyboardEvent) => {
-        if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
-            event.preventDefault()
+        if (
+            event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
+            (event.metaKey || event.ctrlKey)
+        ) {
+            event.preventDefault();
             sidebar.toggleSidebar();
         }
-    })
+    });
 });
 </script>
 

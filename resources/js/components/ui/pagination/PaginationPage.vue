@@ -15,6 +15,6 @@ const props = defineProps<{
         :class="props.class"
         v-bind="props"
     >
-        <slot/>
+        <slot />
     </CPaginationItem>
 </template>

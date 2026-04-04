@@ -8,10 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <CAlertHeading
-        data-slot="alert-title"
-        :class="props.class"
-    >
+    <CAlertHeading data-slot="alert-title" :class="props.class">
         <slot />
     </CAlertHeading>
 </template>

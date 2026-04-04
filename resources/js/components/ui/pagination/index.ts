@@ -16,8 +16,8 @@ export function usePagination(meta: PaginationMeta) {
 
     const hasMorePages = computed(() => meta.to < meta.total);
 
-    const nextPageUrl = computed(() =>
-        links.value[links.value.length - 1]?.url ?? ''
+    const nextPageUrl = computed(
+        () => links.value[links.value.length - 1]?.url ?? '',
     );
 
     const elements = computed(() => links.value.slice(1, -1));
