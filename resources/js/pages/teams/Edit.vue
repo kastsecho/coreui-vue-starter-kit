@@ -103,7 +103,7 @@ const confirmCancelInvitation = (invitation: TeamInvitation) => {
             <Form
                 v-bind="update.form(team.slug)"
                 class="d-flex flex-column gap-3"
-                v-slot="{ errors, processing, recentlySuccessful }"
+                v-slot="{ errors, processing }"
             >
                 <div class="d-grid">
                     <Label for="name">Team name</Label>
@@ -125,17 +125,6 @@ const confirmCancelInvitation = (invitation: TeamInvitation) => {
                     >
                         Save
                     </Button>
-
-                    <Transition
-                        enter-active-class="transition ease-in-out"
-                        enter-from-class="opacity-0"
-                        leave-active-class="transition ease-in-out"
-                        leave-to-class="opacity-0"
-                    >
-                        <p v-show="recentlySuccessful" class="mb-0 text-muted">
-                            Saved.
-                        </p>
-                    </Transition>
                 </div>
             </Form>
         </div>

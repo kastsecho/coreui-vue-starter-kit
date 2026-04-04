@@ -2,6 +2,8 @@
 import AppContent from '@/components/AppContent.vue';
 import AppHeader from '@/components/AppHeader.vue';
 import AppShell from '@/components/AppShell.vue';
+import { Toaster } from '@/components/ui/toast';
+import { useFlashToast } from '@/composables/useFlashToast';
 import type { BreadcrumbItem } from '@/types';
 
 type Props = {
@@ -11,6 +13,8 @@ type Props = {
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
 });
+
+useFlashToast();
 </script>
 
 <template>
@@ -19,5 +23,6 @@ withDefaults(defineProps<Props>(), {
         <AppContent variant="header" container>
             <slot />
         </AppContent>
+        <Toaster />
     </AppShell>
 </template>

@@ -64,7 +64,7 @@ onUnmounted(() => clearTwoFactorAuthData());
                 'password_confirmation',
                 'current_password',
             ]"
-            v-slot="{ errors, processing, recentlySuccessful }"
+            v-slot="{ errors, processing }"
             class="d-flex flex-column gap-3"
         >
             <div class="d-grid gap-3">
@@ -122,17 +122,6 @@ onUnmounted(() => clearTwoFactorAuthData());
                 >
                     Save password
                 </Button>
-
-                <Transition
-                    enter-active-class="transition ease-in-out"
-                    enter-from-class="opacity-0"
-                    leave-active-class="transition ease-in-out"
-                    leave-to-class="opacity-0"
-                >
-                    <p v-show="recentlySuccessful" class="mb-0 text-muted">
-                        Saved.
-                    </p>
-                </Transition>
             </div>
         </Form>
 
