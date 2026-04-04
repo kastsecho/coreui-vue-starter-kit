@@ -42,7 +42,7 @@ jobs:
         run: composer lint
 
       - name: Build Assets
-        run: npm run build
+        run: php artisan wayfinder:generate --with-form
 
       - name: Format Frontend
         run: npm run check:fix
