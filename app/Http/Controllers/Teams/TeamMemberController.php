@@ -8,17 +8,16 @@ use App\Http\Requests\Teams\UpdateTeamMemberRequest;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
 
 class TeamMemberController extends Controller
 {
     /**
      * Update the specified team member's role.
      */
+    #[Authorize('updateMember', 'team')]
     public function update(UpdateTeamMemberRequest $request, Team $team, User $user): RedirectResponse
     {
-        Gate::authorize('updateMember', $team);
-
         $newRole = TeamRole::from($request->validated('role'));
 
         $team->memberships()
@@ -32,10 +31,9 @@ class TeamMemberController extends Controller
     /**
      * Remove the specified team member.
      */
+    #[Authorize('removeMember', 'team')]
     public function destroy(Team $team, User $user): RedirectResponse
     {
-        Gate::authorize('removeMember', $team);
-
         abort_if($team->owner()?->is($user), 403, 'The team owner cannot be removed.');
 
         $team->memberships()

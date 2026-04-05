@@ -11,8 +11,8 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -80,10 +80,9 @@ class TeamController extends Controller
     /**
      * Update the specified team.
      */
+    #[Authorize('update', 'team')]
     public function update(SaveTeamRequest $request, Team $team): RedirectResponse
     {
-        Gate::authorize('update', $team);
-
         $team = DB::transaction(function () use ($request, $team) {
             $team = Team::whereKey($team->id)->lockForUpdate()->firstOrFail();
 
@@ -110,6 +109,7 @@ class TeamController extends Controller
     /**
      * Delete the specified team.
      */
+    #[Authorize('delete', 'team')]
     public function destroy(DeleteTeamRequest $request, Team $team): RedirectResponse
     {
         $user = $request->user();
