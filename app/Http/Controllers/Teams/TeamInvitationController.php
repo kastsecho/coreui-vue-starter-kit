@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Attributes\Controllers\Authorize;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
+use Inertia\Inertia;
 
 class TeamInvitationController extends Controller
 {
@@ -32,6 +33,8 @@ class TeamInvitationController extends Controller
         Notification::route('mail', $invitation->email)
             ->notify(new TeamInvitationNotification($invitation));
 
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Invitation sent.')]);
+
         return to_route('teams.edit', ['team' => $team->slug]);
     }
 
@@ -44,6 +47,8 @@ class TeamInvitationController extends Controller
         abort_unless($invitation->team_id === $team->id, 404);
 
         $invitation->delete();
+
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Invitation cancelled.')]);
 
         return to_route('teams.edit', ['team' => $team->slug]);
     }
