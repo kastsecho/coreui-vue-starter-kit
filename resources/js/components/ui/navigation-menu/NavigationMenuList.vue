@@ -18,8 +18,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CNavbarNav
         data-slot="navigation-menu-list"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </CNavbarNav>

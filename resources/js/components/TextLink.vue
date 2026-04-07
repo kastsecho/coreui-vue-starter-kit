@@ -18,8 +18,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 
 <template>
     <Link
-        :class="cn('link-body-emphasis', props.class)"
         v-bind="delegatedProps"
+        :class="cn('link-body-emphasis', props.class)"
     >
         <slot />
     </Link>

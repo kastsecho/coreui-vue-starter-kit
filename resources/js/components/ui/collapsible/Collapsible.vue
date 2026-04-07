@@ -14,8 +14,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CCollapse
         data-slot="collapsible"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </CCollapse>

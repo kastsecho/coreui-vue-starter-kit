@@ -24,7 +24,7 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CAvatar
         data-slot="avatar-image"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     />
 </template>

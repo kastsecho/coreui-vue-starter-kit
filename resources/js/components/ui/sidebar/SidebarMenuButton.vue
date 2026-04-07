@@ -19,8 +19,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CCloseButton
         data-slot="sidebar-menu-button"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
         @click="sidebar.toggleSidebar"
     />
 </template>

@@ -20,7 +20,7 @@ const delegatedProps = reactiveOmit(props, 'class');
     <CFormInput
         v-model="modelValue"
         data-slot="input"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     />
 </template>

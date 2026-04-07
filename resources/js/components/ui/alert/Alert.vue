@@ -23,8 +23,8 @@ const delegatedProps = reactiveOmit(props, 'class');
     <CAlert
         data-slot="alert"
         role="alert"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </CAlert>

@@ -27,8 +27,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CDropdownToggle
         data-slot="dropdown-menu-trigger"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </CDropdownToggle>

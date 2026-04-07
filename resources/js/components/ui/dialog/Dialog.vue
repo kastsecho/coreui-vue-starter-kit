@@ -29,8 +29,8 @@ const closeDialog = () => emit('close');
 <template>
     <CModal
         data-slot="dialog"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
         :visible="visible"
         @close="closeDialog"
     >

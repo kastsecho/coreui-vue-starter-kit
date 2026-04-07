@@ -19,8 +19,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CCardText
         data-slot="card-description"
-        :class="cn('text-muted', props.class)"
         v-bind="delegatedProps"
+        :class="cn('text-muted', props.class)"
     >
         <slot />
     </CCardText>

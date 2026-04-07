@@ -14,8 +14,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <InputGroup
         data-slot="input-otp-group"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </InputGroup>

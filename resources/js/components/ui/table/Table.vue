@@ -17,7 +17,7 @@ const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CTable data-slot="table" :class="props.class" v-bind="delegatedProps">
+    <CTable data-slot="table" v-bind="delegatedProps" :class="props.class">
         <slot />
     </CTable>
 </template>

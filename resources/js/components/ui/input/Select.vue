@@ -25,8 +25,8 @@ const delegatedProps = reactiveOmit(props, 'class');
     <CFormSelect
         v-model="modelValue"
         data-slot="select"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </CFormSelect>

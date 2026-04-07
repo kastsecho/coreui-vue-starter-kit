@@ -26,8 +26,8 @@ const delegatedProps = reactiveOmit(props, 'class');
     <CSpinner
         data-slot="spinner"
         role="status"
+        v-bind="delegatedProps"
         :aria-label="visuallyHiddenLabel"
         :class="props.class"
-        v-bind="delegatedProps"
     />
 </template>

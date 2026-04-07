@@ -19,7 +19,7 @@ const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CBadge data-slot="badge" :class="props.class" v-bind="delegatedProps">
+    <CBadge data-slot="badge" v-bind="delegatedProps" :class="props.class">
         <slot />
     </CBadge>
 </template>

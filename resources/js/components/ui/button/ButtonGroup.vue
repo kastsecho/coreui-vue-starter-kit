@@ -16,8 +16,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CButtonGroup
         data-slot="button-group"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </CButtonGroup>

@@ -19,8 +19,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CCardTitle
         data-slot="card-title"
-        :class="cn('fw-semibold', props.class)"
         v-bind="delegatedProps"
+        :class="cn('fw-semibold', props.class)"
     >
         <slot />
     </CCardTitle>

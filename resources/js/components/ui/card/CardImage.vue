@@ -19,7 +19,7 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CCardImage
         data-slot="card-image"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     />
 </template>

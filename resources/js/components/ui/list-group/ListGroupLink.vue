@@ -34,6 +34,7 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
     <Link
         v-else
         data-slot="list-group-link"
+        v-bind="delegatedProps"
         :class="
             cn(
                 {
@@ -44,7 +45,6 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
                 props.class,
             )
         "
-        v-bind="delegatedProps"
     >
         <slot />
     </Link>

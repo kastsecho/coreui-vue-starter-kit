@@ -38,6 +38,7 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
         v-else
         data-slot="sidebar-menu-link"
         data-sidebar="menu-link"
+        v-bind="delegatedProps"
         :class="
             cn(
                 {
@@ -48,7 +49,6 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
                 props.class,
             )
         "
-        v-bind="delegatedProps"
     >
         <slot />
     </Link>

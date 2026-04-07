@@ -25,9 +25,9 @@ const slot = computed(() => context?.value.slots[props.index]);
 
 <template>
     <Input
-        v-bind="delegatedProps"
         data-slot="input-otp-slot"
         :data-active="slot?.isActive"
+        v-bind="delegatedProps"
         type="text"
         inputmode="numeric"
         class="focus-ring-primary text-center"

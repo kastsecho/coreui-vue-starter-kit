@@ -18,8 +18,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CModalHeader
         data-slot="dialog-header"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </CModalHeader>

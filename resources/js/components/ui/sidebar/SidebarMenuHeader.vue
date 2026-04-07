@@ -16,8 +16,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CHeader
         data-slot="sidebar-menu-header"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </CHeader>

@@ -36,6 +36,7 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
         <Link
             v-if="as != 'a'"
             data-slot="pagination-link"
+            v-bind="delegatedProps"
             :class="
                 cn(
                     {
@@ -46,7 +47,6 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
                     props.class,
                 )
             "
-            v-bind="delegatedProps"
         >
             <slot />
         </Link>

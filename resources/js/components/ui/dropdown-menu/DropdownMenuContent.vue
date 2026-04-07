@@ -18,8 +18,8 @@ const delegatedProps = reactiveOmit(props, 'class');
 <template>
     <CDropdownMenu
         data-slot="dropdown-menu-content"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </CDropdownMenu>

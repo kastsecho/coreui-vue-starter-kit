@@ -12,7 +12,7 @@ const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CFormLabel data-slot="label" :class="props.class" v-bind="delegatedProps">
+    <CFormLabel data-slot="label" v-bind="delegatedProps" :class="props.class">
         <slot />
     </CFormLabel>
 </template>

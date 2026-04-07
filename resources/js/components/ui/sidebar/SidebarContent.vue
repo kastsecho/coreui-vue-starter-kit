@@ -15,8 +15,8 @@ const delegatedProps = reactiveOmit(props, 'class');
     <CSidebarNav
         data-slot="sidebar-content"
         data-sidebar="content"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     >
         <slot />
     </CSidebarNav>

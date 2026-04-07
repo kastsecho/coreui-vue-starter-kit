@@ -21,7 +21,7 @@ const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CButton data-slot="button" :class="props.class" v-bind="delegatedProps">
+    <CButton data-slot="button" v-bind="delegatedProps" :class="props.class">
         <slot />
     </CButton>
 </template>

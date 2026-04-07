@@ -18,7 +18,7 @@ const className = computed(() => props.class);
 </script>
 
 <template>
-    <main v-if="props.variant === 'header'" class="py-4" :class="className">
+    <main v-if="variant === 'header'" class="py-4" :class="className">
         <CContainer v-if="container">
             <slot />
         </CContainer>

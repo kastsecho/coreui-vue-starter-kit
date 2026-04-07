@@ -23,7 +23,7 @@ const delegatedProps = reactiveOmit(props, 'class');
     <CFormCheck
         v-model="modelValue"
         data-slot="checkbox"
-        :class="props.class"
         v-bind="delegatedProps"
+        :class="props.class"
     />
 </template>
