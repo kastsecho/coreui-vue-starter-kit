@@ -22,7 +22,7 @@ useFlashToast();
 <template>
     <AppShell variant="sidebar">
         <AppSidebar />
-        <AppContent variant="sidebar" class="overflow-x-hidden">
+        <AppContent variant="sidebar">
             <AppSidebarHeader :breadcrumbs="breadcrumbs" />
             <main class="body flex-grow-1">
                 <CContainer class="px-4" lg>
