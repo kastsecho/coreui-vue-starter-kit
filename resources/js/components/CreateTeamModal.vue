@@ -27,7 +27,7 @@ function handleOpenChange(value: boolean) {
 </script>
 
 <template>
-    <span @click="open = !open">
+    <span class="flex-shrink-0" @click="open = !open">
         <slot />
     </span>
 
