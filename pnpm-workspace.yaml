@@ -1,2 +1,2 @@
 publicHoistPattern:
-  - '@inertiajs/core'
+    - '@inertiajs/core'
