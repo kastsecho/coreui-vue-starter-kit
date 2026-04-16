@@ -30,12 +30,12 @@
         "@laravel/vite-plugin-wayfinder": "^0.1.3",
         "@types/node": "^25.6.0",
         "@vitejs/plugin-vue": "^6.0.6",
-        "@voidzero-dev/vite-plus-core": "^0.1.16",
+        "@voidzero-dev/vite-plus-core": "^0.1.18",
         "concurrently": "^9.0.1",
         "sass": "^1.99.0",
         "typescript": "^6.0.2",
         "vite": "^8.0.8",
-        "vite-plus": "^0.1.16",
+        "vite-plus": "^0.1.18",
         "vue-tsc": "^3.2.6"
     },
     "optionalDependencies": {
