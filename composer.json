@@ -1,30 +1,29 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "kastsecho/coreui-vue-starter-kit",
+    "name": "laravel/blank-vue-starter-kit",
     "type": "project",
-    "description": "CoreUI Vue starter kit for the Laravel framework.",
+    "description": "The skeleton application for the Laravel framework.",
     "keywords": [
         "laravel",
-        "framework",
-        "coreui"
+        "framework"
     ],
     "license": "MIT",
     "require": {
         "php": "^8.3",
         "inertiajs/inertia-laravel": "^3.0",
-        "laravel/fortify": "^1.36.1",
-        "laravel/framework": "^13.0",
+        "laravel/framework": "^13.7",
         "laravel/tinker": "^3.0",
         "laravel/wayfinder": "^0.1.14"
     },
     "require-dev": {
         "fakerphp/faker": "^1.24",
         "laravel/pail": "^1.2.5",
+        "laravel/pao": "^1.0.6",
         "laravel/pint": "^1.27",
         "laravel/sail": "^1.53",
         "mockery/mockery": "^1.6",
-        "nunomaduro/collision": "^8.9",
-        "phpunit/phpunit": "^12.5.12"
+        "nunomaduro/collision": "^8.9.3",
+        "phpunit/phpunit": "^12.5.23"
     },
     "autoload": {
         "psr-4": {
@@ -43,7 +42,6 @@
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate --ansi",
-            "@php artisan storage:link --ansi",
             "@php artisan migrate --ansi --force",
             "npm install",
             "npm run build"
@@ -53,21 +51,22 @@
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
         ],
         "lint": [
-            "pint --ansi --parallel"
+            "pint --parallel"
         ],
         "lint:check": [
-            "pint --ansi --parallel --test"
+            "pint --parallel --test"
         ],
         "ci:check": [
             "Composer\\Config::disableProcessTimeout",
-            "npm run check",
+            "npm run lint:check",
+            "npm run format:check",
             "npm run types:check",
             "@test"
         ],
         "test": [
             "@php artisan config:clear --ansi",
             "@lint:check",
-            "@php artisan test --ansi"
+            "@php artisan test"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
@@ -102,6 +101,5 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    "minimum-stability": "stable"
 }

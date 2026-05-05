@@ -28,27 +28,19 @@ jobs:
         with:
           php-version: '8.4'
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-
       - name: Install Dependencies
         run: |
           composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
           npm install
 
-      - name: Build Assets
-        run: npm run build
-
       - name: Run Pint
         run: composer lint
 
       - name: Format Frontend
-        run: npm run check:fix
+        run: npm run format
 
       - name: Lint Frontend
-        run: npm run types:check
+        run: npm run lint
 
       # - name: Commit Changes
       #   uses: stefanzweifel/git-auto-commit-action@v7
