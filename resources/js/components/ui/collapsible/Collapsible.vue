@@ -1,0 +1,23 @@
+<script setup lang="ts">
+import { CCollapse } from '@coreui/vue';
+import { reactiveOmit } from '@vueuse/core';
+import type { HTMLAttributes } from 'vue';
+
+const props = defineProps<{
+    horizontal?: boolean;
+    visible: boolean;
+    class?: HTMLAttributes['class'];
+}>();
+
+const delegatedProps = reactiveOmit(props, 'class');
+</script>
+
+<template>
+    <CCollapse
+        data-slot="collapsible"
+        v-bind="delegatedProps"
+        :class="props.class"
+    >
+        <slot />
+    </CCollapse>
+</template>

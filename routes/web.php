@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\HealthController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::inertia('/', 'Welcome')->name('home');
+Route::get('/', HomeController::class)
+    ->name('home');
+Route::get('/up', HealthController::class)
+    ->name('up');
