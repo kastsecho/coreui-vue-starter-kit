@@ -1,4 +1,22 @@
-import { cilCheckCircle, cilHome, cilWarning } from '@coreui/icons';
+import {
+    cibGit,
+    cilAccountLogout,
+    cilApplications,
+    cilBarcode,
+    cilCheck,
+    cilCog,
+    cilContrast,
+    cilCopy,
+    cilExternalLink,
+    cilFlip,
+    cilHamburgerMenu,
+    cilHome,
+    cilLockLocked,
+    cilMoon,
+    cilSun,
+    cilSync,
+    cilWarning,
+} from '@coreui/icons';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { createPinia } from 'pinia';
 import { initializeTheme } from '@/composables/useAppearance';
@@ -7,7 +25,25 @@ import AuthLayout from '@/layouts/AuthLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-const icons = { cilCheckCircle, cilHome, cilWarning };
+const icons = {
+    cibGit,
+    cilAccountLogout,
+    cilApplications,
+    cilBarcode,
+    cilCheck,
+    cilCog,
+    cilContrast,
+    cilCopy,
+    cilExternalLink,
+    cilFlip,
+    cilHamburgerMenu,
+    cilHome,
+    cilLockLocked,
+    cilMoon,
+    cilSun,
+    cilSync,
+    cilWarning,
+};
 const pinia = createPinia();
 
 void createInertiaApp({

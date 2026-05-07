@@ -26,5 +26,13 @@
     $info: #6cb2eb
 );
 
+// Components
+@use 'components/sidebar';
+@use 'components/simplebar';
+
+.min-w-50 {
+    min-width: 12.5rem !important;
+}
+
 // Fonts
 @import url('https://fonts.bunny.net/css?family=instrument-sans');

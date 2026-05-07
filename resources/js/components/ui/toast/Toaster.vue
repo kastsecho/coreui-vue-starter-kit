@@ -13,6 +13,8 @@ import { dismissToast, toasts } from '@/composables/useFlashToast';
 import { cn } from '@/lib/utils';
 import type { FlashToast } from '@/types';
 
+defineOptions({ inheritAttrs: false });
+
 type Placements =
     | 'top-start'
     | 'top-center'
@@ -34,7 +36,7 @@ const props = withDefaults(defineProps<Props>(), {
     placement: 'bottom-end',
 });
 
-const delegatedProps = reactiveOmit(props, 'class');
+const delegatedProps = reactiveOmit(props, 'contentClassName', 'class');
 
 const page = usePage();
 const name = page.props.name;
@@ -52,9 +54,9 @@ const resolveIcon = (type: FlashToast['type']) => toastIcons[type ?? 'success'];
             v-for="toast in toasts"
             :key="toast.id"
             autohide
-            :class="contentClassName"
+            :class="cn('rounded-4', contentClassName)"
             :delay="4000"
-            :index="toast.id"
+            :index="parseInt(toast.id)"
             visible
             @close="dismissToast(toast.id)"
         >

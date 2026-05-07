@@ -11,6 +11,7 @@ import {
     NavigationMenu,
     NavigationMenuList,
 } from '@/components/ui/navigation-menu';
+import { dashboard, login, register } from '@/routes';
 
 defineProps<{
     hasLogin: boolean;
@@ -32,7 +33,7 @@ const auth = computed(() => page.props.auth);
                     <Button
                         as="Link"
                         color="link"
-                        href="#"
+                        :href="login()"
                         class="link-body-emphasis text-decoration-none"
                     >
                         Log in
@@ -40,7 +41,7 @@ const auth = computed(() => page.props.auth);
                     <Button
                         as="Link"
                         color="dark"
-                        href="#"
+                        :href="register()"
                         shape="rounded-pill"
                     >
                         Register
@@ -50,7 +51,7 @@ const auth = computed(() => page.props.auth);
                     v-else
                     as="Link"
                     color="dark"
-                    href="#"
+                    :href="dashboard()"
                     shape="rounded-pill"
                 >
                     Dashboard

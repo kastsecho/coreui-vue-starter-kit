@@ -5,6 +5,8 @@ import { Link } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
 import { cn, toUrl } from '@/lib/utils';
 
+defineOptions({ inheritAttrs: false });
+
 type Props = {
     active?: boolean;
     as?: string;
@@ -21,13 +23,19 @@ const delegatedProps = reactiveOmit(props, 'href', 'class');
 </script>
 
 <template>
-    <CNavItem
-        v-if="props.href && typeof props.href !== 'string'"
-        data-slot="navigation-menu-item"
-        v-bind="delegatedProps"
-    >
+    <CNavItem data-slot="navigation-menu-item" v-bind="delegatedProps">
+        <CNavLink
+            v-if="props.href && typeof props.href === 'string'"
+            v-bind="$attrs"
+            :href="toUrl(props.href)"
+            :class="props.class"
+        >
+            <slot />
+        </CNavLink>
         <Link
+            v-else-if="props.href && typeof props.href !== 'string'"
             :href="props.href"
+            v-bind="$attrs"
             :class="
                 cn(
                     'nav-link',
@@ -41,15 +49,6 @@ const delegatedProps = reactiveOmit(props, 'href', 'class');
         >
             <slot />
         </Link>
-    </CNavItem>
-    <CNavItem v-else data-slot="navigation-menu-item" v-bind="delegatedProps">
-        <CNavLink
-            v-if="props.href && typeof props.href === 'string'"
-            :href="toUrl(props.href)"
-            :class="props.class"
-        >
-            <slot />
-        </CNavLink>
-        <slot v-else />
+        <slot v-else v-bind="$attrs" />
     </CNavItem>
 </template>
