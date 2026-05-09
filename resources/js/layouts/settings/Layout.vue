@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Heading from '@/components/Heading.vue';
-import { Column, Container, Row } from '@/components/ui/grid';
 import { ListGroup, ListGroupItem } from '@/components/ui/list-group';
+import { Column, Container, Row } from '@/components/ui/skeleton';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { edit as editAppearance } from '@/routes/appearance';
 import { edit as editProfile } from '@/routes/profile';

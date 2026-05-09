@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { Container } from '@/components/ui/grid';
 import { SidebarInset } from '@/components/ui/sidebar';
+import { Container } from '@/components/ui/skeleton';
 import type { AppVariant } from '@/types';
 
 type Props = {

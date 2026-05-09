@@ -8,7 +8,7 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { Column, Container, Row } from '@/components/ui/grid';
+import { Column, Container, Row } from '@/components/ui/skeleton';
 import { home } from '@/routes';
 
 defineProps<{

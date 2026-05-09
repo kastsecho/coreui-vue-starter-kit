@@ -6,11 +6,11 @@ import { computed } from 'vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Column, Container, Row } from '@/components/ui/grid';
 import {
     NavigationMenu,
     NavigationMenuList,
 } from '@/components/ui/navigation-menu';
+import { Column, Container, Row } from '@/components/ui/skeleton';
 import { dashboard, login, register } from '@/routes';
 
 defineProps<{

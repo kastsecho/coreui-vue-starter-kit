@@ -6,7 +6,7 @@ import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Container, Column, Row } from '@/components/ui/grid';
+import { Container, Column, Row } from '@/components/ui/skeleton';
 import { Spinner } from '@/components/ui/spinner';
 import { home } from '@/routes';
 

@@ -6,7 +6,7 @@ import { computed } from 'vue';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Column, Container, Row } from '@/components/ui/grid';
+import { Column, Container, Row } from '@/components/ui/skeleton';
 import { home } from '@/routes';
 
 const props = defineProps<{

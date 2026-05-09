@@ -11,13 +11,13 @@ import {
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Container } from '@/components/ui/grid';
 import { NavigationMenuItem } from '@/components/ui/navigation-menu';
 import {
     SidebarMenuHeader,
     SidebarMenuHeaderList,
     SidebarTrigger,
 } from '@/components/ui/sidebar';
+import { Container } from '@/components/ui/skeleton';
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';

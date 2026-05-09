@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import AppLogoIcon from '@/components/AppLogoIcon.vue';
-import { Column, Container, Row } from '@/components/ui/grid';
+import { Column, Container, Row } from '@/components/ui/skeleton';
 import { home } from '@/routes';
 
 defineProps<{

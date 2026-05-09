@@ -2,7 +2,7 @@
 import { setLayoutProps } from '@inertiajs/vue3';
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { Alert } from '@/components/ui/alert';
-import { Column, Container, Row } from '@/components/ui/grid';
+import { Column, Container, Row } from '@/components/ui/skeleton';
 import { dashboard } from '@/routes';
 
 defineProps<{
