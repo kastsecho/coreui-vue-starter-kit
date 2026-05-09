@@ -32,7 +32,7 @@ defineProps<{
                         <Card class="rounded-4 shadow-sm">
                             <CardHeader class="rounded-top-4 text-center">
                                 <CardTitle>{{ title }}</CardTitle>
-                                <CardDescription class="text-muted">
+                                <CardDescription text-color="secondary">
                                     {{ description }}
                                 </CardDescription>
                             </CardHeader>

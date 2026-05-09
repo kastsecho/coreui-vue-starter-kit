@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
 import { cn } from '@/lib/utils';
+import type { TextColors } from '@/types';
 
 const props = defineProps<{
-    color?: string;
+    textColor?: TextColors;
     class?: HTMLAttributes['class'];
 }>();
 </script>
@@ -15,7 +16,7 @@ const props = defineProps<{
             cn(
                 'small fw-medium mb-0',
                 {
-                    [`text-${color}`]: color,
+                    [`text-${textColor}`]: textColor,
                 },
                 props.class,
             )

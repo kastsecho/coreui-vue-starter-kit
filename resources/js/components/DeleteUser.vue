@@ -58,7 +58,7 @@ const showDeleteModal = ref<boolean>(false);
                     <DialogTitle>
                         Are you sure you want to delete your account?
                     </DialogTitle>
-                    <DialogDescription color="muted">
+                    <DialogDescription text-color="secondary">
                         Once your account is deleted, all of its resources and
                         data will also be permanently deleted. Please enter your
                         password to confirm you would like to permanently delete

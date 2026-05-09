@@ -118,7 +118,7 @@ watch(
         >
             <CIcon :icon="cilBarcode" size="xl" />
             <DialogTitle>{{ modalConfig.title }}</DialogTitle>
-            <DialogDescription class="text-muted text-center">
+            <DialogDescription class="text-center" text-color="secondary">
                 {{ modalConfig.description }}
             </DialogDescription>
         </DialogHeader>

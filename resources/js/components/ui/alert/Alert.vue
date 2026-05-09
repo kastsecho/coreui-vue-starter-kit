@@ -5,7 +5,7 @@ import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 
 type Props = {
-    color?: Colors;
+    color: Colors;
     dismissible?: boolean;
     variant?: 'solid';
     visible?: boolean;

@@ -48,7 +48,7 @@ onMounted(async () => {
                 <CIcon :icon="cilLockLocked" />
                 2FA recovery codes
             </CardTitle>
-            <CardDescription class="text-muted">
+            <CardDescription text-color="secondary">
                 Recovery codes let you regain access if you lose your 2FA
                 device. Store them in a secure password manager.
             </CardDescription>

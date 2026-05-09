@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { CBreadcrumbItem } from '@coreui/vue';
+import type { Method } from '@inertiajs/core';
 import type { InertiaLinkProps } from '@inertiajs/vue3';
 import { Link } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
@@ -8,11 +9,14 @@ import { cn, toUrl } from '@/lib/utils';
 
 const props = defineProps<{
     active?: boolean;
+    disabled?: boolean;
     href?: InertiaLinkProps['href'];
+    tabindex?: number;
+    method?: Method;
     class?: HTMLAttributes['class'];
 }>();
 
-const delegatedProps = reactiveOmit(props, 'href', 'class');
+const delegatedProps = reactiveOmit(props, 'href', 'method', 'class');
 </script>
 
 <template>
@@ -20,6 +24,8 @@ const delegatedProps = reactiveOmit(props, 'href', 'class');
         v-if="props.href && typeof props.href !== 'string'"
         data-slot="breadcrumb-link"
         :href="props.href"
+        :method="props.method"
+        :tabindex="props.tabindex"
         :class="
             cn(
                 'breadcrumb-item',
