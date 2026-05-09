@@ -9,10 +9,9 @@ import { Input, InputGroup } from '@/components/ui/form';
 defineOptions({ inheritAttrs: false });
 
 const props = defineProps<{
+    invalid?: boolean;
     class?: HTMLAttributes['class'];
 }>();
-
-const attrs = useAttrs();
 
 const showPassword = ref(false);
 const inputRef = useTemplateRef('inputRef');
@@ -24,11 +23,12 @@ defineExpose({
 </script>
 
 <template>
-    <InputGroup :class="{ ['is-invalid']: attrs.invalid }">
+    <InputGroup :class="{ ['is-invalid']: props.invalid }">
         <Input
             ref="inputRef"
             v-bind="$attrs"
             :type="showPassword ? 'text' : 'password'"
+            :invalid="props.invalid"
             :class="props.class"
         />
         <Button
