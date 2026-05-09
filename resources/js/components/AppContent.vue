@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { Container } from '@/components/ui/grid';
 import { SidebarInset } from '@/components/ui/sidebar';
 import type { AppVariant } from '@/types';
 
 type Props = {
+    container?: boolean;
     variant?: AppVariant;
     class?: string;
 };
@@ -19,6 +21,9 @@ const className = computed(() => props.class);
         <slot />
     </SidebarInset>
     <main v-else :class="className">
-        <slot />
+        <Container v-if="container">
+            <slot />
+        </Container>
+        <slot v-else />
     </main>
 </template>

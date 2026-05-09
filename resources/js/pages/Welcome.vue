@@ -27,7 +27,12 @@ const auth = computed(() => page.props.auth);
     <div
         class="d-flex flex-column align-items-center justify-content-center vh-100"
     >
-        <NavigationMenu placement="fixed-top" container expand="md">
+        <NavigationMenu
+            v-if="hasLogin"
+            placement="fixed-top"
+            container
+            expand="md"
+        >
             <NavigationMenuList class="ms-auto gap-3">
                 <template v-if="!auth.user">
                     <Button

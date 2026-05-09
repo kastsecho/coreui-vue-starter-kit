@@ -5,7 +5,8 @@
     "description": "CoreUI Vue starter kit for the Laravel framework.",
     "keywords": [
         "laravel",
-        "framework"
+        "framework",
+        "coreui"
     ],
     "license": "MIT",
     "require": {
@@ -43,6 +44,7 @@
             "composer install",
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
             "@php artisan key:generate --ansi",
+            "@php artisan storage:link --ansi",
             "@php artisan migrate --ansi --force",
             "npm install",
             "npm run build"
@@ -59,14 +61,14 @@
         ],
         "ci:check": [
             "Composer\\Config::disableProcessTimeout",
-            "npm run lint:check",
+            "npm run types:check",
             "npm run check",
             "@test"
         ],
         "test": [
             "@php artisan config:clear --ansi",
             "@lint:check",
-            "@php artisan test --ansi"
+            "@php artisan test --ansi --compact"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
@@ -101,5 +103,6 @@
             "php-http/discovery": true
         }
     },
-    "minimum-stability": "stable"
+    "minimum-stability": "stable",
+    "prefer-stable": true
 }

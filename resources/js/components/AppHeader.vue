@@ -63,14 +63,14 @@ const rightNavItems: NavItem[] = [
 
 <template>
     <div class="shadow-sm">
-        <NavigationMenu container expand="md" class="bg-body border-bottom">
+        <NavigationMenu class="bg-body border-bottom" container expand="md">
             <AppLogo :href="home()" :alt="page.props.name" />
             <NavigationMenuTrigger
                 :aria-expanded="isVisible"
                 aria-label="Toggle navigation"
                 @click="isVisible = !isVisible"
             />
-            <Collapsible :visible="isVisible" class="navbar-collapse">
+            <Collapsible class="navbar-collapse" :visible="isVisible">
                 <!-- Left Side Of Navbar -->
                 <NavigationMenuList class="me-auto">
                     <template v-for="item in mainNavItems" :key="item.title">
@@ -91,7 +91,7 @@ const rightNavItems: NavItem[] = [
                 </NavigationMenuList>
 
                 <!-- Right Side Of Navbar -->
-                <NavigationMenuList class="align-items-md-center">
+                <NavigationMenuList class="align-items-md-center ms-auto">
                     <template v-for="item in rightNavItems" :key="item.title">
                         <Tooltip
                             v-slot="{ id, on }"
