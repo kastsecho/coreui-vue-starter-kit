@@ -5,7 +5,13 @@ import { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
     layout?: 'fill' | 'justified';
-    variant?: string;
+    variant?:
+        | 'enclosed'
+        | 'enclosed-pills'
+        | 'pills'
+        | 'tabs'
+        | 'underline'
+        | 'underline-border';
     class?: HTMLAttributes['class'];
 }>();
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CSidebarToggler } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
-import { useSidebar } from './utils';
+import { useSidebar } from '@/components/ui/sidebar';
 
 const props = defineProps<{
     class?: HTMLAttributes['class'];

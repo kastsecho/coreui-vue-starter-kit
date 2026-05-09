@@ -7,7 +7,6 @@ import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import AppLogo from '@/components/AppLogo.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Collapsible } from '@/components/ui/collapsible';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -15,6 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import {
     NavigationMenu,
+    NavigationMenuContent,
     NavigationMenuItem,
     NavigationMenuList,
     NavigationMenuTrigger,
@@ -70,7 +70,7 @@ const rightNavItems: NavItem[] = [
                 aria-label="Toggle navigation"
                 @click="isVisible = !isVisible"
             />
-            <Collapsible class="navbar-collapse" :visible="isVisible">
+            <NavigationMenuContent :visible="isVisible">
                 <!-- Left Side Of Navbar -->
                 <NavigationMenuList class="me-auto">
                     <template v-for="item in mainNavItems" :key="item.title">
@@ -144,7 +144,7 @@ const rightNavItems: NavItem[] = [
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </NavigationMenuList>
-            </Collapsible>
+            </NavigationMenuContent>
         </NavigationMenu>
 
         <!-- Breadcrumbs -->

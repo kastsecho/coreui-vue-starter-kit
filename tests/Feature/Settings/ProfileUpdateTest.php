@@ -93,7 +93,7 @@ class ProfileUpdateTest extends TestCase
             ->assertRedirect(route('home'));
 
         $this->assertGuest();
-        $this->assertNull($user->fresh());
+        $this->assertModelMissing($user);
     }
 
     #[Test]
@@ -112,7 +112,7 @@ class ProfileUpdateTest extends TestCase
             ->assertInvalid('password')
             ->assertRedirect(route('profile.edit'));
 
-        $this->assertNotNull($user->fresh());
+        $this->assertModelExists($user);
     }
 
     #[Test]

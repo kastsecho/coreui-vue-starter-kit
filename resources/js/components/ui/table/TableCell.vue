@@ -1,0 +1,25 @@
+<script setup lang="ts">
+import { CTableDataCell } from '@coreui/vue';
+import type { Colors } from '@coreui/vue/src/types';
+import { reactiveOmit } from '@vueuse/core';
+import type { HTMLAttributes } from 'vue';
+
+const props = defineProps<{
+    active?: boolean;
+    align?: 'bottom' | 'middle' | 'top';
+    color?: Colors;
+    class?: HTMLAttributes['class'];
+}>();
+
+const delegatedProps = reactiveOmit(props, 'class');
+</script>
+
+<template>
+    <CTableDataCell
+        data-slot="table-cell"
+        v-bind="delegatedProps"
+        :class="props.class"
+    >
+        <slot />
+    </CTableDataCell>
+</template>

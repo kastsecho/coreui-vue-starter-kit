@@ -10,6 +10,6 @@ Route::get('/', HomeController::class)
 Route::get('/dashboard', DashboardController::class)
     ->name('dashboard');
 Route::get('/up', HealthController::class)
-    ->name('up');
+    ->name('health');
 
 require base_path('routes/settings.php');
