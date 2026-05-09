@@ -61,7 +61,7 @@ onUnmounted(() => clearTwoFactorAuthData());
             reset-on-error
             v-slot="{ errors, processing }"
             error-bag="updatePassword"
-            class="d-grid row-gap-3"
+            class="d-flex flex-column gap-3"
             novalidate
         >
             <div class="d-grid">

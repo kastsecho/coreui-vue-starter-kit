@@ -92,8 +92,8 @@ const code = ref<string>('');
             <Separator :spacing="2">
                 <Button
                     type="button"
-                    color="link"
                     class="link-body-emphasis fw-semibold"
+                    color="link"
                     @click="() => toggleRecoveryMode(clearErrors)"
                 >
                     {{ authConfigContent.buttonText }}
@@ -132,8 +132,8 @@ const code = ref<string>('');
             <Separator :spacing="2">
                 <Button
                     type="button"
-                    color="link"
                     class="link-body-emphasis fw-semibold"
+                    color="link"
                     @click="() => toggleRecoveryMode(clearErrors)"
                 >
                     {{ authConfigContent.buttonText }}

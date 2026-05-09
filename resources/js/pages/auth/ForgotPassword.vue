@@ -21,7 +21,11 @@ defineProps<{
 <template>
     <Head title="Forgot password" />
 
-    <Alert v-if="status" color="success" class="fw-medium text-center">
+    <Alert
+        v-if="status"
+        class="fw-medium rounded-4 text-center shadow-sm"
+        color="success"
+    >
         {{ status }}
     </Alert>
 

@@ -7,7 +7,7 @@ export type AppVariant = 'header' | 'sidebar';
 
 export type FlashToast = {
     id: string;
-    type: 'success' | 'info' | 'warning' | 'error';
+    type: 'success' | 'info' | 'warning' | 'danger';
     message: string;
     created_at: Date;
 };

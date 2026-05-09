@@ -42,6 +42,7 @@ const inputEmail = ref(props.email);
                     name="email"
                     required
                     autocomplete="email"
+                    placeholder="email@example.com"
                     v-model="inputEmail"
                     disabled
                     :invalid="!!errors.email"
@@ -49,7 +50,7 @@ const inputEmail = ref(props.email);
                 <InputFeedback :message="errors.email" invalid />
             </div>
 
-            <div class="grid gap-2">
+            <div class="d-grid">
                 <Label for="password">Password</Label>
                 <PasswordInput
                     id="password"
@@ -64,7 +65,7 @@ const inputEmail = ref(props.email);
                 <InputFeedback :message="errors.password" invalid />
             </div>
 
-            <div class="grid gap-2">
+            <div class="d-grid">
                 <Label for="password_confirmation"> Confirm password </Label>
                 <PasswordInput
                     id="password_confirmation"

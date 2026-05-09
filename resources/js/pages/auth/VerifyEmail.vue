@@ -23,8 +23,8 @@ defineProps<{
 
     <Alert
         v-if="status === 'verification-link-sent'"
+        class="fw-medium rounded-4 text-center shadow-sm"
         color="success"
-        class="fw-medium text-center"
     >
         A new verification link has been sent to the email address you provided
         during registration.
@@ -37,9 +37,9 @@ defineProps<{
     >
         <Button
             type="submit"
-            color="secondary"
             :tabindex="1"
             :disabled="processing"
+            data-test="verify-email-button"
         >
             <Spinner v-if="processing" />
             Resend verification email

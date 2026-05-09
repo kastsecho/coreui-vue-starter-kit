@@ -25,7 +25,7 @@ export const toastIcons = {
         slot: biInfoCircle,
         class: 'text-info',
     },
-    error: {
+    danger: {
         component: CIconSvg,
         props: {},
         slot: biExclamationCircle,

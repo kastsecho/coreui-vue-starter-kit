@@ -67,14 +67,14 @@ const deletePhoto = () => {
         <Heading
             variant="small"
             title="Profile information"
-            description="Update your name and email address"
+            description="Update your avatar, name and email address"
         />
 
         <Form
             v-bind="update.form()"
             v-slot="{ errors, processing }"
             error-bag="updateProfileInformation"
-            class="d-grid row-gap-3"
+            class="d-flex flex-column gap-3"
         >
             <div class="d-grid">
                 <Label for="photo">Photo</Label>
@@ -135,7 +135,7 @@ const deletePhoto = () => {
                     type="text"
                     :model-value="user.name"
                     required
-                    :tabindex="1"
+                    :tabindex="3"
                     autocomplete="name"
                     placeholder="Full name"
                     :invalid="!!errors.name"
@@ -151,7 +151,7 @@ const deletePhoto = () => {
                     type="email"
                     :model-value="user.email"
                     required
-                    :tabindex="2"
+                    :tabindex="4"
                     autocomplete="username"
                     placeholder="Email address"
                     :invalid="!!errors.email"
@@ -170,7 +170,7 @@ const deletePhoto = () => {
                         :href="send()"
                         as="button"
                         class="btn btn-link link-body-emphasis"
-                        :tabindex="3"
+                        :tabindex="5"
                     >
                         Click here to resend the verification email.
                     </Link>
@@ -187,7 +187,7 @@ const deletePhoto = () => {
             <div class="d-flex align-items-center gap-4">
                 <Button
                     type="submit"
-                    :tabindex="4"
+                    :tabindex="6"
                     :disabled="processing"
                     data-test="update-profile-button"
                 >
