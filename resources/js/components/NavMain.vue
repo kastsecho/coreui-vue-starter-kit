@@ -17,6 +17,7 @@ const { isCurrentUrl } = useCurrentUrl();
         v-for="item in items"
         :key="item.title"
         :href="item.href"
+        link-as="Link"
         :active="isCurrentUrl(item.href)"
     >
         <CIcon

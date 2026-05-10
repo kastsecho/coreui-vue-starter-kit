@@ -10,6 +10,7 @@ defineOptions({ inheritAttrs: false });
 type Props = {
     active?: boolean;
     as?: string;
+    linkAs?: string;
     disabled?: boolean;
     href?: InertiaLinkProps['href'];
     class?: string;
@@ -17,6 +18,7 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
     as: 'li',
+    linkAs: 'a',
 });
 
 const delegatedProps = reactiveOmit(props, 'href', 'class');
@@ -29,7 +31,7 @@ const delegatedProps = reactiveOmit(props, 'href', 'class');
         v-bind="delegatedProps"
     >
         <CNavLink
-            v-if="props.href && typeof props.href === 'string'"
+            v-if="props.href && props.linkAs === 'a'"
             v-bind="$attrs"
             :href="toUrl(props.href)"
             :class="props.class"
@@ -37,7 +39,7 @@ const delegatedProps = reactiveOmit(props, 'href', 'class');
             <slot />
         </CNavLink>
         <Link
-            v-else-if="props.href && typeof props.href !== 'string'"
+            v-else-if="props.href && props.linkAs !== 'a'"
             :href="props.href"
             v-bind="$attrs"
             :class="
