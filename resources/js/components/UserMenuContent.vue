@@ -63,6 +63,7 @@ const handleLogout = () => {
         <SidebarMenuItem
             :href="edit()"
             :active="isCurrentOrParentUrl('/settings')"
+            link-as="Link"
             prefetch
         >
             <CIcon custom-class-name="nav-icon" :icon="cilCog" />
