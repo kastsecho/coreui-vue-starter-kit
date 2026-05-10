@@ -41,7 +41,7 @@ composer run setup
 
 ### Preview
 
-![Preview](/coreui-screenshot.jpg)
+![Preview](/preview.jpg)
 
 ### License
 
