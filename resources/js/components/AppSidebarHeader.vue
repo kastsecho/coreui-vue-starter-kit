@@ -37,15 +37,19 @@ const page = usePage();
 const auth = computed(() => page.props.auth);
 const { isCurrentOrParentUrl } = useCurrentUrl();
 
+const dashboardUrl = computed(() =>
+    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
+);
+
 const headerClassNames = ref<string | null>(null);
 
-const mainNavItems: NavItem[] = [
+const mainNavItems = computed<NavItem[]>(() => [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: dashboardUrl.value,
         icon: cilApplications,
     },
-];
+]);
 
 onMounted(() => {
     document.addEventListener('scroll', () => {

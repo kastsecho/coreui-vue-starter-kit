@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Http\Controllers\Teams;
+
+use App\Enums\TeamRole;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Teams\UpdateTeamMemberRequest;
+use App\Models\Team;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
+
+class TeamMemberController extends Controller
+{
+    /**
+     * Update the specified team member's role.
+     */
+    #[Authorize('updateMember', 'team')]
+    public function update(UpdateTeamMemberRequest $request, Team $team, User $user): RedirectResponse
+    {
+        $newRole = TeamRole::from($request->validated('role'));
+
+        $team->memberships()
+            ->where('user_id', $user->id)
+            ->firstOrFail()
+            ->update(['role' => $newRole]);
+
+        return to_route('teams.edit', ['team' => $team->slug]);
+    }
+
+    /**
+     * Remove the specified team member.
+     */
+    #[Authorize('removeMember', 'team')]
+    public function destroy(Team $team, User $user): RedirectResponse
+    {
+        abort_if($team->owner()?->is($user), 403, 'The team owner cannot be removed.');
+
+        $team->memberships()
+            ->where('user_id', $user->id)
+            ->delete();
+
+        if ($user->isCurrentTeam($team)) {
+            $user->switchTeam($user->personalTeam());
+        }
+
+        return to_route('teams.edit', ['team' => $team->slug]);
+    }
+}

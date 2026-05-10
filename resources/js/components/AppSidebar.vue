@@ -7,6 +7,7 @@ import AppLogoIcon from '@/components/AppLogoIcon.vue';
 import NavFooter from '@/components/NavFooter.vue';
 import NavMain from '@/components/NavMain.vue';
 import NavUser from '@/components/NavUser.vue';
+import TeamSwitcher from '@/components/TeamSwitcher.vue';
 import {
     Sidebar,
     SidebarContent,
@@ -23,13 +24,17 @@ const simplebarRef = markRaw(simplebar);
 const page = usePage();
 const isOpen = computed(() => page.props.sidebarOpen);
 
-const mainNavItems: NavItem[] = [
+const dashboardUrl = computed(() =>
+    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
+);
+
+const mainNavItems = computed<NavItem[]>(() => [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: dashboardUrl.value,
         icon: cilApplications,
     },
-];
+]);
 
 const footerNavItems: NavItem[] = [
     {
@@ -64,6 +69,7 @@ const footerNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent :as="simplebarRef">
+            <TeamSwitcher />
             <NavMain :items="mainNavItems" />
             <NavFooter class="mt-auto" :items="footerNavItems" />
             <NavUser />

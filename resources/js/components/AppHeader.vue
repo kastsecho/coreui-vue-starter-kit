@@ -6,6 +6,7 @@ import { computed, ref } from 'vue';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import AppLogo from '@/components/AppLogo.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import TeamSwitcher from '@/components/TeamSwitcher.vue';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     DropdownMenu,
@@ -39,13 +40,17 @@ const auth = computed(() => page.props.auth);
 const isVisible = ref(false);
 const { isCurrentUrl } = useCurrentUrl();
 
-const mainNavItems: NavItem[] = [
+const dashboardUrl = computed(() =>
+    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
+);
+
+const mainNavItems = computed<NavItem[]>(() => [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: dashboardUrl.value,
         icon: cilApplications,
     },
-];
+]);
 
 const rightNavItems: NavItem[] = [
     {
@@ -143,6 +148,7 @@ const rightNavItems: NavItem[] = [
                             <UserMenuContent :user="auth.user" />
                         </DropdownMenuContent>
                     </DropdownMenu>
+                    <TeamSwitcher :in-header="true" />
                 </NavigationMenuList>
             </NavigationMenuContent>
         </NavigationMenu>

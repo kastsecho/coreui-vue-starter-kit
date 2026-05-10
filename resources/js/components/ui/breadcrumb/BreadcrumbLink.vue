@@ -6,13 +6,15 @@ import { Link } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 import { cn, toUrl } from '@/lib/utils';
+import type { TextColors } from '@/types';
 
 const props = defineProps<{
     active?: boolean;
     disabled?: boolean;
     href?: InertiaLinkProps['href'];
-    tabindex?: number;
     method?: Method;
+    tabindex?: number;
+    textColor?: TextColors;
     class?: HTMLAttributes['class'];
 }>();
 
@@ -31,6 +33,7 @@ const delegatedProps = reactiveOmit(props, 'href', 'method', 'class');
                 'breadcrumb-item',
                 {
                     active: props.active,
+                    [`link-${props.textColor}`]: props.textColor,
                 },
                 props.class,
             )
