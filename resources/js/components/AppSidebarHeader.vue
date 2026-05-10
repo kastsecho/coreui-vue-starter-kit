@@ -75,6 +75,7 @@ onMounted(() => {
                         v-if="item.isActive ?? true"
                         class="icon-link"
                         :href="item.href"
+                        link-as="Link"
                         :active="isCurrentOrParentUrl(item.href)"
                     >
                         <CIcon

@@ -12,11 +12,13 @@ type Props = {
     as?: string;
     disabled?: boolean;
     href?: InertiaLinkProps['href'];
+    linkAs?: string;
     class?: string;
 };
 
 const props = withDefaults(defineProps<Props>(), {
     as: 'li',
+    linkAs: 'a',
 });
 
 const delegatedProps = reactiveOmit(props, 'href', 'class');
@@ -25,7 +27,7 @@ const delegatedProps = reactiveOmit(props, 'href', 'class');
 <template>
     <CNavItem data-slot="navigation-menu-item" v-bind="delegatedProps">
         <CNavLink
-            v-if="props.href && typeof props.href === 'string'"
+            v-if="props.href && props.linkAs === 'a'"
             v-bind="$attrs"
             :href="toUrl(props.href)"
             :class="props.class"
@@ -33,7 +35,7 @@ const delegatedProps = reactiveOmit(props, 'href', 'class');
             <slot />
         </CNavLink>
         <Link
-            v-else-if="props.href && typeof props.href !== 'string'"
+            v-else-if="props.href && props.linkAs !== 'a'"
             :href="props.href"
             v-bind="$attrs"
             :class="

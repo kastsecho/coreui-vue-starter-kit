@@ -83,6 +83,7 @@ const rightNavItems: NavItem[] = [
                             v-if="item.isActive ?? true"
                             class="icon-link"
                             :href="item.href"
+                            link-as="Link"
                             :active="isCurrentUrl(item.href)"
                         >
                             <CIcon
