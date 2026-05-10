@@ -10,9 +10,9 @@ defineOptions({ inheritAttrs: false });
 type Props = {
     active?: boolean;
     as?: string;
-    linkAs?: string;
     disabled?: boolean;
     href?: InertiaLinkProps['href'];
+    linkAs?: string;
     class?: string;
 };
 
