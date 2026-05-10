@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { CTableBody } from '@coreui/vue';
+import type { Colors } from '@coreui/vue/src/types';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { CColor } from '@/types';
 
 const props = defineProps<{
-    color?: CColor;
+    color?: Colors;
     class?: HTMLAttributes['class'];
 }>();
 

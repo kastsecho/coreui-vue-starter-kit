@@ -2,14 +2,21 @@
 
 namespace Tests\Feature\Auth;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Fortify\Features;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class RegistrationTest extends TestCase
 {
     use RefreshDatabase;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->skipUnlessFortifyHas(Features::registration());
+    }
 
     #[Test]
     public function registration_screen_can_be_rendered(): void
@@ -30,8 +37,6 @@ class RegistrationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-
-        $user = User::where('email', 'test@example.com')->first();
-        $response->assertRedirect(route('dashboard'));
+        $response->assertRedirect(route('dashboard', absolute: false));
     }
 }

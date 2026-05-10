@@ -1,16 +1,23 @@
 <script setup lang="ts">
 import { CTableHead } from '@coreui/vue';
+import type { Colors } from '@coreui/vue/src/types';
+import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { CColor } from '@/types';
 
 const props = defineProps<{
-    color?: CColor;
+    color?: Colors;
     class?: HTMLAttributes['class'];
 }>();
+
+const delegatedProps = reactiveOmit(props, 'class');
 </script>
 
 <template>
-    <CTableHead data-slot="table-header" :class="props.class" :color="color">
+    <CTableHead
+        data-slot="table-header"
+        v-bind="delegatedProps"
+        :class="props.class"
+    >
         <slot />
     </CTableHead>
 </template>

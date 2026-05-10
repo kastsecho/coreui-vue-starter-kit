@@ -24,8 +24,8 @@ const delegatedProps = reactiveOmit(props, 'class');
         v-bind="delegatedProps"
         v-slot="slotProps"
         :container-class="props.class"
-        @complete="(v) => emit('complete', v)"
-        @update:modelValue="(v) => emit('update:modelValue', v)"
+        @complete="(v: any) => emit('complete', v)"
+        @update:modelValue="(v: any) => emit('update:modelValue', v)"
     >
         <slot v-bind="slotProps" />
     </OTPInput>

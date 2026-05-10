@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import Icon from '@/components/Icon.vue';
+import { cilContrast, cilMoon, cilSun } from '@coreui/icons';
+import { CIcon } from '@coreui/icons-vue';
 import { TabGroup, TabItem, TabList } from '@/components/ui/tab';
 import { useAppearance } from '@/composables/useAppearance';
 import { cn } from '@/lib/utils';
@@ -7,9 +8,9 @@ import { cn } from '@/lib/utils';
 const { appearance, updateAppearance } = useAppearance();
 
 const tabs = [
-    { value: 'light', icon: 'sun', label: 'Light' },
-    { value: 'dark', icon: 'moon', label: 'Dark' },
-    { value: 'system', icon: 'display', label: 'System' },
+    { value: 'light', Icon: cilSun, label: 'Light' },
+    { value: 'dark', Icon: cilMoon, label: 'Dark' },
+    { value: 'system', Icon: cilContrast, label: 'System' },
 ] as const;
 </script>
 
@@ -17,7 +18,7 @@ const tabs = [
     <TabGroup :activeItemKey="appearance">
         <TabList class="bg-body shadow-sm" variant="enclosed-pills">
             <TabItem
-                v-for="{ value, icon, label } in tabs"
+                v-for="{ value, Icon, label } in tabs"
                 :key="value"
                 :class="
                     cn(
@@ -28,7 +29,7 @@ const tabs = [
                 :itemKey="value"
                 @focus="updateAppearance(value)"
             >
-                <Icon :name="icon" />
+                <CIcon :icon="Icon" />
                 {{ label }}
             </TabItem>
         </TabList>

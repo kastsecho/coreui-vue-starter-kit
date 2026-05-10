@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { CNavbar } from '@coreui/vue';
+import type { Colors } from '@coreui/vue/src/types';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type {
-    CColor,
-    CContainer,
-    CExpand,
-    CNavbarPlacement,
-    ResolvedAppearance,
-} from '@/types';
+import type { ResolvedAppearance } from '@/types';
 
-const props = defineProps<{
-    color?: CColor;
+type Props = {
+    as?: string;
+    color?: Colors;
     colorScheme?: ResolvedAppearance;
-    container?: CContainer;
-    expand?: CExpand;
-    placement?: CNavbarPlacement;
+    container?: boolean | string;
+    expand?: boolean | string;
+    placement?: 'fixed-top' | 'fixed-bottom' | 'sticky-top';
     class?: HTMLAttributes['class'];
-}>();
+};
+
+const props = withDefaults(defineProps<Props>(), {
+    as: 'nav',
+});
 
 const delegatedProps = reactiveOmit(props, 'class');
 </script>

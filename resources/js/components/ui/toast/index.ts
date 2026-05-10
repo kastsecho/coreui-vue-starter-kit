@@ -1,17 +1,34 @@
-import type { FlashToast } from '@/types';
-
+import { cilCheckCircle, cilWarning } from '@coreui/icons';
+import { CIcon, CIconSvg } from '@coreui/icons-vue';
+import { biExclamationCircle, biInfoCircle } from '@/components/icon';
 export { default as Toast } from './Toast.vue';
 export { default as ToastContent } from './ToastContent.vue';
 export { default as Toaster } from './Toaster.vue';
 export { default as ToastHeader } from './ToastHeader.vue';
 
 export const toastIcons = {
-    success: { name: 'check-circle-fill', color: 'success' },
-    info: { name: 'info-circle-fill', color: 'info' },
-    warning: { name: 'exclamation-triangle-fill', color: 'warning' },
-    danger: { name: 'exclamation-circle-fill', color: 'danger' },
+    success: {
+        component: CIcon,
+        props: { icon: cilCheckCircle },
+        slot: null,
+        class: 'text-success',
+    },
+    warning: {
+        component: CIcon,
+        props: { icon: cilWarning },
+        slot: null,
+        class: 'text-warning',
+    },
+    info: {
+        component: CIconSvg,
+        props: {},
+        slot: biInfoCircle,
+        class: 'text-info',
+    },
+    danger: {
+        component: CIconSvg,
+        props: {},
+        slot: biExclamationCircle,
+        class: 'text-danger',
+    },
 } as const;
-
-export const resolveToastIcon = (type?: FlashToast['type']) => {
-    return toastIcons[type ?? 'success'] ?? toastIcons.success;
-};

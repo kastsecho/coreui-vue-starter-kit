@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import { Form, Head, router, setLayoutProps, usePage } from '@inertiajs/vue3';
+import {
+    Form,
+    Head,
+    Link,
+    router,
+    setLayoutProps,
+    usePage,
+} from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import DeleteUser from '@/components/DeleteUser.vue';
 import Heading from '@/components/Heading.vue';
-import TextLink from '@/components/TextLink.vue';
-import { Alert } from '@/components/ui/alert';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Input, InputError } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { ImageInput, Input, InputFeedback, Label } from '@/components/ui/form';
+import { Spinner } from '@/components/ui/spinner';
 import { getInitials } from '@/composables/useInitials';
 import { edit } from '@/routes/profile';
 import { destroy } from '@/routes/profile-photo';
@@ -33,26 +38,14 @@ const page = usePage();
 const user = computed(() => page.props.auth.user);
 
 const photoPreview = ref<string | null>(null);
-const photoInput = ref<HTMLInputElement | null>(null);
+const photoInput = ref<InstanceType<typeof ImageInput> | null>(null);
 
 const selectNewPhoto = () => {
-    photoInput?.value?.click();
+    photoInput.value?.click();
 };
 
-const updatePhotoPreview = () => {
-    const file = photoInput.value?.files?.[0];
-
-    if (!file || !file.type.startsWith('image/')) {
-        return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-        if (e.target?.result) {
-            photoPreview.value = e.target.result.toString();
-        }
-    };
-    reader.readAsDataURL(file);
+const updatePhotoPreview = ({ src }: { src: string; file: File }) => {
+    photoPreview.value = src;
 };
 
 const deletePhoto = () => {
@@ -60,15 +53,9 @@ const deletePhoto = () => {
         preserveScroll: true,
         onSuccess: () => {
             photoPreview.value = null;
-            clearPhotoFileInput();
+            photoInput.value?.reset();
         },
     });
-};
-
-const clearPhotoFileInput = () => {
-    if (photoInput.value) {
-        photoInput.value.value = '';
-    }
 };
 </script>
 
@@ -76,8 +63,7 @@ const clearPhotoFileInput = () => {
     <Head title="Profile settings" />
 
     <h1 class="visually-hidden">Profile settings</h1>
-
-    <div class="d-flex flex-column gap-3">
+    <div class="d-flex flex-column row-gap-3">
         <Heading
             variant="small"
             title="Profile information"
@@ -87,125 +73,125 @@ const clearPhotoFileInput = () => {
         <Form
             v-bind="update.form()"
             v-slot="{ errors, processing }"
+            error-bag="updateProfileInformation"
             class="d-flex flex-column gap-3"
         >
-            <div class="d-grid gap-3">
-                <div class="d-grid">
-                    <Label for="photo">Photo</Label>
-                    <input
-                        ref="photoInput"
-                        id="photo"
-                        name="photo"
-                        type="file"
-                        class="d-none"
-                        accept="image/*"
-                        @change="updatePhotoPreview"
+            <div class="d-grid">
+                <Label for="photo">Photo</Label>
+                <ImageInput
+                    ref="photoInput"
+                    id="photo"
+                    name="photo"
+                    class="d-none"
+                    @loaded="updatePhotoPreview"
+                />
+                <div class="d-flex align-items-center gap-4">
+                    <AvatarImage
+                        v-if="user.avatar || photoPreview"
+                        :src="photoPreview || user.avatar"
+                        :alt="user.name"
+                        size="xl"
                     />
-                    <div class="d-flex align-items-center gap-4">
-                        <AvatarImage
-                            v-if="user.avatar || photoPreview"
-                            :src="photoPreview || user.avatar"
-                            :alt="user.name"
-                            size="xl"
-                        />
-                        <AvatarFallback v-else class="fw-semibold" size="xl">
-                            {{ getInitials(user.name) }}
-                        </AvatarFallback>
+                    <AvatarFallback v-else class="fw-semibold" size="xl">
+                        {{ getInitials(user.name) }}
+                    </AvatarFallback>
 
-                        <Button
-                            type="button"
-                            color="secondary"
-                            @click="selectNewPhoto"
-                            :tabindex="1"
-                            :disabled="processing"
-                            data-test="update-profile-photo-button"
-                        >
-                            <template v-if="user.avatar">
-                                Change Photo
-                            </template>
-
-                            <template v-else>Upload Photo</template>
-                        </Button>
-
-                        <Button
-                            v-if="user.avatar || photoPreview"
-                            type="button"
-                            color="secondary"
-                            :tabindex="2"
-                            @click="deletePhoto"
-                            :disabled="processing"
-                            data-test="remove-profile-photo-button"
-                        >
-                            Remove Photo
-                        </Button>
-                    </div>
-                    <InputError
-                        :class="{ ['d-block']: errors.photo }"
-                        :message="errors.photo"
-                    />
-                </div>
-
-                <div class="d-grid">
-                    <Label for="name">Name</Label>
-                    <Input
-                        id="name"
-                        type="text"
-                        name="name"
-                        required
+                    <Button
+                        type="button"
+                        color="secondary"
+                        @click="selectNewPhoto"
                         :tabindex="1"
-                        :model-value="user.name"
-                        autocomplete="name"
-                        :invalid="!!errors.name"
-                        placeholder="Full name"
-                    />
-                    <InputError :message="errors.name" />
-                </div>
+                        :disabled="processing"
+                        data-test="update-profile-photo-button"
+                    >
+                        <template v-if="user.avatar">Change Photo</template>
+                        <template v-else>Upload Photo</template>
+                    </Button>
 
-                <div class="d-grid">
-                    <Label for="email">Email address</Label>
-                    <Input
-                        id="email"
-                        type="email"
-                        name="email"
-                        required
+                    <Button
+                        v-if="user.avatar || photoPreview"
+                        type="button"
+                        color="secondary"
                         :tabindex="2"
-                        :model-value="user.email"
-                        autocomplete="username"
-                        placeholder="Email address"
-                    />
-                    <InputError :message="errors.email" />
+                        @click="deletePhoto"
+                        :disabled="processing"
+                        data-test="remove-profile-photo-button"
+                    >
+                        Remove Photo
+                    </Button>
                 </div>
+                <InputFeedback
+                    :class="{ ['d-block']: errors.photo }"
+                    :message="errors.photo"
+                    invalid
+                />
+            </div>
+
+            <div class="d-grid">
+                <Label for="name">Name</Label>
+                <Input
+                    id="name"
+                    name="name"
+                    type="text"
+                    :model-value="user.name"
+                    required
+                    :tabindex="3"
+                    autocomplete="name"
+                    placeholder="Full name"
+                    :invalid="!!errors.name"
+                />
+                <InputFeedback :message="errors.name" invalid />
+            </div>
+
+            <div class="d-grid">
+                <Label for="email">Email address</Label>
+                <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    :model-value="user.email"
+                    required
+                    :tabindex="4"
+                    autocomplete="username"
+                    placeholder="Email address"
+                    :invalid="!!errors.email"
+                />
+                <InputFeedback :message="errors.email" invalid />
             </div>
 
             <div v-if="mustVerifyEmail && !user.email_verified_at">
-                <p class="-mt-4 text-muted">
-                    Your email address is unverified.
-                    <TextLink
+                <div class="d-flex align-items-center mt-n2">
+                    <InputFeedback
+                        class="small text-muted"
+                        message="Your email address is unverified."
+                    />
+
+                    <Link
                         :href="send()"
                         as="button"
-                        class="btn btn-link"
-                        :tabindex="4"
+                        class="btn btn-link link-body-emphasis"
+                        :tabindex="5"
                     >
                         Click here to resend the verification email.
-                    </TextLink>
-                </p>
+                    </Link>
+                </div>
 
-                <Alert
+                <InputFeedback
                     v-if="status === 'verification-link-sent'"
-                    class="fw-medium rounded-4 shadow-sm"
-                    color="success"
-                >
-                    A new verification link has been sent to your email address.
-                </Alert>
+                    class="d-block"
+                    message="A new verification link has been sent to your email address."
+                    valid
+                />
             </div>
 
             <div class="d-flex align-items-center gap-4">
                 <Button
                     type="submit"
-                    :tabindex="5"
+                    :tabindex="6"
                     :disabled="processing"
                     data-test="update-profile-button"
                 >
+                    <Spinner v-if="processing" />
                     Save
                 </Button>
             </div>

@@ -36,11 +36,10 @@ class VueMakeCommand extends GeneratorCommand
      * Build the class with the given name.
      *
      * @param  string  $name
-     * @return string
      *
      * @throws FileNotFoundException
      */
-    protected function buildClass($name)
+    protected function buildClass($name): string
     {
         $contents = parent::buildClass($name);
 
@@ -55,9 +54,8 @@ class VueMakeCommand extends GeneratorCommand
      * Get the destination view path.
      *
      * @param  string  $name
-     * @return string
      */
-    protected function getPath($name)
+    protected function getPath($name): string
     {
         return $this->jsPath(
             $this->getNameInput().'.'.$this->option('extension'),
@@ -66,10 +64,8 @@ class VueMakeCommand extends GeneratorCommand
 
     /**
      * Get the desired view name from the input.
-     *
-     * @return string
      */
-    protected function getNameInput()
+    protected function getNameInput(): string
     {
         $name = trim($this->argument('name'));
 
@@ -80,10 +76,8 @@ class VueMakeCommand extends GeneratorCommand
 
     /**
      * Get the stub file for the generator.
-     *
-     * @return string
      */
-    protected function getStub()
+    protected function getStub(): string
     {
         return $this->resolveStubPath(
             '/stubs/vue.stub',
@@ -92,22 +86,16 @@ class VueMakeCommand extends GeneratorCommand
 
     /**
      * Resolve the fully-qualified path to the stub.
-     *
-     * @param  string  $stub
-     * @return string
      */
-    protected function resolveStubPath($stub)
+    protected function resolveStubPath(string $stub): string
     {
         return $this->laravel->basePath(trim($stub, '/'));
     }
 
     /**
      * Get the js directory path from the application configuration.
-     *
-     * @param  string  $path
-     * @return string
      */
-    protected function jsPath($path = '')
+    protected function jsPath(string $path = ''): string
     {
         $views = match (true) {
             $this->option('page') => resource_path('js/pages'),
@@ -120,10 +108,8 @@ class VueMakeCommand extends GeneratorCommand
 
     /**
      * Get the console command arguments.
-     *
-     * @return array
      */
-    protected function getOptions()
+    protected function getOptions(): array
     {
         return [
             ['extension', null, InputOption::VALUE_OPTIONAL, 'The extension of the generated component', 'vue'],

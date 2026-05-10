@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { cilContrast, cilMoon, cilSun } from '@coreui/icons';
+import { CIcon } from '@coreui/icons-vue';
 import { computed } from 'vue';
 import type { HTMLAttributes } from 'vue';
-import Icon from '@/components/Icon.vue';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -19,9 +20,9 @@ defineProps<{
 const { appearance, updateAppearance } = useAppearance();
 
 const tabs = [
-    { value: 'light', icon: 'sun', label: 'Light' },
-    { value: 'dark', icon: 'moon', label: 'Dark' },
-    { value: 'system', icon: 'display', label: 'System' },
+    { value: 'light', Icon: cilSun, label: 'Light' },
+    { value: 'dark', Icon: cilMoon, label: 'Dark' },
+    { value: 'system', Icon: cilContrast, label: 'System' },
 ] as const;
 
 const active = computed(() =>
@@ -30,28 +31,28 @@ const active = computed(() =>
 </script>
 
 <template>
-    <DropdownMenu align="end" variant="nav-item">
-        <DropdownMenuTrigger class="nav-link" :caret="false">
-            <Icon :class="iconClass" :name="active?.icon!" />
+    <DropdownMenu :alignment="{ md: 'end' }" variant="nav-item">
+        <DropdownMenuTrigger class="pb-md-0 nav-link" :caret="false">
+            <CIcon class="nav-icon my-0" :icon="active?.Icon" size="xl" />
             <span class="visually-hidden">
                 {{ active?.label }}
             </span>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent>
-            <DropdownMenuLabel class="py-0 fw-medium">
+        <DropdownMenuContent class="rounded-4 min-w-50 overflow-x-hidden">
+            <DropdownMenuLabel class="fw-medium py-0">
                 Appearance
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem
-                v-for="{ value, icon, label } in tabs"
+                v-for="{ value, Icon, label } in tabs"
                 :key="value"
                 class="icon-link"
                 as="button"
                 @click="updateAppearance(value)"
                 :active="appearance === value"
             >
-                <Icon :name="icon" />
+                <CIcon class="nav-icon me-2" :icon="Icon" />
                 <span>{{ label }}</span>
             </DropdownMenuItem>
         </DropdownMenuContent>

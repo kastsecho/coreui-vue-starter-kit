@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { CSpinner } from '@coreui/vue';
+import type { Colors } from '@coreui/vue/src/types';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { CColor } from '@/types';
 
 type Props = {
-    color?: CColor;
+    color?: Colors;
     label?: string;
     size?: 'sm';
     variant?: 'border' | 'grow';

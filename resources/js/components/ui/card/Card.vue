@@ -1,13 +1,14 @@
 <script setup lang="ts">
 import { CCard } from '@coreui/vue';
+import type { Colors } from '@coreui/vue/src/types';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { CBgTextColor, CColor, CTextColor } from '@/types';
+import type { TextColors } from '@/types';
 
 const props = defineProps<{
-    color?: CColor;
-    textColor?: CTextColor;
-    textBgColor?: CBgTextColor;
+    color?: Colors;
+    textBgColor?: Colors;
+    textColor?: TextColors;
     class?: HTMLAttributes['class'];
 }>();
 

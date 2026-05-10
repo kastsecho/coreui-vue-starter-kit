@@ -11,7 +11,8 @@ import {
 import { cn } from '@/lib/utils';
 
 const props = withDefaults(defineProps<SidebarProps>(), {
-    colorScheme: 'dark',
+    colorScheme: undefined,
+    placement: undefined,
     position: 'fixed',
 });
 
@@ -43,10 +44,10 @@ onMounted(() => {
         data-slot="sidebar"
         data-sidebar="sidebar"
         v-bind="delegatedProps"
-        :class="cn('border-end', props.class)"
         :unfoldable="sidebar.narrow"
         :visible="sidebar.open"
         @visible-change="(value) => sidebar.setOpen(value)"
+        :class="cn('border-end', props.class)"
     >
         <slot />
     </CSidebar>

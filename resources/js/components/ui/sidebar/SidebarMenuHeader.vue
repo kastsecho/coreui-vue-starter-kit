@@ -2,13 +2,17 @@
 import { CHeader } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { CContainer } from '@/types';
 
-const props = defineProps<{
-    container?: CContainer;
+type Props = {
+    as?: string;
+    container?: boolean | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'fluid';
     position?: 'fixed' | 'sticky';
     class?: HTMLAttributes['class'];
-}>();
+};
+
+const props = withDefaults(defineProps<Props>(), {
+    as: 'div',
+});
 
 const delegatedProps = reactiveOmit(props, 'class');
 </script>

@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { cilHamburgerMenu } from '@coreui/icons';
+import { CIcon } from '@coreui/icons-vue';
 import { CHeaderToggler } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
-import Icon from '@/components/Icon.vue';
 import { useSidebar } from '@/components/ui/sidebar';
 
 const props = defineProps<{
@@ -13,12 +14,12 @@ const sidebar = useSidebar();
 
 <template>
     <CHeaderToggler
-        data-sidebar="trigger"
         data-slot="sidebar-trigger"
+        data-sidebar="trigger"
         :class="props.class"
         @click="sidebar.toggleSidebar"
     >
-        <Icon class="icon icon-lg" name="list" />
+        <CIcon :icon="cilHamburgerMenu" size="lg" />
         <span class="visually-hidden">Toggle sidebar</span>
     </CHeaderToggler>
 </template>

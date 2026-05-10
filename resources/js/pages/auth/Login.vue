@@ -1,26 +1,30 @@
 <script setup lang="ts">
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
-import PasswordInput from '@/components/PasswordInput.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { Checkbox, Input, InputError } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import {
+    Checkbox,
+    Input,
+    InputFeedback,
+    Label,
+    PasswordInput,
+} from '@/components/ui/form';
 import { Spinner } from '@/components/ui/spinner';
 import { register } from '@/routes';
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
+
+setLayoutProps({
+    title: 'Log in to your account',
+    description: 'Enter your email and password below to log in',
+});
 
 defineProps<{
     status?: string;
     canResetPassword: boolean;
     canRegister: boolean;
 }>();
-
-setLayoutProps({
-    title: 'Log in to your account',
-    description: 'Enter your email and password below to log in',
-});
 </script>
 
 <template>
@@ -28,8 +32,8 @@ setLayoutProps({
 
     <Alert
         v-if="status"
+        class="fw-medium rounded-4 text-center shadow-sm"
         color="success"
-        class="fw-medium rounded-4 shadow-sm text-center"
     >
         {{ status }}
     </Alert>
@@ -48,24 +52,23 @@ setLayoutProps({
                     type="email"
                     name="email"
                     required
+                    autofocus
                     :tabindex="1"
                     autocomplete="email"
-                    autofocus
-                    :invalid="!!errors.email"
                     placeholder="email@example.com"
+                    :invalid="!!errors.email"
                 />
-                <InputError :message="errors.email" />
+                <InputFeedback :message="errors.email" invalid />
             </div>
 
             <div class="d-grid">
                 <div
-                    class="form-label d-flex align-items-center justify-content-between"
+                    class="d-flex align-items-center justify-content-between col-form-label"
                 >
                     <Label class="mb-0" for="password">Password</Label>
                     <TextLink
                         v-if="canResetPassword"
                         :href="request()"
-                        class="text-sm"
                         :tabindex="5"
                     >
                         Forgot password?
@@ -77,22 +80,24 @@ setLayoutProps({
                     required
                     :tabindex="2"
                     autocomplete="current-password"
-                    :invalid="!!errors.password"
                     placeholder="Password"
+                    :invalid="!!errors.password"
                 />
-                <InputError :message="errors.password" />
+                <InputFeedback :message="errors.password" invalid />
             </div>
 
-            <div class="form-check">
-                <Label for="remember" custom-class-name="form-check-label">
-                    <Checkbox id="remember" name="remember" :tabindex="3" />
-                    <span>Remember me</span>
-                </Label>
+            <div class="d-grid">
+                <Checkbox
+                    id="remember"
+                    name="remember"
+                    label="Remember me"
+                    :tabindex="3"
+                />
             </div>
 
             <Button
                 type="submit"
-                class="mt-2"
+                class="mt-4"
                 :tabindex="4"
                 :disabled="processing"
                 data-test="login-button"

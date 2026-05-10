@@ -14,10 +14,9 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request): Response
     {
-        return inertia('Home', [
-            'canRegister' => Features::enabled(Features::registration()),
+        return inertia('Welcome', [
+            'hasLogin' => Features::enabled(Features::registration()),
             'laravel' => Application::VERSION,
-            'php' => PHP_VERSION,
         ]);
     }
 }

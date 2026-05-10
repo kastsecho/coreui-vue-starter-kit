@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import { CToast } from '@coreui/vue';
+import type { Colors } from '@coreui/vue/src/types';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { CColor } from '@/types';
 
 type Props = {
     autohide?: boolean;
+    color?: Colors;
     delay?: number;
-    color?: CColor;
     dismissible?: boolean;
+    index?: number;
+    title?: string;
     visible?: boolean;
     class?: HTMLAttributes['class'];
 };
@@ -16,7 +18,7 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
     autohide: true,
     delay: 5000,
-    visible: true,
+    dismissible: true,
 });
 
 const delegatedProps = reactiveOmit(props, 'class');

@@ -2,6 +2,7 @@ import inertia from '@inertiajs/vite';
 import { wayfinder } from '@laravel/vite-plugin-wayfinder';
 import vue from '@vitejs/plugin-vue';
 import laravel from 'laravel-vite-plugin';
+import { bunny } from 'laravel-vite-plugin/fonts';
 import { defineConfig } from 'vite-plus';
 
 export default defineConfig({
@@ -9,6 +10,11 @@ export default defineConfig({
         laravel({
             input: ['resources/sass/app.scss', 'resources/js/app.ts'],
             refresh: true,
+            fonts: [
+                bunny('Instrument Sans', {
+                    weights: [400, 500, 600],
+                }),
+            ],
         }),
         inertia(),
         vue({
@@ -29,6 +35,7 @@ export default defineConfig({
             'node_modules/**',
             'public/**',
             'bootstrap/ssr/**',
+            'tailwind.config.js',
             'resources/js/actions/**',
             'resources/js/components/ui/*',
             'resources/js/routes/**',
@@ -55,7 +62,7 @@ export default defineConfig({
         },
         sortTailwindcss: {
             functions: ['clsx', 'cn', 'cva'],
-            stylesheet: 'resources/sass/app.scss',
+            entryPoint: 'resources/sass/app.scss',
         },
     },
 });

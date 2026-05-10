@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { Link, usePage } from '@inertiajs/vue3';
+import { cibGit, cilApplications, cilFlip } from '@coreui/icons';
+import { CIcon } from '@coreui/icons-vue';
+import { usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import AppLogo from '@/components/AppLogo.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import Icon from '@/components/Icon.vue';
-import TeamSwitcher from '@/components/TeamSwitcher.vue';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     DropdownMenu,
@@ -16,7 +16,6 @@ import {
     NavigationMenu,
     NavigationMenuContent,
     NavigationMenuItem,
-    NavigationMenuLink,
     NavigationMenuList,
     NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
@@ -24,8 +23,7 @@ import { Tooltip } from '@/components/ui/tooltip';
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
-import { toUrl } from '@/lib/utils';
-import { dashboard, home, login, register } from '@/routes';
+import { dashboard, home } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
@@ -38,99 +36,72 @@ withDefaults(defineProps<Props>(), {
 
 const page = usePage();
 const auth = computed(() => page.props.auth);
+const isVisible = ref(false);
 const { isCurrentUrl } = useCurrentUrl();
 
-const dashboardUrl = computed(() =>
-    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
-);
-
-const isNavOpen = ref<boolean>(false);
-
-const mainNavItems = computed<NavItem[]>(() => [
+const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboardUrl.value,
-        icon: 'grid',
-        isActive: !!auth.value.user,
+        href: dashboard(),
+        icon: cilApplications,
     },
-]);
+];
 
 const rightNavItems: NavItem[] = [
     {
         title: 'Repository',
         href: 'https://github.com/kastsecho/coreui-vue-starter-kit',
-        icon: 'github',
+        icon: cibGit,
     },
     {
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#vue',
-        icon: 'book',
-    },
-];
-
-const authNavItems: NavItem[] = [
-    {
-        title: 'Log in',
-        href: login(),
-        isActive: !auth.value.user,
-    },
-    {
-        title: 'Register',
-        href: register(),
-        isActive: !auth.value.user,
+        icon: cilFlip,
     },
 ];
 </script>
 
 <template>
     <div class="shadow-sm">
-        <!-- Desktop Menu -->
         <NavigationMenu class="bg-body border-bottom" container expand="md">
-            <Link class="navbar-brand link-danger" :href="home()">
-                <AppLogoIcon height="32" width="32" />
-            </Link>
-            <NavigationMenuTrigger @click="isNavOpen = !isNavOpen" />
-
-            <NavigationMenuContent :visible="isNavOpen">
+            <AppLogo :href="home()" :alt="page.props.name" />
+            <NavigationMenuTrigger
+                :aria-expanded="isVisible"
+                aria-label="Toggle navigation"
+                @click="isVisible = !isVisible"
+            />
+            <NavigationMenuContent :visible="isVisible">
+                <!-- Left Side Of Navbar -->
                 <NavigationMenuList class="me-auto">
                     <template v-for="item in mainNavItems" :key="item.title">
-                        <NavigationMenuItem v-if="item.isActive ?? true">
-                            <NavigationMenuLink
-                                :href="toUrl(item.href)"
-                                class="icon-link"
-                                :active="isCurrentUrl(item.href)"
-                            >
-                                <Icon
-                                    v-if="item.icon"
-                                    class="me-2"
-                                    :name="item.icon"
-                                />
-                                {{ item.title }}
-                            </NavigationMenuLink>
+                        <NavigationMenuItem
+                            v-if="item.isActive ?? true"
+                            class="icon-link"
+                            :href="item.href"
+                            :active="isCurrentUrl(item.href)"
+                        >
+                            <CIcon
+                                v-if="item.icon"
+                                class="nav-icon"
+                                :icon="item.icon"
+                            />
+                            {{ item.title }}
                         </NavigationMenuItem>
                     </template>
                 </NavigationMenuList>
 
-                <NavigationMenuList class="align-items-center ms-auto">
-                    <NavigationMenuItem>
-                        <NavigationMenuLink as="button">
-                            <Icon name="search" />
-                        </NavigationMenuLink>
-                    </NavigationMenuItem>
-                    <NavigationMenuItem
-                        v-for="item in rightNavItems"
-                        :key="item.title"
-                    >
+                <!-- Right Side Of Navbar -->
+                <NavigationMenuList class="align-items-md-center ms-auto">
+                    <template v-for="item in rightNavItems" :key="item.title">
                         <Tooltip
                             v-slot="{ id, on }"
-                            class="nav-link icon-link"
                             :content="item.title"
                             placement="bottom"
                         >
-                            <NavigationMenuLink
+                            <NavigationMenuItem
                                 v-on="on"
-                                as="a"
-                                :href="toUrl(item.href)"
+                                class="pb-md-0"
+                                :href="item.href"
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 :aria-describedby="id"
@@ -138,16 +109,23 @@ const authNavItems: NavItem[] = [
                                 <span class="visually-hidden">
                                     {{ item.title }}
                                 </span>
-                                <Icon v-if="item.icon" :name="item.icon" />
-                            </NavigationMenuLink>
+                                <CIcon
+                                    v-if="item.icon"
+                                    class="nav-icon"
+                                    :icon="item.icon"
+                                    size="xl"
+                                />
+                            </NavigationMenuItem>
                         </Tooltip>
-                    </NavigationMenuItem>
+                    </template>
+
                     <AppearanceSwitcher />
+
+                    <!-- Authentication Links -->
                     <DropdownMenu
                         v-if="auth.user"
-                        align="end"
+                        :alignment="{ md: 'end' }"
                         variant="nav-item"
-                        teleport
                     >
                         <DropdownMenuTrigger class="nav-link" :caret="false">
                             <AvatarImage
@@ -156,42 +134,19 @@ const authNavItems: NavItem[] = [
                                 :alt="auth.user.name"
                                 status="success"
                             />
-                            <AvatarFallback
-                                v-else
-                                class="fw-semibold"
-                                status="success"
-                            >
+                            <AvatarFallback v-else status="success">
                                 {{ getInitials(auth.user.name) }}
                             </AvatarFallback>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent class="min-w-50">
+
+                        <DropdownMenuContent class="rounded-4 min-w-50">
                             <UserMenuContent :user="auth.user" />
                         </DropdownMenuContent>
                     </DropdownMenu>
-                    <template
-                        v-else
-                        v-for="item in authNavItems"
-                        :key="item.title"
-                    >
-                        <NavigationMenuItem v-if="item.isActive ?? true">
-                            <NavigationMenuLink
-                                :href="toUrl(item.href)"
-                                class="icon-link"
-                                :active="isCurrentUrl(item.href)"
-                            >
-                                <Icon
-                                    v-if="item.icon"
-                                    class="me-2"
-                                    :name="item.icon"
-                                />
-                                {{ item.title }}
-                            </NavigationMenuLink>
-                        </NavigationMenuItem>
-                    </template>
-                    <TeamSwitcher :in-header="true" />
                 </NavigationMenuList>
             </NavigationMenuContent>
         </NavigationMenu>
+
         <!-- Breadcrumbs -->
         <NavigationMenu
             v-if="breadcrumbs && breadcrumbs.length > 0"

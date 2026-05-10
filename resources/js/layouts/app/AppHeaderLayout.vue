@@ -20,7 +20,7 @@ useFlashToast();
 <template>
     <AppShell variant="header">
         <AppHeader :breadcrumbs="breadcrumbs" />
-        <AppContent variant="header" container>
+        <AppContent class="py-4" container variant="header">
             <slot />
         </AppContent>
         <Toaster />

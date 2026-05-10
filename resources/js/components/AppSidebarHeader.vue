@@ -1,26 +1,23 @@
 <script setup lang="ts">
-import { CContainer } from '@coreui/vue';
+import { cilApplications } from '@coreui/icons';
+import { CIcon } from '@coreui/icons-vue';
 import { usePage } from '@inertiajs/vue3';
 import { computed, onMounted, ref } from 'vue';
 import AppearanceSwitcher from '@/components/AppearanceSwitcher.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import Icon from '@/components/Icon.vue';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-    NavigationMenuItem,
-    NavigationMenuLink,
-} from '@/components/ui/navigation-menu';
+import { NavigationMenuItem } from '@/components/ui/navigation-menu';
 import {
     SidebarMenuHeader,
     SidebarMenuHeaderList,
     SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { Tooltip } from '@/components/ui/tooltip';
+import { Container } from '@/components/ui/skeleton';
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
@@ -40,36 +37,13 @@ const page = usePage();
 const auth = computed(() => page.props.auth);
 const { isCurrentOrParentUrl } = useCurrentUrl();
 
-const dashboardUrl = computed(() =>
-    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
-);
-
 const headerClassNames = ref<string | null>(null);
 
-const mainNavItems = computed<NavItem[]>(() => [
+const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboardUrl.value,
-        icon: 'grid',
-        isActive: !!auth.value.user,
-    },
-]);
-
-const rightNavItems: NavItem[] = [
-    {
-        title: 'Notifications',
-        href: '#',
-        icon: 'bell',
-    },
-    {
-        title: 'Tasks',
-        href: '#',
-        icon: 'list-check',
-    },
-    {
-        title: 'Messages',
-        href: '#',
-        icon: 'envelope-open',
+        href: dashboard(),
+        icon: cilApplications,
     },
 ];
 
@@ -86,56 +60,36 @@ onMounted(() => {
         :class="cn('mb-4 p-0', headerClassNames)"
         position="sticky"
     >
-        <CContainer class="border-bottom px-4" fluid>
+        <Container class="border-bottom px-4" fluid>
             <!-- Hamburger -->
             <SidebarTrigger style="margin-inline-start: -14px" />
 
             <!-- Navigation Links -->
             <SidebarMenuHeaderList class="d-none d-md-flex">
                 <template v-for="item in mainNavItems" :key="item.title">
-                    <NavigationMenuItem v-if="item.isActive ?? true">
-                        <NavigationMenuLink
-                            class="icon-link"
-                            :href="item.href"
-                            :active="isCurrentOrParentUrl(item.href)"
-                        >
-                            {{ item.title }}
-                        </NavigationMenuLink>
+                    <NavigationMenuItem
+                        v-if="item.isActive ?? true"
+                        class="icon-link"
+                        :href="item.href"
+                        :active="isCurrentOrParentUrl(item.href)"
+                    >
+                        <CIcon
+                            v-if="item.icon"
+                            class="nav-icon"
+                            :icon="item.icon"
+                        />
+                        {{ item.title }}
                     </NavigationMenuItem>
                 </template>
             </SidebarMenuHeaderList>
 
             <SidebarMenuHeaderList class="align-items-center ms-auto">
-                <NavigationMenuItem
-                    v-for="item in rightNavItems"
-                    :key="item.title"
-                >
-                    <Tooltip
-                        :content="item.title"
-                        v-slot="{ id, on }"
-                        placement="bottom"
-                    >
-                        <NavigationMenuLink
-                            v-on="on"
-                            :href="item.href"
-                            :aria-describedby="id"
-                        >
-                            <span class="visually-hidden">
-                                {{ item.title }}
-                            </span>
-                            <Icon
-                                v-if="item.icon"
-                                class="icon icon-lg"
-                                :name="item.icon"
-                            />
-                        </NavigationMenuLink>
-                    </Tooltip>
-                </NavigationMenuItem>
-            </SidebarMenuHeaderList>
-
-            <SidebarMenuHeaderList class="align-items-center">
                 <AppearanceSwitcher icon-class="icon icon-lg" />
-                <DropdownMenu v-if="auth.user" align="end" variant="nav-item">
+                <DropdownMenu
+                    v-if="auth.user"
+                    :alignment="{ md: 'end' }"
+                    variant="nav-item"
+                >
                     <DropdownMenuTrigger class="nav-link" :caret="false">
                         <AvatarImage
                             v-if="auth.user.avatar"
@@ -151,19 +105,19 @@ onMounted(() => {
                             {{ getInitials(auth.user.name) }}
                         </AvatarFallback>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent class="min-w-50">
+                    <DropdownMenuContent class="rounded-4 min-w-50">
                         <UserMenuContent :user="auth.user" />
                     </DropdownMenuContent>
                 </DropdownMenu>
             </SidebarMenuHeaderList>
-        </CContainer>
+        </Container>
 
-        <CContainer
+        <Container
             v-if="breadcrumbs && breadcrumbs.length >= 1"
             class="px-4 py-2"
             fluid
         >
             <Breadcrumbs :breadcrumbs="breadcrumbs" />
-        </CContainer>
+        </Container>
     </SidebarMenuHeader>
 </template>

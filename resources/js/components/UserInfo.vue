@@ -27,9 +27,9 @@ const showAvatar = computed(
     <template v-if="variant === 'header'">
         <AvatarImage
             v-if="showAvatar"
+            size="sm"
             :src="user.avatar!"
             :alt="user.name"
-            size="sm"
         />
         <AvatarFallback v-else class="fw-semibold" size="sm">
             {{ getInitials(user.name) }}
@@ -46,14 +46,14 @@ const showAvatar = computed(
         <div class="nav-icon">
             <AvatarImage
                 v-if="showAvatar"
-                :src="user.avatar!"
-                :alt="user.name"
                 shape="rounded"
                 size="sm"
+                :src="user.avatar!"
+                :alt="user.name"
             />
             <AvatarFallback
                 v-else
-                class="fw-semibold text-white"
+                class="fw-semibold"
                 shape="rounded"
                 size="sm"
             >

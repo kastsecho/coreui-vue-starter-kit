@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import { InputGroup } from '@/components/ui/input';
+import { InputGroup } from '@/components/ui/form';
 
 const props = defineProps<{
     size?: 'sm' | 'lg';

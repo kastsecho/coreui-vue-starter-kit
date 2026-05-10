@@ -31,8 +31,8 @@ class AuthenticationTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertRedirect(route('dashboard'));
         $this->assertAuthenticated();
+        $response->assertRedirect(route('dashboard', absolute: false));
     }
 
     #[Test]
@@ -58,9 +58,8 @@ class AuthenticationTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response
-            ->assertRedirect(route('two-factor.login'))
-            ->assertSessionHas('login.id', $user->id);
+        $response->assertRedirect(route('two-factor.login'));
+        $response->assertSessionHas('login.id', $user->id);
         $this->assertGuest();
     }
 
@@ -86,8 +85,8 @@ class AuthenticationTest extends TestCase
             ->actingAs($user)
             ->post(route('logout'));
 
-        $response->assertRedirect(route('home'));
         $this->assertGuest();
+        $response->assertRedirect(route('home'));
     }
 
     #[Test]

@@ -18,7 +18,10 @@ defineProps<{
                 <BreadcrumbPage>{{ item.title }}</BreadcrumbPage>
             </template>
             <template v-else>
-                <BreadcrumbLink :href="item.href ?? '#'">
+                <BreadcrumbLink
+                    text-color="body-emphasis"
+                    :href="item.href ?? '#'"
+                >
                     {{ item.title }}
                 </BreadcrumbLink>
             </template>

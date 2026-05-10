@@ -3,20 +3,19 @@ import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
-import { Input, InputError } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Input, InputFeedback, Label } from '@/components/ui/form';
 import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { email } from '@/routes/password';
-
-defineProps<{
-    status?: string;
-}>();
 
 setLayoutProps({
     title: 'Forgot password',
     description: 'Enter your email to receive a password reset link',
 });
+
+defineProps<{
+    status?: string;
+}>();
 </script>
 
 <template>
@@ -24,8 +23,8 @@ setLayoutProps({
 
     <Alert
         v-if="status"
+        class="fw-medium rounded-4 text-center shadow-sm"
         color="success"
-        class="fw-medium rounded-4 shadow-sm text-center"
     >
         {{ status }}
     </Alert>
@@ -43,18 +42,18 @@ setLayoutProps({
                     type="email"
                     name="email"
                     required
+                    autofocus
                     :tabindex="1"
                     autocomplete="off"
-                    autofocus
-                    :invalid="!!errors.email"
                     placeholder="email@example.com"
+                    :invalid="!!errors.email"
                 />
-                <InputError :message="errors.email" />
+                <InputFeedback :message="errors.email" invalid />
             </div>
 
             <Button
                 type="submit"
-                class="mt-2"
+                class="mt-4"
                 :tabindex="2"
                 :disabled="processing"
                 data-test="email-password-reset-link-button"

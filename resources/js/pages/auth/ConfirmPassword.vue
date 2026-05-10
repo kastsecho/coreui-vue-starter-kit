@@ -1,9 +1,7 @@
 <script setup lang="ts">
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
-import PasswordInput from '@/components/PasswordInput.vue';
 import { Button } from '@/components/ui/button';
-import { InputError } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { InputFeedback, Label, PasswordInput } from '@/components/ui/form';
 import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/password/confirm';
 
@@ -21,6 +19,7 @@ setLayoutProps({
         v-bind="store.form()"
         reset-on-success
         v-slot="{ errors, processing }"
+        class="d-flex flex-column gap-3"
     >
         <div class="d-grid gap-3">
             <div class="d-grid">
@@ -31,16 +30,15 @@ setLayoutProps({
                     required
                     :tabindex="1"
                     autocomplete="current-password"
-                    autofocus
-                    :invalid="!!errors.password"
                     placeholder="Password"
+                    :invalid="!!errors.password"
                 />
-                <InputError :message="errors.password" />
+                <InputFeedback :message="errors.password" invalid />
             </div>
 
             <Button
                 type="submit"
-                class="mt-2"
+                class="mt-4"
                 :tabindex="2"
                 :disabled="processing"
                 data-test="confirm-password-button"

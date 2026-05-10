@@ -2,7 +2,6 @@
 import { CCardTitle } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import { cn } from '@/lib/utils';
 
 type Props = {
     as?: string;
@@ -20,7 +19,7 @@ const delegatedProps = reactiveOmit(props, 'class');
     <CCardTitle
         data-slot="card-title"
         v-bind="delegatedProps"
-        :class="cn('fw-semibold', props.class)"
+        :class="props.class"
     >
         <slot />
     </CCardTitle>

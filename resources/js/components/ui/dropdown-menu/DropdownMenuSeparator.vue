@@ -8,8 +8,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <CDropdownDivider
-        data-slot="dropdown-menu-separator"
-        :class="props.class"
-    />
+    <CDropdownDivider data-slot="dropdown-menu-separator" :class="props.class">
+        <slot />
+    </CDropdownDivider>
 </template>

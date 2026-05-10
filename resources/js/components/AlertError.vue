@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { CIconSvg } from '@coreui/icons-vue';
 import { computed } from 'vue';
-import Icon from '@/components/Icon.vue';
+import { biExclamationCircle } from '@/components/icon';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 type Props = {
@@ -18,8 +19,10 @@ const uniqueErrors = computed(() => Array.from(new Set(props.errors)));
 <template>
     <Alert color="danger">
         <div class="d-flex align-items-center gap-3">
-            <Icon color="danger" name="exclamation-circle-fill" />
-            <AlertTitle class="mb-0">{{ title }}</AlertTitle>
+            <CIconSvg class="text-danger">
+                <biExclamationCircle class="icon icon-lg" />
+            </CIconSvg>
+            <AlertTitle as="h5" class="mb-0">{{ title }}</AlertTitle>
         </div>
         <AlertDescription>
             <ul class="mb-0">

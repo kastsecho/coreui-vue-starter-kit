@@ -4,6 +4,7 @@ import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 
 const props = defineProps<{
+    horizontal?: boolean;
     visible: boolean;
     class?: HTMLAttributes['class'];
 }>();

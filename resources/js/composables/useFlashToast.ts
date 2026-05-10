@@ -1,12 +1,10 @@
 import { router } from '@inertiajs/vue3';
-import { onMounted, onUnmounted, ref } from 'vue';
-import type { FlashToast } from '@/types/ui';
+import { onMounted, onUnmounted, ref, useId } from 'vue';
+import type { FlashToast } from '@/types';
 
 export const toasts = ref<FlashToast[]>([]);
 
-let nextId = 0;
-
-export const dismissToast = (id: number) => {
+export const dismissToast = (id: FlashToast['id']) => {
     toasts.value = toasts.value.filter((toast) => toast.id !== id);
 };
 
@@ -14,7 +12,7 @@ export const addToast = (
     message: string,
     type: FlashToast['type'] = 'success',
 ) => {
-    const id = nextId++;
+    const id = useId();
     const created_at = new Date();
     toasts.value.push({ id, message, type, created_at });
 };

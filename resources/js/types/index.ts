@@ -1,4 +1,4 @@
 export * from './auth';
+export * from './models';
 export * from './navigation';
-export * from './teams';
 export * from './ui';

@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import { CBadge } from '@coreui/vue';
+import type { Colors, Shapes } from '@coreui/vue/src/types';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { CColor, CShape, CTextColor } from '@/types';
+import type { TextColors } from '@/types';
 
-const props = defineProps<{
+type Props = {
     as?: string;
-    color?: CColor;
+    color?: Colors;
     position?: 'top-start' | 'top-end' | 'bottom-end' | 'bottom-start';
-    shape?: CShape;
+    shape?: Shapes;
     size?: 'sm';
-    textBgColor?: CColor;
-    textColor?: CTextColor;
+    textBgColor?: Colors;
+    textColor?: TextColors;
     class?: HTMLAttributes['class'];
-}>();
+};
+
+const props = withDefaults(defineProps<Props>(), {
+    as: 'span',
+});
 
 const delegatedProps = reactiveOmit(props, 'class');
 </script>

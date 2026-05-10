@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import type { HTMLAttributes } from 'vue';
 import { cn } from '@/lib/utils';
+import type { TextColors } from '@/types';
 
 const props = defineProps<{
+    textColor?: TextColors;
     class?: HTMLAttributes['class'];
 }>();
 </script>
@@ -10,7 +12,15 @@ const props = defineProps<{
 <template>
     <p
         data-slot="dialog-description"
-        :class="cn('mb-0 small text-muted', props.class)"
+        :class="
+            cn(
+                'small fw-medium mb-0',
+                {
+                    [`text-${textColor}`]: textColor,
+                },
+                props.class,
+            )
+        "
     >
         <slot />
     </p>

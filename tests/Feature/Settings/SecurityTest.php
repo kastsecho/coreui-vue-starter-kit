@@ -31,11 +31,12 @@ class SecurityTest extends TestCase
             ->withSession(['auth.password_confirmed_at' => time()])
             ->get(route('security.edit'));
 
-        $response->assertInertia(fn (Assert $page) => $page
-            ->component('settings/Security')
-            ->where('canManageTwoFactor', true)
-            ->where('twoFactorEnabled', false),
-        );
+        $response
+            ->assertInertia(fn (Assert $page) => $page
+                ->component('settings/Security')
+                ->where('canManageTwoFactor', true)
+                ->where('twoFactorEnabled', false),
+            );
     }
 
     #[Test]
@@ -122,6 +123,7 @@ class SecurityTest extends TestCase
         $response
             ->assertValid()
             ->assertRedirect(route('security.edit'));
+
         $this->assertTrue(Hash::check('new-password', $user->refresh()->password));
     }
 
@@ -142,7 +144,7 @@ class SecurityTest extends TestCase
             ]);
 
         $response
-            ->assertInvalid('current_password')
+            ->assertInvalid('current_password', 'updatePassword')
             ->assertRedirect(route('security.edit'));
     }
 }

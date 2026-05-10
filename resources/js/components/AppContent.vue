@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { CContainer } from '@coreui/vue';
 import { computed } from 'vue';
 import { SidebarInset } from '@/components/ui/sidebar';
+import { Container } from '@/components/ui/skeleton';
 import type { AppVariant } from '@/types';
 
 type Props = {
@@ -13,18 +13,17 @@ type Props = {
 const props = withDefaults(defineProps<Props>(), {
     variant: 'sidebar',
 });
-
 const className = computed(() => props.class);
 </script>
 
 <template>
-    <main v-if="variant === 'header'" class="py-4" :class="className">
-        <CContainer v-if="container">
-            <slot />
-        </CContainer>
-        <slot v-else />
-    </main>
-    <SidebarInset v-else :class="className">
+    <SidebarInset v-if="props.variant === 'sidebar'" :class="className">
         <slot />
     </SidebarInset>
+    <main v-else :class="className">
+        <Container v-if="container">
+            <slot />
+        </Container>
+        <slot v-else />
+    </main>
 </template>

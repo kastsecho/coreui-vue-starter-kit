@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import { cilAccountLogout, cilCog } from '@coreui/icons';
+import { CIcon } from '@coreui/icons-vue';
 import { router } from '@inertiajs/vue3';
-import Icon from '@/components/Icon.vue';
 import {
     DropdownMenuItem,
     DropdownMenuLabel,
     DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import { SidebarMenuLink } from '@/components/ui/sidebar';
+import { SidebarMenuItem } from '@/components/ui/sidebar';
 import UserInfo from '@/components/UserInfo.vue';
+import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { logout } from '@/routes';
 import { edit } from '@/routes/profile';
 import type { AppVariant, User } from '@/types';
@@ -17,25 +19,32 @@ type Props = {
     variant?: AppVariant;
 };
 
-const handleLogout = () => {
-    router.flushAll();
-};
-
 withDefaults(defineProps<Props>(), {
     variant: 'header',
 });
+
+const { isCurrentOrParentUrl } = useCurrentUrl();
+
+const handleLogout = () => {
+    router.flushAll();
+};
 </script>
 
 <template>
     <template v-if="variant === 'header'">
-        <DropdownMenuLabel class="py-0 px-2">
+        <DropdownMenuLabel class="px-2 py-0">
             <div class="d-flex align-items-center gap-2 p-1 text-start">
                 <UserInfo :user="user" :show-email="true" />
             </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem :href="edit()" class="icon-link" prefetch>
-            <Icon name="gear" />
+        <DropdownMenuItem
+            class="icon-link"
+            :href="edit()"
+            :active="isCurrentOrParentUrl('/settings')"
+            prefetch
+        >
+            <CIcon class="nav-icon me-2" :icon="cilCog" />
             Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
@@ -46,24 +55,26 @@ withDefaults(defineProps<Props>(), {
             as="button"
             data-test="logout-button"
         >
-            <Icon name="box-arrow-right" />
+            <CIcon class="nav-icon me-2" :icon="cilAccountLogout" />
             Log out
         </DropdownMenuItem>
     </template>
     <template v-else>
-        <SidebarMenuLink :href="edit()" prefetch>
-            <Icon class="nav-icon" name="gear" />
+        <SidebarMenuItem
+            :href="edit()"
+            :active="isCurrentOrParentUrl('/settings')"
+            prefetch
+        >
+            <CIcon custom-class-name="nav-icon" :icon="cilCog" />
             Settings
-        </SidebarMenuLink>
-        <SidebarMenuLink
-            class="w-100"
-            as="button"
+        </SidebarMenuItem>
+        <SidebarMenuItem
             :href="logout()"
             @click="handleLogout"
             data-test="logout-button"
         >
-            <Icon class="nav-icon" name="box-arrow-right" />
+            <CIcon custom-class-name="nav-icon" :icon="cilAccountLogout" />
             Log out
-        </SidebarMenuLink>
+        </SidebarMenuItem>
     </template>
 </template>

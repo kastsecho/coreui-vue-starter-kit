@@ -12,8 +12,8 @@ const props = defineProps<{
 <template>
     <CPaginationItem
         data-slot="pagination-page"
-        :class="props.class"
         v-bind="props"
+        :class="props.class"
     >
         <slot />
     </CPaginationItem>

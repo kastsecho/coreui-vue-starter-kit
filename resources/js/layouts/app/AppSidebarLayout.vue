@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { CContainer } from '@coreui/vue';
 import AppContent from '@/components/AppContent.vue';
 import AppShell from '@/components/AppShell.vue';
 import AppSidebar from '@/components/AppSidebar.vue';
@@ -24,11 +23,7 @@ useFlashToast();
         <AppSidebar />
         <AppContent variant="sidebar">
             <AppSidebarHeader :breadcrumbs="breadcrumbs" />
-            <main class="body flex-grow-1">
-                <CContainer class="px-4" lg>
-                    <slot />
-                </CContainer>
-            </main>
+            <slot />
         </AppContent>
         <Toaster />
     </AppShell>

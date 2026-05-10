@@ -12,16 +12,22 @@
     ),
     $font-size-base: 0.9rem,
     $line-height-base: 1.6,
+    $enable-negative-margins: true,
+    // Colors
     $primary: #3490dc,
+    $indigo: #6574cd,
+    $purple: #9561e2,
+    $pink: #f66d9b,
+    $red: #e3342f,
     $warning: #f6993f,
+    $yellow: #ffed4a,
     $success: #38c172,
+    $teal: #4dc0b5,
     $info: #6cb2eb
 );
+
+// Components
 @use 'components';
-@use 'utilities/size';
 
 // Fonts
-@use 'bootstrap-icons/font/bootstrap-icons' with (
-    $bootstrap-icons-font-dir: 'bootstrap-icons/font/fonts'
-);
 @import url('https://fonts.bunny.net/css?family=instrument-sans');

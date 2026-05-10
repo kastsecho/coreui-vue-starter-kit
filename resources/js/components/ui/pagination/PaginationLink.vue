@@ -7,43 +7,33 @@ import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 import { cn, toUrl } from '@/lib/utils';
 
-const props = defineProps<
-    InertiaLinkProps & {
-        active?: boolean;
-        disabled?: boolean;
-        tabindex?: number;
-        method?: Method;
-        class?: HTMLAttributes['class'];
-    }
->();
+const props = defineProps<{
+    as?: string;
+    active?: boolean;
+    disabled?: boolean;
+    href?: InertiaLinkProps['href'];
+    tabindex?: number;
+    method?: Method;
+    class?: HTMLAttributes['class'];
+}>();
 
-const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
+const delegatedProps = reactiveOmit(props, 'href', 'method', 'class');
 </script>
 
 <template>
-    <CPaginationItem
-        v-if="as === 'a'"
-        data-slot="pagination-link"
-        as="a"
-        :href="toUrl(href!)"
-        :class="props.class"
-        :active="active"
-        :disabled="disabled"
-    >
-        <slot />
-    </CPaginationItem>
-    <li v-else class="page-item">
+    <li v-if="props.href && typeof props.href !== 'string'" class="page-item">
         <Link
-            v-if="as != 'a'"
             data-slot="pagination-link"
-            v-bind="delegatedProps"
+            :href="props.href"
+            :method="props.method"
+            :tabindex="props.tabindex"
             :class="
                 cn(
-                    {
-                        ['active']: active,
-                        ['disabled']: disabled,
-                    },
                     'page-link',
+                    {
+                        active: props.active,
+                        disabled: props.disabled,
+                    },
                     props.class,
                 )
             "
@@ -51,4 +41,13 @@ const delegatedProps = reactiveOmit(props, 'active', 'class', 'disabled');
             <slot />
         </Link>
     </li>
+    <CPaginationItem
+        v-else
+        data-slot="pagination-link"
+        v-bind="delegatedProps"
+        :href="props.href ? toUrl(props.href) : undefined"
+        :class="props.class"
+    >
+        <slot />
+    </CPaginationItem>
 </template>

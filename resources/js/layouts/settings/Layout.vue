@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { CCol, CRow } from '@coreui/vue';
 import Heading from '@/components/Heading.vue';
-import Icon from '@/components/Icon.vue';
-import { ListGroup, ListGroupLink } from '@/components/ui/list-group';
+import { ListGroup, ListGroupItem } from '@/components/ui/list-group';
+import { Column, Container, Row } from '@/components/ui/skeleton';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
-import { toUrl } from '@/lib/utils';
 import { edit as editAppearance } from '@/routes/appearance';
 import { edit as editProfile } from '@/routes/profile';
 import { edit as editSecurity } from '@/routes/security';
-import { index as teams } from '@/routes/teams';
 import type { NavItem } from '@/types';
 
 const sidebarNavItems: NavItem[] = [
@@ -21,10 +18,6 @@ const sidebarNavItems: NavItem[] = [
         href: editSecurity(),
     },
     {
-        title: 'Teams',
-        href: teams(),
-    },
-    {
         title: 'Appearance',
         href: editAppearance(),
     },
@@ -34,34 +27,29 @@ const { isCurrentOrParentUrl } = useCurrentUrl();
 </script>
 
 <template>
-    <div class="d-grid gap-3">
+    <Container>
         <Heading
             title="Settings"
             description="Manage your profile and account settings"
         />
 
-        <CRow>
-            <CCol md="4" lg="3">
-                <ListGroup
-                    class="rounded-4 shadow-sm"
-                    as="nav"
-                    aria-label="Settings"
-                >
-                    <ListGroupLink
+        <Row class="gap-md-0 mt-3 gap-4">
+            <Column :md="4" :lg="3">
+                <ListGroup class="rounded-4 shadow-sm">
+                    <ListGroupItem
                         v-for="item in sidebarNavItems"
-                        :key="toUrl(item.href)"
+                        :key="item.title"
                         :href="item.href"
                         :active="isCurrentOrParentUrl(item.href)"
                     >
-                        <Icon v-if="item.icon" :name="item.icon" />
                         {{ item.title }}
-                    </ListGroupLink>
+                    </ListGroupItem>
                 </ListGroup>
-            </CCol>
+            </Column>
 
-            <CCol class="mt-4 mt-md-0" md="8" lg="6">
+            <Column :md="8" :lg="6">
                 <slot />
-            </CCol>
-        </CRow>
-    </div>
+            </Column>
+        </Row>
+    </Container>
 </template>

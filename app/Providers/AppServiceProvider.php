@@ -7,9 +7,14 @@ use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use Inertia\ExceptionResponse;
+use Inertia\Inertia;
+use Inertia\ResponseFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
+    protected array $statusCodes = [401, 402, 403, 404, 418, 419, 429, 500, 503];
+
     /**
      * Register any application services.
      */
@@ -24,6 +29,19 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+
+        Inertia::macro('toast', function (string $message, string $type): ResponseFactory {
+            return $this->flash('toast', compact('message', 'type'));
+        });
+
+        Inertia::handleExceptionsUsing(function (ExceptionResponse $response) {
+            if (in_array($response->statusCode(), $this->statusCodes)) {
+                return $response->render('ErrorPage', [
+                    'description' => $response->exception->getMessage(),
+                    'status' => $response->statusCode(),
+                ])->withSharedData();
+            }
+        });
     }
 
     /**

@@ -11,7 +11,7 @@ class ExampleTest extends TestCase
     use RefreshDatabase;
 
     #[Test]
-    public function home_page_is_displayed(): void
+    public function returns_a_successful_response(): void
     {
         $response = $this->get(route('home'));
 

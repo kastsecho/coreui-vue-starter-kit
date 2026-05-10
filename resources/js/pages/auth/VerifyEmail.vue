@@ -7,15 +7,15 @@ import { Spinner } from '@/components/ui/spinner';
 import { logout } from '@/routes';
 import { send } from '@/routes/verification';
 
-defineProps<{
-    status?: string;
-}>();
-
 setLayoutProps({
     title: 'Verify email',
     description:
         'Please verify your email address by clicking on the link we just emailed to you.',
 });
+
+defineProps<{
+    status?: string;
+}>();
 </script>
 
 <template>
@@ -23,8 +23,8 @@ setLayoutProps({
 
     <Alert
         v-if="status === 'verification-link-sent'"
+        class="fw-medium rounded-4 text-center shadow-sm"
         color="success"
-        class="fw-medium rounded-4 shadow-sm text-center"
     >
         A new verification link has been sent to the email address you provided
         during registration.
@@ -33,7 +33,7 @@ setLayoutProps({
     <Form
         v-bind="send.form()"
         v-slot="{ processing }"
-        class="d-flex gap-3 justify-content-center"
+        class="d-flex justify-content-center gap-3"
     >
         <Button
             type="submit"

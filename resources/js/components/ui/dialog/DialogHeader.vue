@@ -9,7 +9,7 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    closeButton: false,
+    closeButton: true,
 });
 
 const delegatedProps = reactiveOmit(props, 'class');

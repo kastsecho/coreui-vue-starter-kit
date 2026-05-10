@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
-import { computed, ref } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import { Button } from '@/components/ui/button';
-import { Input, InputError } from '@/components/ui/input';
+import { Input, InputFeedback } from '@/components/ui/form';
 import {
     InputOTP,
     InputOTPGroup,
@@ -18,7 +18,7 @@ const authConfigContent = computed<TwoFactorConfigContent>(() => {
             title: 'Recovery code',
             description:
                 'Please confirm access to your account by entering one of your emergency recovery codes.',
-            buttonText: 'or, using an authentication code',
+            buttonText: 'or, login using an authentication code',
         };
     }
 
@@ -30,9 +30,11 @@ const authConfigContent = computed<TwoFactorConfigContent>(() => {
     };
 });
 
-setLayoutProps({
-    title: authConfigContent.value.title,
-    description: authConfigContent.value.description,
+watchEffect(() => {
+    setLayoutProps({
+        title: authConfigContent.value.title,
+        description: authConfigContent.value.description,
+    });
 });
 
 const showRecoveryInput = ref<boolean>(false);
@@ -67,21 +69,22 @@ const code = ref<string>('');
                         :disabled="processing"
                         autofocus
                     >
-                        <InputOTPGroup>
+                        <InputOTPGroup
+                            :class="{
+                                ['is-invalid']: errors?.code,
+                            }"
+                        >
                             <InputOTPSlot
                                 v-for="index in 6"
                                 :key="index"
                                 :index="index - 1"
                             />
                         </InputOTPGroup>
+                        <InputFeedback :message="errors.code" invalid />
                     </InputOTP>
-                    <InputError
-                        :class="{ ['d-block']: errors.code }"
-                        :message="errors.code"
-                    />
                 </div>
 
-                <Button type="submit" class="mt-2" :disabled="processing">
+                <Button type="submit" class="mt-4" :disabled="processing">
                     Continue
                 </Button>
             </div>
@@ -110,16 +113,18 @@ const code = ref<string>('');
                 <div class="d-grid">
                     <Input
                         id="recovery_code"
-                        name="recovery_code"
                         type="text"
+                        name="recovery_code"
                         required
                         :autofocus="showRecoveryInput"
+                        :tabindex="1"
                         placeholder="Enter recovery code"
+                        :invalid="!!errors.recovery_code"
                     />
-                    <InputError :message="errors.recovery_code" />
+                    <InputFeedback :message="errors.recovery_code" invalid />
                 </div>
 
-                <Button type="submit" class="mt-2" :disabled="processing">
+                <Button type="submit" class="mt-4" :disabled="processing">
                     Continue
                 </Button>
             </div>

@@ -22,8 +22,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     {
         Validator::make($input, [
             ...$this->profileRules($user->id),
-            'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
-        ])->validate();
+        ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
             $user->updateProfilePhoto($input['photo']);
@@ -38,7 +37,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             ])->save();
         }
 
-        Inertia::flash('toast', ['type' => 'success', 'message' => __('Profile updated.')]);
+        Inertia::toast(__('Profile updated.'), 'success');
     }
 
     /**

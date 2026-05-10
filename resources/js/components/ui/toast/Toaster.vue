@@ -3,19 +3,32 @@ import { CToaster } from '@coreui/vue';
 import { usePage } from '@inertiajs/vue3';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import Icon from '@/components/Icon.vue';
 import {
     Toast,
     ToastContent,
     ToastHeader,
-    resolveToastIcon,
+    toastIcons,
 } from '@/components/ui/toast';
 import { dismissToast, toasts } from '@/composables/useFlashToast';
 import { cn } from '@/lib/utils';
-import type { CToasterPlacement } from '@/types';
+import type { FlashToast } from '@/types';
+
+defineOptions({ inheritAttrs: false });
+
+type Placements =
+    | 'top-start'
+    | 'top-center'
+    | 'top-end'
+    | 'middle-start'
+    | 'middle-center'
+    | 'middle-end'
+    | 'bottom-start'
+    | 'bottom-center'
+    | 'bottom-end';
 
 type Props = {
-    placement?: CToasterPlacement;
+    placement?: Placements;
+    contentClassName?: HTMLAttributes['class'];
     class?: HTMLAttributes['class'];
 };
 
@@ -23,10 +36,12 @@ const props = withDefaults(defineProps<Props>(), {
     placement: 'bottom-end',
 });
 
-const delegatedProps = reactiveOmit(props, 'class');
+const delegatedProps = reactiveOmit(props, 'contentClassName', 'class');
 
 const page = usePage();
 const name = page.props.name;
+
+const resolveIcon = (type: FlashToast['type']) => toastIcons[type ?? 'success'];
 </script>
 
 <template>
@@ -38,9 +53,10 @@ const name = page.props.name;
         <Toast
             v-for="toast in toasts"
             :key="toast.id"
-            class="rounded-4 shadow-sm"
             autohide
+            :class="cn('rounded-4', contentClassName)"
             :delay="4000"
+            :index="parseInt(toast.id)"
             visible
             @close="dismissToast(toast.id)"
         >
@@ -54,7 +70,16 @@ const name = page.props.name;
                 </time>
             </ToastHeader>
             <ToastContent class="d-flex align-items-center gap-2">
-                <Icon v-bind="resolveToastIcon(toast.type)" />
+                <component
+                    :is="resolveIcon(toast.type).component"
+                    v-bind="resolveIcon(toast.type).props"
+                    :class="resolveIcon(toast.type).class"
+                >
+                    <component
+                        v-if="resolveIcon(toast.type).slot"
+                        :is="resolveIcon(toast.type).slot"
+                    />
+                </component>
                 {{ toast.message }}
             </ToastContent>
         </Toast>

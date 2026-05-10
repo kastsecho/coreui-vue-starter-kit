@@ -1,3 +1,7 @@
 @forward 'components/input-otp';
 @forward 'components/sidebar';
 @forward 'components/simplebar';
+
+.min-w-50 {
+    min-width: 12.5rem !important;
+}

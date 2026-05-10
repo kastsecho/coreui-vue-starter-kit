@@ -21,9 +21,9 @@ export function updateTheme(value: Appearance): void {
         );
         const systemTheme = mediaQueryList.matches ? 'dark' : 'light';
 
-        document.documentElement.dataset.coreuiTheme = systemTheme;
+        document.documentElement.setAttribute('data-coreui-theme', systemTheme);
     } else {
-        document.documentElement.dataset.coreuiTheme = value;
+        document.documentElement.setAttribute('data-coreui-theme', value);
     }
 }
 

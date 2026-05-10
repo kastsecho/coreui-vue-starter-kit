@@ -2,16 +2,23 @@
 import { CListGroup } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { CExpand } from '@/types';
 
-type Layout = 'horizontal' | `horizontal-${Exclude<CExpand, boolean>}`;
-
-const props = defineProps<{
+type Props = {
     as?: string;
     flush?: boolean;
-    layout?: Layout;
+    layout?:
+        | 'horizontal'
+        | 'horizontal-sm'
+        | 'horizontal-md'
+        | 'horizontal-lg'
+        | 'horizontal-xl'
+        | 'horizontal-xxl';
     class?: HTMLAttributes['class'];
-}>();
+};
+
+const props = withDefaults(defineProps<Props>(), {
+    as: 'ul',
+});
 
 const delegatedProps = reactiveOmit(props, 'class');
 </script>

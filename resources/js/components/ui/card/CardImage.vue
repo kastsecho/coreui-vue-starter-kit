@@ -3,9 +3,11 @@ import { CCardImage } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { ImgHTMLAttributes } from 'vue';
 
-type Props = ImgHTMLAttributes & {
+type Props = {
+    alt?: ImgHTMLAttributes['alt'];
     as?: string;
     orientation?: 'top' | 'bottom';
+    src?: ImgHTMLAttributes['src'];
     class?: ImgHTMLAttributes['class'];
 };
 

@@ -2,10 +2,9 @@
 import { CButtonGroup } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
-import type { ButtonVariants } from '.';
 
 const props = defineProps<{
-    size?: ButtonVariants['size'];
+    size?: 'sm' | 'lg';
     vertical?: boolean;
     class?: HTMLAttributes['class'];
 }>();

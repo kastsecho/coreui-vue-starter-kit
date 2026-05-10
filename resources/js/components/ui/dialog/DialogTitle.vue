@@ -3,10 +3,14 @@ import { CModalTitle } from '@coreui/vue';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 
-const props = defineProps<{
+type Props = {
     as?: string;
     class?: HTMLAttributes['class'];
-}>();
+};
+
+const props = withDefaults(defineProps<Props>(), {
+    as: 'h5',
+});
 
 const delegatedProps = reactiveOmit(props, 'class');
 </script>

@@ -1,20 +1,20 @@
 <script setup lang="ts">
+import type { Colors } from '@coreui/vue/src/types';
 import { reactiveOmit } from '@vueuse/core';
 import type { HTMLAttributes } from 'vue';
 import { computed } from 'vue';
 import { useVueOTPContext } from 'vue-input-otp';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/ui/form';
 import { cn } from '@/lib/utils';
-import type { CBgColor } from '@/types';
 
 type Props = {
     index: number;
-    color?: CBgColor;
+    color?: Colors;
     class?: HTMLAttributes['class'];
 };
 
 const props = withDefaults(defineProps<Props>(), {
-    color: 'dark',
+    color: 'body',
 });
 
 const delegatedProps = reactiveOmit(props, 'class');

@@ -18,16 +18,12 @@ setLayoutProps({
     <Head title="Appearance settings" />
 
     <h1 class="visually-hidden">Appearance settings</h1>
-
-    <div class="d-flex flex-column gap-3">
+    <div class="d-grid row-gap-3">
         <Heading
             variant="small"
             title="Appearance settings"
             description="Update your account's appearance settings"
         />
-
-        <div>
-            <AppearanceTabs />
-        </div>
+        <AppearanceTabs />
     </div>
 </template>

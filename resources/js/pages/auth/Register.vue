@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
-import PasswordInput from '@/components/PasswordInput.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
-import { Input, InputError } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import {
+    Input,
+    InputFeedback,
+    Label,
+    PasswordInput,
+} from '@/components/ui/form';
 import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
@@ -35,10 +38,10 @@ setLayoutProps({
                     autofocus
                     :tabindex="1"
                     autocomplete="name"
-                    :invalid="!!errors.name"
                     placeholder="Full name"
+                    :invalid="!!errors.name"
                 />
-                <InputError :message="errors.name" />
+                <InputFeedback :message="errors.name" invalid />
             </div>
 
             <div class="d-grid">
@@ -50,10 +53,10 @@ setLayoutProps({
                     required
                     :tabindex="2"
                     autocomplete="email"
-                    :invalid="!!errors.email"
                     placeholder="email@example.com"
+                    :invalid="!!errors.email"
                 />
-                <InputError :message="errors.email" />
+                <InputFeedback :message="errors.email" invalid />
             </div>
 
             <div class="d-grid">
@@ -64,10 +67,10 @@ setLayoutProps({
                     required
                     :tabindex="3"
                     autocomplete="new-password"
-                    :invalid="!!errors.password"
                     placeholder="Password"
+                    :invalid="!!errors.password"
                 />
-                <InputError :message="errors.password" />
+                <InputFeedback :message="errors.password" invalid />
             </div>
 
             <div class="d-grid">
@@ -78,15 +81,18 @@ setLayoutProps({
                     required
                     :tabindex="4"
                     autocomplete="new-password"
-                    :invalid="!!errors.password_confirmation"
                     placeholder="Confirm password"
+                    :invalid="!!errors.password_confirmation"
                 />
-                <InputError :message="errors.password_confirmation" />
+                <InputFeedback
+                    :message="errors.password_confirmation"
+                    invalid
+                />
             </div>
 
             <Button
                 type="submit"
-                class="mt-2"
+                class="mt-4"
                 :tabindex="5"
                 :disabled="processing"
                 data-test="register-user-button"

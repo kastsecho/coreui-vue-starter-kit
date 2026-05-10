@@ -1,21 +1,22 @@
 <script setup lang="ts">
 import { CAvatar } from '@coreui/vue';
+import type { Colors, Shapes } from '@coreui/vue/src/types';
 import { reactiveOmit } from '@vueuse/core';
 import type { ImgHTMLAttributes } from 'vue';
-import type { CColor, CShape } from '@/types';
 
-type Props = ImgHTMLAttributes & {
-    color?: CColor;
-    shape?: CShape;
+type Props = {
+    alt?: ImgHTMLAttributes['alt'];
+    color?: Colors;
+    shape?: Shapes;
     size?: 'sm' | 'md' | 'lg' | 'xl';
-    status?: CColor;
+    src?: ImgHTMLAttributes['src'];
+    status?: Colors;
     class?: ImgHTMLAttributes['class'];
 };
 
 const props = withDefaults(defineProps<Props>(), {
     color: 'secondary',
     shape: 'rounded-circle',
-    textColor: 'body',
 });
 
 const delegatedProps = reactiveOmit(props, 'class');

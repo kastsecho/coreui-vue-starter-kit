@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import { CIconSvg } from '@coreui/icons-vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
 import { onUnmounted, ref } from 'vue';
 import Heading from '@/components/Heading.vue';
-import Icon from '@/components/Icon.vue';
-import PasswordInput from '@/components/PasswordInput.vue';
+import { biShieldCheck, biShieldX } from '@/components/icon';
 import TwoFactorRecoveryCodes from '@/components/TwoFactorRecoveryCodes.vue';
 import TwoFactorSetupModal from '@/components/TwoFactorSetupModal.vue';
 import { Button } from '@/components/ui/button';
-import { InputError } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { InputFeedback, Label, PasswordInput } from '@/components/ui/form';
+import { Spinner } from '@/components/ui/spinner';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
 import { edit } from '@/routes/security';
 import { disable, enable } from '@/routes/two-factor';
@@ -45,8 +45,7 @@ onUnmounted(() => clearTwoFactorAuthData());
     <Head title="Security settings" />
 
     <h1 class="visually-hidden">Security settings</h1>
-
-    <div class="d-flex flex-column gap-3">
+    <div class="d-grid row-gap-3">
         <Heading
             variant="small"
             title="Update password"
@@ -59,58 +58,53 @@ onUnmounted(() => clearTwoFactorAuthData());
                 preserveScroll: true,
             }"
             reset-on-success
-            :reset-on-error="[
-                'password',
-                'password_confirmation',
-                'current_password',
-            ]"
+            reset-on-error
             v-slot="{ errors, processing }"
+            error-bag="updatePassword"
             class="d-flex flex-column gap-3"
+            novalidate
         >
-            <div class="d-grid gap-3">
-                <div class="d-grid">
-                    <Label for="current_password">Current password</Label>
-                    <PasswordInput
-                        id="current_password"
-                        name="current_password"
-                        required
-                        :tabindex="1"
-                        autocomplete="current-password"
-                        :invalid="!!errors.current_password"
-                        placeholder="Current password"
-                    />
-                    <InputError :message="errors.current_password" />
-                </div>
+            <div class="d-grid">
+                <Label for="current_password">Current password</Label>
+                <PasswordInput
+                    id="current_password"
+                    name="current_password"
+                    autofocus
+                    :tabindex="1"
+                    autocomplete="current-password"
+                    placeholder="Current password"
+                    :invalid="!!errors.current_password"
+                />
+                <InputFeedback :message="errors.current_password" invalid />
+            </div>
 
-                <div class="d-grid">
-                    <Label for="password">New password</Label>
-                    <PasswordInput
-                        id="password"
-                        name="password"
-                        required
-                        :tabindex="2"
-                        autocomplete="new-password"
-                        :invalid="!!errors.password"
-                        placeholder="New password"
-                    />
-                    <InputError :message="errors.password" />
-                </div>
+            <div class="d-grid">
+                <Label for="password">New password</Label>
+                <PasswordInput
+                    id="password"
+                    name="password"
+                    :tabindex="2"
+                    autocomplete="new-password"
+                    placeholder="New password"
+                    :invalid="!!errors.password"
+                />
+                <InputFeedback :message="errors.password" invalid />
+            </div>
 
-                <div class="d-grid">
-                    <Label for="password_confirmation">
-                        Confirm password
-                    </Label>
-                    <PasswordInput
-                        id="password_confirmation"
-                        name="password_confirmation"
-                        required
-                        :tabindex="3"
-                        autocomplete="new-password"
-                        :invalid="!!errors.password_confirmation"
-                        placeholder="Confirm password"
-                    />
-                    <InputError :message="errors.password_confirmation" />
-                </div>
+            <div class="d-grid">
+                <Label for="password_confirmation">Confirm password</Label>
+                <PasswordInput
+                    id="password_confirmation"
+                    name="password_confirmation"
+                    :tabindex="3"
+                    autocomplete="new-password"
+                    placeholder="Confirm password"
+                    :invalid="!!errors.password_confirmation"
+                />
+                <InputFeedback
+                    :message="errors.password_confirmation"
+                    invalid
+                />
             </div>
 
             <div class="d-flex align-items-center gap-4">
@@ -120,73 +114,81 @@ onUnmounted(() => clearTwoFactorAuthData());
                     :disabled="processing"
                     data-test="update-password-button"
                 >
+                    <Spinner v-if="processing" />
                     Save password
                 </Button>
             </div>
         </Form>
+    </div>
 
-        <template v-if="canManageTwoFactor">
-            <Heading
-                variant="small"
-                title="Two-factor authentication"
-                description="Manage your two-factor authentication settings"
-            />
+    <div v-if="canManageTwoFactor" class="d-grid row-gap-3 mt-3">
+        <Heading
+            variant="small"
+            title="Two-factor authentication"
+            description="Manage your two-factor authentication settings"
+        />
 
-            <div
-                v-if="!twoFactorEnabled"
-                class="d-flex flex-column align-items-start justify-content-start gap-2"
-            >
-                <p class="mb-0 text-muted">
-                    When you enable two-factor authentication, you will be
-                    prompted for a secure pin during login. This pin can be
-                    retrieved from a TOTP-supported application on your phone.
-                </p>
+        <div
+            v-if="!twoFactorEnabled"
+            class="d-flex flex-column align-items-start justify-content-start gap-2"
+        >
+            <p class="text-muted small fw-semibold">
+                When you enable two-factor authentication, you will be prompted
+                for a secure pin during login. This pin can be retrieved from a
+                TOTP-supported application on your phone.
+            </p>
 
-                <div>
-                    <Button v-if="hasSetupData" @click="showSetupModal = true">
-                        <Icon class="me-2" name="shield-check" />
-                        Continue setup
+            <div>
+                <Button v-if="hasSetupData" @click="showSetupModal = true">
+                    <CIconSvg>
+                        <biShieldCheck />
+                    </CIconSvg>
+                    Continue setup
+                </Button>
+                <Form
+                    v-else
+                    v-bind="enable.form()"
+                    @success="showSetupModal = true"
+                    #default="{ processing }"
+                >
+                    <Button type="submit" :disabled="processing">
+                        <CIconSvg>
+                            <biShieldCheck />
+                        </CIconSvg>
+                        Enable 2FA
                     </Button>
-
-                    <Form
-                        v-else
-                        v-bind="enable.form()"
-                        @success="showSetupModal = true"
-                        v-slot="{ processing }"
-                    >
-                        <Button type="submit" :disabled="processing">
-                            <Icon class="me-2" name="shield-check" />
-                            Enable 2FA
-                        </Button>
-                    </Form>
-                </div>
+                </Form>
             </div>
+        </div>
 
-            <div
-                v-else
-                class="d-flex flex-column align-items-start justify-content-start gap-2"
-            >
-                <p class="mb-0 text-muted">
-                    You will be prompted for a secure, random pin during login,
-                    which you can retrieve from the TOTP-supported application
-                    on your phone.
-                </p>
+        <div
+            v-else
+            class="d-flex flex-column align-items-start justify-content-start gap-2"
+        >
+            <p class="text-muted small fw-semibold">
+                You will be prompted for a secure, random pin during login,
+                which you can retrieve from the TOTP-supported application on
+                your phone.
+            </p>
 
-                <Form v-bind="disable.form()" v-slot="{ processing }">
+            <div class="relative inline">
+                <Form v-bind="disable.form()" #default="{ processing }">
                     <Button type="submit" color="danger" :disabled="processing">
-                        <Icon class="me-2" name="shield-x" />
+                        <CIconSvg>
+                            <biShieldX />
+                        </CIconSvg>
                         Disable 2FA
                     </Button>
                 </Form>
-
-                <TwoFactorRecoveryCodes class="mt-2" />
             </div>
 
-            <TwoFactorSetupModal
-                v-model:isOpen="showSetupModal"
-                :requiresConfirmation="requiresConfirmation"
-                :twoFactorEnabled="twoFactorEnabled"
-            />
-        </template>
+            <TwoFactorRecoveryCodes />
+        </div>
+
+        <TwoFactorSetupModal
+            v-model:isOpen="showSetupModal"
+            :requiresConfirmation="requiresConfirmation"
+            :twoFactorEnabled="twoFactorEnabled"
+        />
     </div>
 </template>

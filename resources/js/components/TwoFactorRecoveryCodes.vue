@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { cilLockLocked, cilSync } from '@coreui/icons';
+import { CIcon, CIconSvg } from '@coreui/icons-vue';
 import { Form } from '@inertiajs/vue3';
 import { nextTick, onMounted, ref, useTemplateRef } from 'vue';
 import AlertError from '@/components/AlertError.vue';
-import Icon from '@/components/Icon.vue';
+import { biEye, biEyeSlash } from '@/components/icon';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -40,29 +42,27 @@ onMounted(async () => {
 </script>
 
 <template>
-    <Card class="rounded-4">
+    <Card class="rounded-4 shadow-sm">
         <CardHeader class="rounded-top-4">
-            <CardTitle class="d-flex gap-3">
-                <Icon name="lock-fill" />
+            <CardTitle class="d-flex fw-semibold gap-3">
+                <CIcon :icon="cilLockLocked" />
                 2FA recovery codes
             </CardTitle>
-            <CardDescription>
+            <CardDescription text-color="secondary">
                 Recovery codes let you regain access if you lose your 2FA
                 device. Store them in a secure password manager.
             </CardDescription>
         </CardHeader>
         <CardContent>
             <div
-                class="d-flex flex-column gap-3 flex-sm-row align-items-sm-center justify-content-sm-between"
+                class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-sm-between gap-3"
             >
                 <Button @click="toggleRecoveryCodesVisibility">
-                    <Icon
-                        :name="
-                            isRecoveryCodesVisible
-                                ? 'eye-slash-fill'
-                                : 'eye-fill'
-                        "
-                    />
+                    <CIconSvg>
+                        <component
+                            :is="isRecoveryCodesVisible ? biEyeSlash : biEye"
+                        />
+                    </CIconSvg>
                     {{ isRecoveryCodesVisible ? 'Hide' : 'View' }} recovery
                     codes
                 </Button>
@@ -76,11 +76,11 @@ onMounted(async () => {
                     v-slot="{ processing }"
                 >
                     <Button
-                        color="secondary"
                         type="submit"
+                        color="secondary"
                         :disabled="processing"
                     >
-                        <Icon name="arrow-clockwise" />
+                        <CIcon :icon="cilSync" />
                         Regenerate codes
                     </Button>
                 </Form>
@@ -89,10 +89,10 @@ onMounted(async () => {
                 <div v-if="errors?.length" class="mt-3">
                     <AlertError :errors="errors" />
                 </div>
-                <div v-else class="mt-3 d-grid gap-3">
+                <div v-else class="d-grid mt-3 gap-3">
                     <div
                         ref="recoveryCodeSectionRef"
-                        class="d-grid gap-1 rounded-4 bg-body-tertiary p-3 img-thumbnail"
+                        class="d-grid rounded-4 bg-body-tertiary img-thumbnail gap-1 p-3"
                     >
                         <div v-if="!recoveryCodesList.length">
                             <Spinner v-for="n in 8" :key="n" />
@@ -106,13 +106,11 @@ onMounted(async () => {
                             {{ code }}
                         </code>
                     </div>
-                    <CardDescription class="small text-muted">
+                    <CardDescription class="small" text-color="secondary">
                         Each recovery code can be used once to access your
                         account and will be removed after use. If you need more,
                         click
-                        <span class="fw-bold text-decoration-underline">
-                            Regenerate codes
-                        </span>
+                        <span class="fw-bold text-body">Regenerate codes</span>
                         above.
                     </CardDescription>
                 </div>

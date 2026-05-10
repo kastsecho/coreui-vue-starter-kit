@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { cilBarcode, cilCheck, cilCopy } from '@coreui/icons';
+import { CIcon } from '@coreui/icons-vue';
 import { Form } from '@inertiajs/vue3';
 import { useClipboard } from '@vueuse/core';
 import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
 import AlertError from '@/components/AlertError.vue';
-import Icon from '@/components/Icon.vue';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -12,7 +13,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { Input, InputError, InputGroup } from '@/components/ui/input';
+import { Input, InputFeedback, InputGroup } from '@/components/ui/form';
 import {
     InputOTP,
     InputOTPGroup,
@@ -24,12 +25,10 @@ import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
 import { confirm } from '@/routes/two-factor';
 import type { TwoFactorConfigContent } from '@/types';
 
-type Props = {
-    requiresConfirmation: boolean;
-    twoFactorEnabled: boolean;
-};
-
-const props = defineProps<Props>();
+const props = defineProps<{
+    requiresConfirmation?: boolean;
+    twoFactorEnabled?: boolean;
+}>();
 const isOpen = defineModel<boolean>('isOpen');
 
 const { copy, copied } = useClipboard();
@@ -109,27 +108,29 @@ watch(
 
 <template>
     <Dialog
+        content-class-name="rounded-4"
         :open="isOpen"
-        @update:open="isOpen = $event"
         @close="isOpen = false"
     >
         <DialogHeader
             class="d-flex flex-column align-items-center justify-content-center gap-2"
+            :close-button="false"
         >
-            <Icon class="icon icon-xl" name="upc-scan" />
+            <CIcon :icon="cilBarcode" size="xl" />
             <DialogTitle>{{ modalConfig.title }}</DialogTitle>
-            <DialogDescription class="text-center">
+            <DialogDescription class="text-center" text-color="secondary">
                 {{ modalConfig.description }}
             </DialogDescription>
         </DialogHeader>
-        <DialogContent>
+
+        <DialogContent class="overflow-hidden sm:max-w-md">
             <div
                 class="d-flex flex-column align-items-center justify-content-center gap-3"
             >
                 <template v-if="!showVerificationStep">
                     <AlertError
-                        class="mb-0 w-100"
                         v-if="errors?.length"
+                        class="w-100"
                         :errors="errors"
                     />
                     <template v-else>
@@ -145,7 +146,7 @@ watch(
                             </div>
                         </div>
 
-                        <div class="d-flex w-100 align-items-center gap-3">
+                        <div class="d-flex align-items-center w-100 gap-3">
                             <Button class="w-100" @click="handleModalNextStep">
                                 {{ modalConfig.buttonText }}
                             </Button>
@@ -154,11 +155,11 @@ watch(
                         <Separator>or, enter the code manually</Separator>
 
                         <div
-                            class="w-100 d-flex align-items-center justify-content-center"
+                            class="d-flex align-items-center justify-content-center w-100"
                         >
                             <div
                                 v-if="!manualSetupKey"
-                                class="d-flex align-items-center justify-content-center p-2 bg-transparent"
+                                class="d-flex align-items-center justify-content-center bg-transparent p-2"
                             >
                                 <Spinner />
                             </div>
@@ -171,15 +172,15 @@ watch(
                                     />
                                     <Button
                                         type="button"
-                                        color="secondary"
+                                        color="light"
                                         @click="copy(manualSetupKey || '')"
                                     >
-                                        <Icon
+                                        <CIcon
                                             v-if="copied"
-                                            color="success"
-                                            name="check"
+                                            :icon="cilCheck"
+                                            class="text-success"
                                         />
-                                        <Icon v-else name="copy" />
+                                        <CIcon v-else :icon="cilCopy" />
                                     </Button>
                                 </InputGroup>
                             </template>
@@ -195,7 +196,7 @@ watch(
                         @finish="code = ''"
                         @success="isOpen = false"
                         v-slot="{ errors, processing }"
-                        class="d-flex flex-column align-items-center gap-3"
+                        class="d-flex flex-column align-items-center row-gap-3"
                     >
                         <input type="hidden" name="code" :value="code" />
                         <div ref="pinInputContainerRef" class="d-grid">
@@ -204,25 +205,32 @@ watch(
                                 v-model="code"
                                 :maxlength="6"
                                 :disabled="processing"
+                                autofocus
                             >
-                                <InputOTPGroup>
+                                <InputOTPGroup
+                                    :class="{ ['is-invalid']: errors?.code }"
+                                >
                                     <InputOTPSlot
                                         v-for="index in 6"
                                         :key="index"
-                                        :index="index - 1"
                                         color="body-tertiary"
+                                        :index="index - 1"
                                     />
                                 </InputOTPGroup>
+                                <InputFeedback
+                                    :message="errors?.code"
+                                    invalid
+                                />
                             </InputOTP>
-                            <InputError :message="errors?.code" />
                         </div>
 
                         <div
-                            class="w-75 d-flex align-items-center justify-content-center gap-3"
+                            class="d-flex align-items-center justify-content-center w-75 gap-3"
                         >
                             <Button
                                 type="button"
-                                color="secondary"
+                                color="light"
+                                variant="outline"
                                 class="flex-grow-1"
                                 @click="showVerificationStep = false"
                                 :disabled="processing"

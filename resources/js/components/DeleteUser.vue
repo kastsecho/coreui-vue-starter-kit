@@ -2,8 +2,7 @@
 import { Form } from '@inertiajs/vue3';
 import { ref, useTemplateRef } from 'vue';
 import Heading from '@/components/Heading.vue';
-import PasswordInput from '@/components/PasswordInput.vue';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert, AlertTitle } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import {
     Dialog,
@@ -13,34 +12,29 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { InputError } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { InputFeedback, Label, PasswordInput } from '@/components/ui/form';
 import { destroy } from '@/routes/profile';
 
-const showModal = ref<boolean>(false);
 const passwordInput = useTemplateRef('passwordInput');
+const showDeleteModal = ref<boolean>(false);
 </script>
 
 <template>
-    <div class="d-grid gap-3">
+    <div class="d-grid row-gap-3">
         <Heading
             variant="small"
             title="Delete account"
             description="Delete your account and all of its resources"
         />
-
-        <Alert class="rounded-4 shadow-sm" color="danger">
-            <AlertTitle class="fs-5 fw-medium">Warning</AlertTitle>
-            <AlertDescription>
+        <Alert class="rounded-4" color="danger">
+            <AlertTitle as="h5" class="fw-semibold">Warning</AlertTitle>
+            <p class="small fw-medium">
                 Please proceed with caution, this cannot be undone.
-            </AlertDescription>
-
+            </p>
             <Button
-                class="mt-2"
-                type="button"
                 color="danger"
-                @click="showModal = true"
                 data-test="delete-user-button"
+                @click="showDeleteModal = true"
             >
                 Delete account
             </Button>
@@ -48,8 +42,8 @@ const passwordInput = useTemplateRef('passwordInput');
 
         <Dialog
             content-class-name="rounded-4"
-            :open="showModal"
-            @close="showModal = false"
+            :open="showDeleteModal"
+            @close="showDeleteModal = false"
         >
             <Form
                 v-bind="destroy.form()"
@@ -58,41 +52,43 @@ const passwordInput = useTemplateRef('passwordInput');
                 :options="{
                     preserveScroll: true,
                 }"
-                v-slot="{ errors, processing, reset, clearErrors }"
+                v-slot="{ errors, processing, resetAndClearErrors }"
             >
-                <DialogHeader class="d-grid">
+                <DialogHeader class="d-grid row-gap-3" :close-button="false">
                     <DialogTitle>
                         Are you sure you want to delete your account?
                     </DialogTitle>
-                    <DialogDescription>
+                    <DialogDescription text-color="secondary">
                         Once your account is deleted, all of its resources and
                         data will also be permanently deleted. Please enter your
                         password to confirm you would like to permanently delete
                         your account.
                     </DialogDescription>
                 </DialogHeader>
+
                 <DialogContent>
                     <div class="d-grid">
                         <Label for="password" class="visually-hidden">
                             Password
                         </Label>
                         <PasswordInput
+                            ref="passwordInput"
                             id="password"
                             name="password"
-                            ref="passwordInput"
                             placeholder="Password"
+                            :invalid="!!errors.password"
                         />
-                        <InputError :message="errors.password" />
+                        <InputFeedback :message="errors.password" invalid />
                     </div>
                 </DialogContent>
+
                 <DialogFooter class="gap-2">
                     <Button
                         color="secondary"
                         @click="
                             () => {
-                                showModal = false;
-                                clearErrors();
-                                reset();
+                                showDeleteModal = false;
+                                resetAndClearErrors();
                             }
                         "
                     >
@@ -102,8 +98,8 @@ const passwordInput = useTemplateRef('passwordInput');
                     <Button
                         type="submit"
                         color="danger"
-                        data-test="confirm-delete-user-button"
                         :disabled="processing"
+                        data-test="confirm-delete-user-button"
                     >
                         Delete account
                     </Button>

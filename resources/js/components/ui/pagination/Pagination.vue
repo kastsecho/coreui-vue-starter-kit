@@ -14,7 +14,7 @@ const props = defineProps<{
         data-slot="pagination"
         :class="
             cn(
-                'mb-0 pagination',
+                'pagination mb-0',
                 {
                     [`justify-content-${props.align}`]: align,
                     [`pagination-${props.size}`]: size,

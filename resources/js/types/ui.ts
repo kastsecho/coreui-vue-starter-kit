@@ -6,7 +6,7 @@ export type ResolvedAppearance = 'light' | 'dark';
 export type AppVariant = 'header' | 'sidebar';
 
 export type FlashToast = {
-    id: number;
+    id: string;
     type: 'success' | 'info' | 'warning' | 'danger';
     message: string;
     created_at: Date;

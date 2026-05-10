@@ -12,9 +12,8 @@ const props = defineProps<{
     <CBreadcrumbItem
         data-slot="breadcrumb-page"
         role="link"
-        aria-disabled="true"
         aria-current="page"
-        :class="cn('text-muted', props.class)"
+        :class="props.class"
     >
         <slot />
     </CBreadcrumbItem>
