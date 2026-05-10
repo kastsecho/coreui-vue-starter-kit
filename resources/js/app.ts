@@ -4,6 +4,7 @@ import {
     cilApplications,
     cilBarcode,
     cilCheck,
+    cilCheckCircle,
     cilCog,
     cilContrast,
     cilCopy,
@@ -13,9 +14,12 @@ import {
     cilHome,
     cilLockLocked,
     cilMoon,
+    cilPeople,
+    cilSpreadsheet,
     cilSun,
     cilSync,
     cilWarning,
+    cilXCircle,
 } from '@coreui/icons';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { createPinia } from 'pinia';
@@ -31,6 +35,7 @@ const icons = {
     cilApplications,
     cilBarcode,
     cilCheck,
+    cilCheckCircle,
     cilCog,
     cilContrast,
     cilCopy,
@@ -40,9 +45,12 @@ const icons = {
     cilHome,
     cilLockLocked,
     cilMoon,
+    cilPeople,
+    cilSpreadsheet,
     cilSun,
     cilSync,
     cilWarning,
+    cilXCircle,
 };
 const pinia = createPinia();
 
