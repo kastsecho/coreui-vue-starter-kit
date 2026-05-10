@@ -47,7 +47,7 @@ class VerificationNotificationTest extends TestCase
             ->actingAs($user)
             ->post(route('verification.send'));
 
-        $response->assertRedirect(route('dashboard', absolute: false));
+        $response->assertRedirect('/dashboard');
         Notification::assertNothingSent();
     }
 }

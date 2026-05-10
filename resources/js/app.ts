@@ -1,57 +1,12 @@
-import {
-    cibGit,
-    cilAccountLogout,
-    cilApplications,
-    cilBarcode,
-    cilCheck,
-    cilCheckCircle,
-    cilCog,
-    cilContrast,
-    cilCopy,
-    cilExternalLink,
-    cilFlip,
-    cilHamburgerMenu,
-    cilHome,
-    cilLockLocked,
-    cilMoon,
-    cilPeople,
-    cilSpreadsheet,
-    cilSun,
-    cilSync,
-    cilWarning,
-    cilXCircle,
-} from '@coreui/icons';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { createPinia } from 'pinia';
 import { initializeTheme } from '@/composables/useAppearance';
 import AppLayout from '@/layouts/AppLayout.vue';
 import AuthLayout from '@/layouts/AuthLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
+import * as icons from './icons';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
-const icons = {
-    cibGit,
-    cilAccountLogout,
-    cilApplications,
-    cilBarcode,
-    cilCheck,
-    cilCheckCircle,
-    cilCog,
-    cilContrast,
-    cilCopy,
-    cilExternalLink,
-    cilFlip,
-    cilHamburgerMenu,
-    cilHome,
-    cilLockLocked,
-    cilMoon,
-    cilPeople,
-    cilSpreadsheet,
-    cilSun,
-    cilSync,
-    cilWarning,
-    cilXCircle,
-};
 const pinia = createPinia();
 
 void createInertiaApp({
@@ -65,6 +20,7 @@ void createInertiaApp({
             case name.startsWith('auth/'):
                 return AuthLayout;
             case name.startsWith('settings/'):
+            case name.startsWith('teams/'):
                 return [AppLayout, SettingsLayout];
             default:
                 return AppLayout;

@@ -6,7 +6,8 @@ import {
     cilSpreadsheet,
 } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
-import { setLayoutProps } from '@inertiajs/vue3';
+import { setLayoutProps, usePage } from '@inertiajs/vue3';
+import { computed } from 'vue';
 import { Alert } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -33,11 +34,17 @@ defineProps<{
     recentUsers: ApiCollection<User, { readable_created_at: string }>;
 }>();
 
+const page = usePage();
+
+const dashboardUrl = computed(() =>
+    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
+);
+
 setLayoutProps({
     breadcrumbs: [
         {
             title: 'Dashboard',
-            href: dashboard(),
+            href: dashboardUrl.value,
         },
     ],
 });
