@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cilApplications } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import { usePage } from '@inertiajs/vue3';
 import { computed, onMounted, ref } from 'vue';
@@ -21,6 +20,7 @@ import { Container } from '@/components/ui/skeleton';
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
+import { cilApplications } from '@/icons';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';

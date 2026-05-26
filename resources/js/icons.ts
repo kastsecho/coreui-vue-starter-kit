@@ -15,6 +15,7 @@ export {
     cilHome,
     cilLockLocked,
     cilMoon,
+    cilOptions,
     cilPencil,
     cilPeople,
     cilPlus,

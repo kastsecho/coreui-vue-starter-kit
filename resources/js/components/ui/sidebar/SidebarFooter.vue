@@ -12,7 +12,7 @@ const props = defineProps<{
     <CSidebarFooter
         data-slot="sidebar-footer"
         data-sidebar="footer"
-        :class="cn('border-top d-none d-lg-flex', props.class)"
+        :class="props.class"
     >
         <slot />
     </CSidebarFooter>

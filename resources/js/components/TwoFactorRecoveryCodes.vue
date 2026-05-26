@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cilLockLocked, cilSync } from '@coreui/icons';
 import { CIcon, CIconSvg } from '@coreui/icons-vue';
 import { Form } from '@inertiajs/vue3';
 import { nextTick, onMounted, ref, useTemplateRef } from 'vue';
@@ -15,6 +14,7 @@ import {
 } from '@/components/ui/card';
 import { Spinner } from '@/components/ui/spinner';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
+import { cilLockLocked, cilSync } from '@/icons';
 import { regenerateRecoveryCodes } from '@/routes/two-factor';
 
 const { recoveryCodesList, fetchRecoveryCodes, errors } = useTwoFactorAuth();

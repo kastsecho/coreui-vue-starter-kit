@@ -1,6 +1,6 @@
-import { cilCheckCircle, cilWarning } from '@coreui/icons';
 import { CIcon, CIconSvg } from '@coreui/icons-vue';
 import { biExclamationCircle, biInfoCircle } from '@/components/icon';
+import { cilCheckCircle, cilWarning } from '@/icons';
 export { default as Toast } from './Toast.vue';
 export { default as ToastContent } from './ToastContent.vue';
 export { default as Toaster } from './Toaster.vue';
