@@ -22,6 +22,7 @@ export {
     cilSpreadsheet,
     cilSun,
     cilSync,
+    cilTrash,
     cilUserPlus,
     cilWarning,
     cilX,

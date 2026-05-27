@@ -23,22 +23,34 @@ class SecurityTest extends TestCase
             'confirm' => true,
             'confirmPassword' => true,
         ]);
+        /* @chisel-passkeys */
+        Features::passkeys([
+            'confirmPassword' => true,
+        ]);
+        /* @end-chisel-passkeys */
 
         $user = User::factory()->create();
 
         $response = $this
             ->actingAs($user)
+            /* @chisel-password-confirmation */
             ->withSession(['auth.password_confirmed_at' => time()])
+            /* @end-chisel-password-confirmation */
             ->get(route('security.edit'));
 
         $response
             ->assertInertia(fn (Assert $page) => $page
                 ->component('settings/Security')
+                /* @chisel-passkeys */
+                ->where('canManagePasskeys', true)
+                ->where('passkeys', [])
+                /* @end-chisel-passkeys */
                 ->where('canManageTwoFactor', true)
                 ->where('twoFactorEnabled', false),
             );
     }
 
+    /* @chisel-password-confirmation */
     #[Test]
     public function security_page_requires_password_confirmation_when_enabled(): void
     {
@@ -57,29 +69,7 @@ class SecurityTest extends TestCase
 
         $response->assertRedirect(route('password.confirm'));
     }
-
-    #[Test]
-    public function security_page_does_not_require_password_confirmation_when_disabled(): void
-    {
-        $this->skipUnlessFortifyHas(Features::twoFactorAuthentication());
-
-        $user = User::factory()->create();
-
-        Features::twoFactorAuthentication([
-            'confirm' => true,
-            'confirmPassword' => false,
-        ]);
-
-        $response = $this
-            ->actingAs($user)
-            ->get(route('security.edit'));
-
-        $response
-            ->assertOk()
-            ->assertInertia(fn (Assert $page) => $page
-                ->component('settings/Security'),
-            );
-    }
+    /* @end-chisel-password-confirmation */
 
     #[Test]
     public function security_page_renders_without_two_factor_when_feature_is_disabled(): void
@@ -92,12 +82,19 @@ class SecurityTest extends TestCase
 
         $response = $this
             ->actingAs($user)
+            /* @chisel-password-confirmation */
+            ->withSession(['auth.password_confirmed_at' => time()])
+            /* @end-chisel-password-confirmation */
             ->get(route('security.edit'));
 
         $response
             ->assertOk()
             ->assertInertia(fn (Assert $page) => $page
                 ->component('settings/Security')
+                /* @chisel-passkeys */
+                ->where('canManagePasskeys', false)
+                ->where('passkeys', [])
+                /* @end-chisel-passkeys */
                 ->where('canManageTwoFactor', false)
                 ->missing('twoFactorEnabled')
                 ->missing('requiresConfirmation'),

@@ -11,10 +11,12 @@ import {
 } from '@/components/ui/navigation-menu';
 import { Column, Container, Row } from '@/components/ui/skeleton';
 import { cilExternalLink } from '@/icons';
-import { dashboard, login, register } from '@/routes';
+import { dashboard, login } from '@/routes';
+/* @chisel-registration */
+import { register } from '@/routes';
+/* @end-chisel-registration */
 
 defineProps<{
-    hasLogin: boolean;
     laravel: string;
 }>();
 
@@ -27,12 +29,7 @@ const auth = computed(() => page.props.auth);
     <div
         class="d-flex flex-column align-items-center justify-content-center vh-100"
     >
-        <NavigationMenu
-            v-if="hasLogin"
-            placement="fixed-top"
-            container
-            expand="md"
-        >
+        <NavigationMenu placement="fixed-top" container expand="md">
             <NavigationMenuList class="ms-auto gap-3">
                 <template v-if="!auth.user">
                     <Button
@@ -43,6 +40,7 @@ const auth = computed(() => page.props.auth);
                     >
                         Log in
                     </Button>
+                    <!-- @chisel-registration -->
                     <Button
                         as="Link"
                         color="dark"
@@ -51,6 +49,7 @@ const auth = computed(() => page.props.auth);
                     >
                         Register
                     </Button>
+                    <!-- @end-chisel-registration -->
                 </template>
                 <Button
                     v-else
