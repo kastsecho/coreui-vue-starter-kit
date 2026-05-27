@@ -19,6 +19,7 @@ setLayoutProps({
 const props = defineProps<{
     token: string;
     email: string;
+    passwordRules: string;
 }>();
 
 const inputEmail = ref(props.email);
@@ -60,6 +61,7 @@ const inputEmail = ref(props.email);
                     :tabindex="1"
                     autocomplete="new-password"
                     placeholder="Password"
+                    :passwordrules="passwordRules"
                     :invalid="!!errors.password"
                 />
                 <InputFeedback :message="errors.password" invalid />
@@ -74,6 +76,7 @@ const inputEmail = ref(props.email);
                     :tabindex="2"
                     autocomplete="new-password"
                     placeholder="Confirm password"
+                    :passwordrules="passwordRules"
                     :invalid="!!errors.password_confirmation"
                 />
                 <InputFeedback

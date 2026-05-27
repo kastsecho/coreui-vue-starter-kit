@@ -71,7 +71,7 @@ defineProps<{
                         :href="request()"
                         :tabindex="5"
                     >
-                        Forgot password?
+                        Forgot your password?
                     </TextLink>
                 </div>
                 <PasswordInput

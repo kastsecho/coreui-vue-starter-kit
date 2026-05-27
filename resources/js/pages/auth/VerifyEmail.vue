@@ -8,7 +8,7 @@ import { logout } from '@/routes';
 import { send } from '@/routes/verification';
 
 setLayoutProps({
-    title: 'Verify email',
+    title: 'Email verification',
     description:
         'Please verify your email address by clicking on the link we just emailed to you.',
 });

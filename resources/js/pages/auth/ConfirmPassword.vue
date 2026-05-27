@@ -6,7 +6,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/password/confirm';
 
 setLayoutProps({
-    title: 'Confirm your password',
+    title: 'Confirm password',
     description:
         'This is a secure area of the application. Please confirm your password before continuing.',
 });
