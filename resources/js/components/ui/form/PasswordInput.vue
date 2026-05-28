@@ -33,8 +33,7 @@ defineExpose({
         />
         <Button
             type="button"
-            class="border"
-            color="light"
+            class="border border-start-0 bg-body text-body"
             :aria-label="showPassword ? 'Hide password' : 'Show password'"
             :tabindex="-1"
             @click="showPassword = !showPassword"
