@@ -32,8 +32,9 @@ const showAvatar = computed(
             class="avatar-md"
             :src="user.avatar!"
             :alt="user.name"
+            shape="rounded-3"
         />
-        <AvatarFallback v-else class="avatar-md fw-semibold">
+        <AvatarFallback v-else class="avatar-md fw-semibold" shape="rounded-3">
             {{ getInitials(user.name) }}
         </AvatarFallback>
         <div class="small text-start text-white">
@@ -44,8 +45,19 @@ const showAvatar = computed(
         </div>
     </template>
     <template v-else>
-        <AvatarImage v-if="showAvatar" :src="user.avatar!" :alt="user.name" />
-        <AvatarFallback v-else class="fw-semibold">
+        <AvatarImage
+            v-if="showAvatar"
+            :src="user.avatar!"
+            :alt="user.name"
+            shape="rounded-3"
+            status="success"
+        />
+        <AvatarFallback
+            v-else
+            class="fw-semibold"
+            shape="rounded-3"
+            status="success"
+        >
             {{ getInitials(user.name) }}
         </AvatarFallback>
         <div class="small d-sidebar-narrow-none text-start text-white">

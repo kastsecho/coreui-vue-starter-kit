@@ -84,32 +84,8 @@ onMounted(() => {
                 </template>
             </SidebarMenuHeaderList>
 
-            <SidebarMenuHeaderList class="align-items-center ms-auto">
+            <SidebarMenuHeaderList class="ms-auto">
                 <AppearanceSwitcher icon-class="icon icon-lg" />
-                <DropdownMenu
-                    v-if="auth.user"
-                    :alignment="{ md: 'end' }"
-                    variant="nav-item"
-                >
-                    <DropdownMenuTrigger class="nav-link" :caret="false">
-                        <AvatarImage
-                            v-if="auth.user.avatar"
-                            :src="auth.user.avatar"
-                            :alt="auth.user.name"
-                            status="success"
-                        />
-                        <AvatarFallback
-                            v-else
-                            class="fw-semibold"
-                            status="success"
-                        >
-                            {{ getInitials(auth.user.name) }}
-                        </AvatarFallback>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent class="rounded-4 min-w-50">
-                        <UserMenuContent :user="auth.user" />
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </SidebarMenuHeaderList>
         </Container>
 
