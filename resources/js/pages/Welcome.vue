@@ -82,9 +82,9 @@ const auth = computed(() => page.props.auth);
                                         </small>
                                     </h1>
                                     <p class="fw-medium text-center">
-                                        Laravel has an incredibly rich
-                                        ecosystem. We suggest starting with the
-                                        following.
+                                        Let's get started. With so many options
+                                        available to you, we suggest you start
+                                        with the following.
                                     </p>
                                 </Column>
                                 <Column
@@ -112,6 +112,18 @@ const auth = computed(() => page.props.auth);
                                         target="_blank"
                                     >
                                         Watch tutorials at Laracasts
+                                        <CIcon :icon="cilExternalLink" />
+                                    </Button>
+
+                                    <Button
+                                        as="a"
+                                        color="danger"
+                                        href="https://github.com/laravel/framework/blob/13.x/CHANGELOG.md"
+                                        shape="rounded-pill"
+                                        variant="outline"
+                                        target="_blank"
+                                    >
+                                        View changelog
                                         <CIcon :icon="cilExternalLink" />
                                     </Button>
 

@@ -2,10 +2,8 @@
 import { CIcon } from '@coreui/icons-vue';
 import { Head } from '@inertiajs/vue3';
 import { computed } from 'vue';
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import Heading from '@/components/Heading.vue';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Column, Container, Row } from '@/components/ui/skeleton';
 import { cilHome } from '@/icons';
 import { home } from '@/routes';
 
@@ -66,60 +64,44 @@ const error = computed(
 
 <template>
     <Head :title="error.title" />
-    <div
-        class="d-flex flex-column align-items-center justify-content-center vh-100"
-    >
-        <Container fluid>
-            <Row class="justify-content-center">
-                <Column :md="10" :lg="8" :xl="6">
-                    <Card class="rounded-5 shadow-sm">
-                        <CardContent class="p-5">
-                            <Row>
-                                <Column :md="6" class="text-muted text-center">
-                                    <AppLogoIcon
-                                        class="text-danger mb-3"
-                                        width="48"
-                                        height="48"
-                                    />
-                                    <h1 class="fs-3 text-body-emphasis">
-                                        {{ props.status }}
-                                        <small class="text-danger">
-                                            {{ error.title }}
-                                        </small>
-                                    </h1>
-                                    <p class="fw-medium text-center">
-                                        {{ error.description }}
-                                    </p>
-                                </Column>
-                                <Column
-                                    :md="6"
-                                    class="d-flex flex-column justify-content-center gap-3"
-                                >
-                                    <Button
-                                        as="Link"
-                                        color="danger"
-                                        :href="home()"
-                                        shape="rounded-pill"
-                                        variant="outline"
-                                    >
-                                        Go Home
-                                        <CIcon :icon="cilHome" />
-                                    </Button>
+    <div class="d-grid justify-content-center min-vh-100" role="main">
+        <div
+            class="d-flex flex-column justify-content-start justify-content-sm-center gap-3"
+        >
+            <div
+                class="d-flex align-items-center align-items-sm-start pt-sm-0 pt-4"
+            >
+                <h1
+                    class="display-6 text-danger border-end border-secondary border-2 px-4"
+                    v-text="status"
+                />
 
-                                    <Button
-                                        type="button"
-                                        color="light"
-                                        shape="rounded-pill"
-                                        @click="goBack"
-                                    >
-                                        Go Back
-                                    </Button>
-                                </Column>
-                            </Row>
-                        </CardContent>
-                    </Card>
-                </Column>
-            </Row>
-        </Container>
+                <Heading class="text-body ms-4" v-bind="error" />
+            </div>
+
+            <div class="d-flex justify-content-between gap-3">
+                <Button
+                    as="Link"
+                    class="flex-grow-1"
+                    color="danger"
+                    :href="home()"
+                    shape="rounded-pill"
+                    variant="outline"
+                >
+                    Go Home
+                    <CIcon :icon="cilHome" />
+                </Button>
+
+                <Button
+                    type="button"
+                    class="flex-grow-1"
+                    color="light"
+                    shape="rounded-pill"
+                    @click="goBack"
+                >
+                    Go Back
+                </Button>
+            </div>
+        </div>
     </div>
 </template>
