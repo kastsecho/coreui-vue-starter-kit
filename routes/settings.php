@@ -25,3 +25,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('settings/appearance', [AppearanceController::class, 'edit'])
         ->name('appearance.edit');
 });
+
+/* @chisel-passkeys */
+Route::get('.well-known/passkey-endpoints', function () {
+    return response()->json([
+        'enroll' => route('security.edit'),
+        'manage' => route('security.edit'),
+    ]);
+})->name('well-known.passkeys');
+/* @end-chisel-passkeys */

@@ -108,6 +108,14 @@ class VueMakeCommand extends GeneratorCommand
 
     /**
      * Get the console command arguments.
+     *
+     * @return array<array{
+     *     0: non-empty-string,
+     *     1?: non-empty-array<string>|string|null,
+     *     2?: int<0, 31>,
+     *     3?: string,
+     *     4?: mixed
+     * }|InputOption>
      */
     protected function getOptions(): array
     {
