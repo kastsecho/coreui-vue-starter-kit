@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
+/* @chisel-passkeys */
+import PasskeyVerify from '@/components/PasskeyVerify.vue';
+/* @end-chisel-passkeys */
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -11,7 +14,9 @@ import {
     PasswordInput,
 } from '@/components/ui/form';
 import { Spinner } from '@/components/ui/spinner';
+/* @chisel-registration */
 import { register } from '@/routes';
+/* @end-chisel-registration */
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 
@@ -23,7 +28,6 @@ setLayoutProps({
 defineProps<{
     status?: string;
     canResetPassword: boolean;
-    canRegister: boolean;
 }>();
 </script>
 
@@ -37,6 +41,10 @@ defineProps<{
     >
         {{ status }}
     </Alert>
+
+    <!-- @chisel-passkeys -->
+    <PasskeyVerify />
+    <!-- @end-chisel-passkeys -->
 
     <Form
         v-bind="store.form()"
@@ -107,9 +115,11 @@ defineProps<{
             </Button>
         </div>
 
-        <div v-if="canRegister" class="text-muted text-center">
+        <!-- @chisel-registration -->
+        <div class="text-muted text-center">
             Don't have an account?
             <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
         </div>
+        <!-- @end-chisel-registration -->
     </Form>
 </template>

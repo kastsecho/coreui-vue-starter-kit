@@ -14,7 +14,6 @@ import { cilExternalLink } from '@/icons';
 import { dashboard, login, register } from '@/routes';
 
 defineProps<{
-    hasLogin: boolean;
     laravel: string;
 }>();
 
@@ -31,7 +30,6 @@ const dashboardUrl = computed(() =>
         class="d-flex flex-column align-items-center justify-content-center vh-100"
     >
         <NavigationMenu
-            v-if="hasLogin"
             placement="fixed-top"
             container
             expand="md"
@@ -46,6 +44,7 @@ const dashboardUrl = computed(() =>
                     >
                         Log in
                     </Button>
+                    <!-- @chisel-registration -->
                     <Button
                         as="Link"
                         color="dark"
@@ -54,6 +53,7 @@ const dashboardUrl = computed(() =>
                     >
                         Register
                     </Button>
+                    <!-- @end-chisel-registration -->
                 </template>
                 <Button
                     v-else

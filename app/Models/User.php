@@ -12,14 +12,16 @@ use Illuminate\Database\Eloquent\Attributes\UseFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\Contracts\PasskeyUser;
+use Laravel\Fortify\PasskeyAuthenticatable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
 #[Fillable(['name', 'email', 'password', 'current_team_id'])]
 #[Hidden(['password', 'remember_token', 'two_factor_secret', 'two_factor_recovery_codes'])]
 #[UseFactory(UserFactory::class)]
-class User extends Authenticatable
+class User extends Authenticatable implements PasskeyUser
 {
-    use HasFactory, HasProfilePhoto, HasTeams, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, HasProfilePhoto, HasTeams, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
 
     /**
      * Get the attributes that should be cast.
@@ -31,7 +33,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            /* @chisel-2fa */
             'two_factor_confirmed_at' => 'datetime',
+            /* @end-chisel-2fa */
         ];
     }
 }

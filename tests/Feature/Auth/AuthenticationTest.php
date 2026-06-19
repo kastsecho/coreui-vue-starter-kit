@@ -4,8 +4,12 @@ namespace Tests\Feature\Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Laravel\Fortify\Features;
+/* @chisel-passkeys */
+use Laravel\Passkeys\Contracts\PasskeyLoginResponse;
+/* @end-chisel-passkeys */
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -34,6 +38,27 @@ class AuthenticationTest extends TestCase
         $this->assertAuthenticated();
         $response->assertRedirect(route('dashboard', absolute: false));
     }
+
+    /* @chisel-passkeys */
+    #[Test]
+    public function passkey_login_response_redirects_to_the_current_team_dashboard(): void
+    {
+        $user = User::factory()->create();
+
+        $request = Request::create(route('login', absolute: false), 'GET', server: [
+            'HTTP_ACCEPT' => 'application/json',
+        ]);
+        $request->setLaravelSession($this->app['session.store']);
+        $request->setUserResolver(fn () => $user);
+
+        $jsonResponse = app(PasskeyLoginResponse::class)->toResponse($request);
+
+        $this->assertSame(
+            route('dashboard', ['current_team' => $user->personalTeam()->slug]),
+            $jsonResponse->getData()->redirect,
+        );
+    }
+    /* @end-chisel-passkeys */
 
     #[Test]
     public function users_with_two_factor_enabled_are_redirected_to_two_factor_challenge(): void
