@@ -16,7 +16,7 @@ defineProps<{
             <biInfoCircle />
         </CIconSvg>
         <AlertDescription>
-            {{ action }} to join the "{{ invitation.teamName }}" Team.
+            {{ action }} to join the "{{ invitation.teamName }}" team.
         </AlertDescription>
     </Alert>
 </template>
