@@ -2,6 +2,7 @@
 import { router } from '@inertiajs/vue3';
 import { onMounted, ref } from 'vue';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -11,7 +12,6 @@ import {
 } from '@/components/ui/dialog';
 import { accept, decline } from '@/routes/invitations';
 import type { DashboardInvitation } from '@/types';
-import {Card, CardContent} from "@/components/ui/card";
 
 const props = defineProps<{
     invitations: DashboardInvitation[];
@@ -67,8 +67,8 @@ onMounted(() => {
             >
                 <CardContent class="d-grid gap-2">
                     <div class="d-grid gap-1">
-                        <p class="mb-0 fw-medium">{{ invitation.team.name }}</p>
-                        <p class="mb-0 text-body-secondary">
+                        <p class="fw-medium mb-0">{{ invitation.team.name }}</p>
+                        <p class="text-body-secondary mb-0">
                             {{ invitation.inviterName }} invited you to join
                             this team.
                         </p>

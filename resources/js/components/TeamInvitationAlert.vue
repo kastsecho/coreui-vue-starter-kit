@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { CIconSvg } from '@coreui/icons-vue';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { biInfoCircle } from '@/components/icon';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import type { TeamInvitationContext } from '@/types';
 
 defineProps<{

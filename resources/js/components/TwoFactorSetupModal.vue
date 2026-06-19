@@ -147,7 +147,11 @@ watch(
                         </div>
 
                         <div class="d-flex align-items-center w-100 gap-3">
-                            <Button color="primary" class="w-100" @click="handleModalNextStep">
+                            <Button
+                                color="primary"
+                                class="w-100"
+                                @click="handleModalNextStep"
+                            >
                                 {{ modalConfig.buttonText }}
                             </Button>
                         </div>

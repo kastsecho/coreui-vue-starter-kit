@@ -70,16 +70,26 @@ const error = computed(
     >
         <Container fluid>
             <Row class="flex-column align-items-center row-gap-3">
-                <Column class="d-flex align-items-center justify-content-center" :md="10" :lg="8" :xl="6">
+                <Column
+                    class="d-flex align-items-center justify-content-center"
+                    :md="10"
+                    :lg="8"
+                    :xl="6"
+                >
                     <h1
-                        class="mb-0 display-6 text-danger border-end border-secondary border-2 px-4"
+                        class="display-6 text-danger border-end border-secondary mb-0 border-2 px-4"
                         v-text="status"
                     />
 
-                    <Heading class="text-body text-wrap ms-4" v-bind="error" />
+                    <Heading class="text-body ms-4 text-wrap" v-bind="error" />
                 </Column>
 
-                <Column class="d-flex align-items-center justify-content-center gap-3" :md="10" :lg="8" :xl="6">
+                <Column
+                    class="d-flex align-items-center justify-content-center gap-3"
+                    :md="10"
+                    :lg="8"
+                    :xl="6"
+                >
                     <Button
                         as="Link"
                         class="flex-grow-1"
@@ -92,7 +102,7 @@ const error = computed(
                         <CIcon :icon="cilHome" />
                     </Button>
 
-                     <Button
+                    <Button
                         type="button"
                         class="flex-grow-1"
                         color="light"
