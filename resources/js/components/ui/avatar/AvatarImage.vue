@@ -16,7 +16,7 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
     color: 'secondary',
-    shape: 'rounded-3',
+    shape: 'rounded-circle',
 });
 
 const delegatedProps = reactiveOmit(props, 'class');

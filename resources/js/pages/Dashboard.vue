@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { setLayoutProps, usePage } from '@inertiajs/vue3';
+import { Head, setLayoutProps, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { Alert } from '@/components/ui/alert';
@@ -27,6 +27,8 @@ setLayoutProps({
 </script>
 
 <template>
+    <Head title="Dashboard" />
+
     <Container>
         <Row class="justify-content-center row-gap-3">
             <Alert v-if="status" color="success">
