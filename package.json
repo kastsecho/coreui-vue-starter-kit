@@ -30,18 +30,18 @@
     },
     "devDependencies": {
         "@laravel/vite-plugin-wayfinder": "^0.1.3",
-        "@types/node": "^25.9.3",
+        "@types/node": "^26.0.0",
         "@vitejs/plugin-vue": "^6.0.7",
-        "@voidzero-dev/vite-plus-core": "^0.1.24",
+        "@voidzero-dev/vite-plus-core": "^0.2.1",
         "concurrently": "^10.0.3",
         "sass": "^1.101.0",
         "typescript": "^6.0.3",
         "vite": "^8.0.16",
-        "vite-plus": "^0.1.24",
+        "vite-plus": "^0.2.1",
         "vue-tsc": "^3.3.5"
     },
     "optionalDependencies": {
-        "@rollup/rollup-linux-x64-gnu": "4.62.0",
-        "@rollup/rollup-win32-x64-msvc": "4.62.0"
+        "@rollup/rollup-linux-x64-gnu": "4.62.2",
+        "@rollup/rollup-win32-x64-msvc": "4.62.2"
     }
 }
