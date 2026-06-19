@@ -13,8 +13,6 @@ class DashboardController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @throws Throwable
      */
     public function __invoke(Request $request): Response
     {
