@@ -15,7 +15,7 @@ const tabs = [
 </script>
 
 <template>
-    <TabGroup :activeItemKey="appearance">
+    <TabGroup :active-item-key="appearance">
         <TabList class="bg-body shadow-sm" variant="enclosed-pills">
             <TabItem
                 v-for="{ value, Icon, label } in tabs"
@@ -26,7 +26,7 @@ const tabs = [
                         'd-flex align-items-center gap-2',
                     )
                 "
-                :itemKey="value"
+                :item-key="value"
                 @focus="updateAppearance(value)"
             >
                 <CIcon :icon="Icon" />

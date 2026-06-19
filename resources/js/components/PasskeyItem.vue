@@ -23,7 +23,7 @@ const emit = defineEmits<{
     remove: [id: number, onError: () => void];
 }>();
 
-const showDeleteModal = ref(false);
+const showModal = ref(false);
 const isDeleting = ref(false);
 
 const handleDelete = () => {
@@ -68,7 +68,7 @@ const handleDelete = () => {
             color="danger"
             variant="ghost"
             size="sm"
-            @click="showDeleteModal = true"
+            @click="showModal = true"
         >
             <CIcon :icon="cilTrash"></CIcon>
             <span class="visually-hidden">Remove</span>
@@ -77,8 +77,8 @@ const handleDelete = () => {
 
     <Dialog
         content-class-name="rounded-4"
-        :open="showDeleteModal"
-        @close="showDeleteModal = false"
+        :open="showModal"
+        @close="showModal = false"
     >
         <DialogHeader class="d-grid" :close-button="false">
             <DialogTitle>Remove passkey</DialogTitle>
@@ -88,7 +88,7 @@ const handleDelete = () => {
             </DialogDescription>
         </DialogHeader>
         <DialogFooter class="gap-2">
-            <Button color="secondary" @click="showDeleteModal = false">
+            <Button color="secondary" @click="showModal = false">
                 Cancel
             </Button>
             <Button color="danger" :disabled="isDeleting" @click="handleDelete">
