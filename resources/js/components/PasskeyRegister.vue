@@ -58,7 +58,7 @@ const handleCancel = () => {
     <Button
         v-else-if="!showForm"
         class="me-auto"
-        color="light"
+        color="primary"
         variant="outline"
         @click="showForm = true"
     >
