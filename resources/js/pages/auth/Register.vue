@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
+import TeamInvitationAlert from '@/components/TeamInvitationAlert.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Button } from '@/components/ui/button';
 import {
@@ -11,6 +12,12 @@ import {
 import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
+import type { TeamInvitationContext } from '@/types';
+
+defineProps<{
+    passwordRules: string;
+    teamInvitation?: TeamInvitationContext | null;
+}>();
 
 setLayoutProps({
     title: 'Create an account',
@@ -20,6 +27,12 @@ setLayoutProps({
 
 <template>
     <Head title="Register" />
+
+    <TeamInvitationAlert
+        v-if="teamInvitation"
+        :invitation="teamInvitation"
+        action="Register"
+    />
 
     <Form
         v-bind="store.form()"
@@ -68,6 +81,7 @@ setLayoutProps({
                     :tabindex="3"
                     autocomplete="new-password"
                     placeholder="Password"
+                    :passwordrules="passwordRules"
                     :invalid="!!errors.password"
                 />
                 <InputFeedback :message="errors.password" invalid />
@@ -82,6 +96,7 @@ setLayoutProps({
                     :tabindex="4"
                     autocomplete="new-password"
                     placeholder="Confirm password"
+                    :passwordrules="passwordRules"
                     :invalid="!!errors.password_confirmation"
                 />
                 <InputFeedback
@@ -104,7 +119,22 @@ setLayoutProps({
 
         <div class="text-muted text-center">
             Already have an account?
-            <TextLink :href="login()" :tabindex="6">Log in</TextLink>
+            <TextLink
+                :href="
+                    teamInvitation
+                        ? login.url({
+                              query: {
+                                  invitation: teamInvitation.code,
+                              },
+                          })
+                        : login()
+                "
+                class="underline underline-offset-4"
+                :tabindex="6"
+                data-test="team-invitation-login-link"
+            >
+                Log in
+            </TextLink>
         </div>
     </Form>
 </template>

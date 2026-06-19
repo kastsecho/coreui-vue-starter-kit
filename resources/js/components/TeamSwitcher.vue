@@ -86,14 +86,14 @@ const switchTeam = (team: Team) => {
                     />
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                    <DropdownMenuItem
-                        data-test="team-switcher-new-team"
-                        class="icon-link"
-                        @click="showModal"
-                    >
-                        <CIcon class="nav-icon" :icon="cilPlus" />
-                        New team
-                    </DropdownMenuItem>
+                <DropdownMenuItem
+                    data-test="team-switcher-new-team"
+                    class="icon-link"
+                    @click="showModal"
+                >
+                    <CIcon class="nav-icon" :icon="cilPlus" />
+                    New team
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     </CreateTeamModal>

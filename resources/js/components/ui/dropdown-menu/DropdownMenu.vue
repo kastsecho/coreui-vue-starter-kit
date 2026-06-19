@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<Props>(), {
     reference: 'toggle',
     teleport: false,
     trigger: 'click',
-    variant: 'btn-group',
+    variant: 'dropdown',
 });
 
 const delegatedProps = reactiveOmit(props, 'class');

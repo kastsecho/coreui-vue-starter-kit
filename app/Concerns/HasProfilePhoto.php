@@ -58,6 +58,8 @@ trait HasProfilePhoto
 
     /**
      * Get the URL to the user's profile photo.
+     *
+     * @return Attribute<string, string>
      */
     protected function avatar(): Attribute
     {

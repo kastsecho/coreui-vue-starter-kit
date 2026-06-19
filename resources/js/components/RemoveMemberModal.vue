@@ -44,7 +44,7 @@ const handleOpenChange = (value: boolean) => {
         >
             <DialogHeader class="d-grid" :close-button="false">
                 <DialogTitle>Remove team member</DialogTitle>
-                <DialogDescription>
+                <DialogDescription text-color="body-secondary">
                     Are you sure you want to remove
                     <strong>{{ props.member?.name }}</strong> from this team?
                 </DialogDescription>

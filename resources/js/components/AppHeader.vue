@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cibGit, cilApplications, cilFlip } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import { usePage } from '@inertiajs/vue3';
 import { computed, ref } from 'vue';
@@ -24,6 +23,7 @@ import { Tooltip } from '@/components/ui/tooltip';
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
+import { cibGit, cilApplications, cilFlip } from '@/icons';
 import { dashboard, home } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
 

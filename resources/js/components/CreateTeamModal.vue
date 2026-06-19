@@ -45,7 +45,7 @@ const showModal = () => handleOpenChange(true);
         >
             <DialogHeader class="d-grid" :close-button="false">
                 <DialogTitle>Create a new team</DialogTitle>
-                <DialogDescription>
+                <DialogDescription text-color="body-secondary">
                     Create a new team to collaborate with others.
                 </DialogDescription>
             </DialogHeader>
@@ -76,6 +76,7 @@ const showModal = () => handleOpenChange(true);
 
                 <Button
                     type="submit"
+                    color="primary"
                     data-test="create-team-submit"
                     :disabled="processing"
                 >

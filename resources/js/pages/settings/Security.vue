@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { CIconSvg } from '@coreui/icons-vue';
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
-import { onUnmounted, ref } from 'vue';
 import Heading from '@/components/Heading.vue';
-import { biShieldCheck, biShieldX } from '@/components/icon';
-import TwoFactorRecoveryCodes from '@/components/TwoFactorRecoveryCodes.vue';
-import TwoFactorSetupModal from '@/components/TwoFactorSetupModal.vue';
+/* @chisel-passkeys */
+import type { Props as ManagePasskeysProps } from '@/components/ManagePasskeys.vue';
+import ManagePasskeys from '@/components/ManagePasskeys.vue';
+/* @end-chisel-passkeys */
+/* @chisel-2fa */
+import type { Props as ManageTwoFactorProps } from '@/components/ManageTwoFactor.vue';
+import ManageTwoFactor from '@/components/ManageTwoFactor.vue';
+/* @end-chisel-2fa */
 import { Button } from '@/components/ui/button';
 import { InputFeedback, Label, PasswordInput } from '@/components/ui/form';
 import { Spinner } from '@/components/ui/spinner';
-import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
 import { edit } from '@/routes/security';
-import { disable, enable } from '@/routes/two-factor';
 import { update } from '@/routes/user-password';
 
 type Props = {
-    canManageTwoFactor?: boolean;
-    requiresConfirmation?: boolean;
-    twoFactorEnabled?: boolean;
-};
+    passwordRules: string;
+} /* @chisel-passkeys */ & ManagePasskeysProps /* @end-chisel-passkeys */ /* @chisel-2fa */ &
+    ManageTwoFactorProps /* @end-chisel-2fa */;
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     canManageTwoFactor: false,
     requiresConfirmation: false,
     twoFactorEnabled: false,
@@ -34,11 +34,6 @@ setLayoutProps({
         },
     ],
 });
-
-const { hasSetupData, clearTwoFactorAuthData } = useTwoFactorAuth();
-const showSetupModal = ref<boolean>(false);
-
-onUnmounted(() => clearTwoFactorAuthData());
 </script>
 
 <template>
@@ -86,6 +81,7 @@ onUnmounted(() => clearTwoFactorAuthData());
                     :tabindex="2"
                     autocomplete="new-password"
                     placeholder="New password"
+                    :passwordrules="props.passwordRules"
                     :invalid="!!errors.password"
                 />
                 <InputFeedback :message="errors.password" invalid />
@@ -99,6 +95,7 @@ onUnmounted(() => clearTwoFactorAuthData());
                     :tabindex="3"
                     autocomplete="new-password"
                     placeholder="Confirm password"
+                    :passwordrules="props.passwordRules"
                     :invalid="!!errors.password_confirmation"
                 />
                 <InputFeedback
@@ -115,80 +112,24 @@ onUnmounted(() => clearTwoFactorAuthData());
                     data-test="update-password-button"
                 >
                     <Spinner v-if="processing" />
-                    Save password
+                    Save
                 </Button>
             </div>
         </Form>
     </div>
 
-    <div v-if="canManageTwoFactor" class="d-grid row-gap-3 mt-3">
-        <Heading
-            variant="small"
-            title="Two-factor authentication"
-            description="Manage your two-factor authentication settings"
-        />
+    <!-- @chisel-2fa -->
+    <ManageTwoFactor
+        :canManageTwoFactor="canManageTwoFactor"
+        :requiresConfirmation="requiresConfirmation"
+        :twoFactorEnabled="twoFactorEnabled"
+    />
+    <!-- @end-chisel-2fa -->
 
-        <div
-            v-if="!twoFactorEnabled"
-            class="d-flex flex-column align-items-start justify-content-start gap-2"
-        >
-            <p class="text-muted small fw-semibold">
-                When you enable two-factor authentication, you will be prompted
-                for a secure pin during login. This pin can be retrieved from a
-                TOTP-supported application on your phone.
-            </p>
-
-            <div>
-                <Button v-if="hasSetupData" @click="showSetupModal = true">
-                    <CIconSvg>
-                        <biShieldCheck />
-                    </CIconSvg>
-                    Continue setup
-                </Button>
-                <Form
-                    v-else
-                    v-bind="enable.form()"
-                    @success="showSetupModal = true"
-                    #default="{ processing }"
-                >
-                    <Button type="submit" :disabled="processing">
-                        <CIconSvg>
-                            <biShieldCheck />
-                        </CIconSvg>
-                        Enable 2FA
-                    </Button>
-                </Form>
-            </div>
-        </div>
-
-        <div
-            v-else
-            class="d-flex flex-column align-items-start justify-content-start gap-2"
-        >
-            <p class="text-muted small fw-semibold">
-                You will be prompted for a secure, random pin during login,
-                which you can retrieve from the TOTP-supported application on
-                your phone.
-            </p>
-
-            <div class="relative inline">
-                <Form v-bind="disable.form()" #default="{ processing }">
-                    <Button type="submit" color="danger" :disabled="processing">
-                        <CIconSvg>
-                            <biShieldX />
-                        </CIconSvg>
-                        Disable 2FA
-                    </Button>
-                </Form>
-            </div>
-
-            <TwoFactorRecoveryCodes />
-        </div>
-
-        <TwoFactorSetupModal
-            v-model:isOpen="showSetupModal"
-            :requiresConfirmation="requiresConfirmation"
-            :twoFactorEnabled="twoFactorEnabled"
-        />
-    </div>
+    <!-- @chisel-passkeys -->
+    <ManagePasskeys
+        :canManagePasskeys="canManagePasskeys"
+        :passkeys="passkeys"
+    />
+    <!-- @end-chisel-passkeys -->
 </template>

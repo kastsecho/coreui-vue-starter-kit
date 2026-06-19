@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { CIcon } from '@coreui/icons-vue';
 import { computed } from 'vue';
 import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInitials } from '@/composables/useInitials';
+import { cilOptions } from '@/icons';
 import type { AppVariant, User } from '@/types';
 
 type Props = {
@@ -27,39 +29,46 @@ const showAvatar = computed(
     <template v-if="variant === 'header'">
         <AvatarImage
             v-if="showAvatar"
-            size="sm"
+            class="avatar-md"
             :src="user.avatar!"
             :alt="user.name"
+            shape="rounded-3"
         />
-        <AvatarFallback v-else class="fw-semibold" size="sm">
+        <AvatarFallback v-else class="avatar-md fw-semibold" shape="rounded-3">
             {{ getInitials(user.name) }}
         </AvatarFallback>
-
-        <div class="d-grid flex-grow-1 text-start">
-            <span class="text-truncate fw-medium">{{ user.name }}</span>
-            <span v-if="showEmail" class="text-truncate text-muted">
+        <div class="small text-start text-white">
+            <div class="text-truncate fw-semibold">{{ user.name }}</div>
+            <div v-if="showEmail" class="text-truncate text-muted">
                 {{ user.email }}
-            </span>
+            </div>
         </div>
     </template>
     <template v-else>
-        <div class="nav-icon">
-            <AvatarImage
-                v-if="showAvatar"
-                shape="rounded"
-                size="sm"
-                :src="user.avatar!"
-                :alt="user.name"
-            />
-            <AvatarFallback
-                v-else
-                class="fw-semibold"
-                shape="rounded"
-                size="sm"
-            >
-                {{ getInitials(user.name) }}
-            </AvatarFallback>
+        <AvatarImage
+            v-if="showAvatar"
+            :src="user.avatar!"
+            :alt="user.name"
+            shape="rounded-3"
+            status="success"
+        />
+        <AvatarFallback
+            v-else
+            class="fw-semibold"
+            shape="rounded-3"
+            status="success"
+        >
+            {{ getInitials(user.name) }}
+        </AvatarFallback>
+        <div class="small d-sidebar-narrow-none text-start text-white">
+            <div class="text-truncate fw-semibold">{{ user.name }}</div>
+            <div v-if="showEmail" class="text-truncate text-muted">
+                {{ user.email }}
+            </div>
         </div>
-        <span class="text-truncate">{{ user.name }}</span>
+        <CIcon
+            class="nav-icon d-sidebar-narrow-none ms-auto"
+            :icon="cilOptions"
+        />
     </template>
 </template>

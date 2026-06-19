@@ -50,7 +50,7 @@ const handleOpenChange = (value: boolean) => {
         >
             <DialogHeader class="d-grid" :close-button="false">
                 <DialogTitle>Are you sure?</DialogTitle>
-                <DialogDescription>
+                <DialogDescription text-color="body-secondary">
                     This action cannot be undone. This will permanently delete
                     the team
                     <strong>"{{ props.team.name }}"</strong>.

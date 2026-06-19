@@ -11,12 +11,13 @@
         "types:check": "vue-tsc --noEmit"
     },
     "dependencies": {
-        "@coreui/coreui": "^5.7.1",
+        "@coreui/coreui": "^5.8.0",
         "@coreui/icons": "^3.1.0",
         "@coreui/icons-vue": "^2.2.0",
-        "@coreui/vue": "^5.8.0",
-        "@inertiajs/vite": "^3.2.0",
-        "@inertiajs/vue3": "^3.2.0",
+        "@coreui/vue": "^5.9.0",
+        "@inertiajs/vite": "^3.4.0",
+        "@inertiajs/vue3": "^3.4.0",
+        "@laravel/passkeys": "^0.2.0",
         "@vueuse/core": "^14.3.0",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -24,23 +25,23 @@
         "pinia": "^3.0.4",
         "simplebar-vue": "^2.4.0",
         "tailwind-merge": "^3.6.0",
-        "vue": "^3.5.34",
+        "vue": "^3.5.38",
         "vue-input-otp": "^0.3.2"
     },
     "devDependencies": {
         "@laravel/vite-plugin-wayfinder": "^0.1.3",
-        "@types/node": "^25.9.1",
+        "@types/node": "^26.0.0",
         "@vitejs/plugin-vue": "^6.0.7",
-        "@voidzero-dev/vite-plus-core": "^0.1.22",
-        "concurrently": "^9.0.1",
-        "sass": "^1.100.0",
+        "@voidzero-dev/vite-plus-core": "^0.2.1",
+        "concurrently": "^10.0.3",
+        "sass": "^1.101.0",
         "typescript": "^6.0.3",
         "vite": "^8.0.14",
-        "vite-plus": "^0.1.22",
-        "vue-tsc": "^3.3.2"
+        "vite-plus": "^0.2.1",
+        "vue-tsc": "^3.3.5"
     },
     "optionalDependencies": {
-        "@rollup/rollup-linux-x64-gnu": "4.60.4",
-        "@rollup/rollup-win32-x64-msvc": "4.60.4"
+        "@rollup/rollup-linux-x64-gnu": "4.62.2",
+        "@rollup/rollup-win32-x64-msvc": "4.62.2"
     }
 }

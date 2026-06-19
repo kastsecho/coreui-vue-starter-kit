@@ -19,7 +19,7 @@ enum TeamRole: string
     /**
      * Get all the permissions for this role.
      *
-     * @return array<string>
+     * @return array<TeamPermission>
      */
     public function permissions(): array
     {

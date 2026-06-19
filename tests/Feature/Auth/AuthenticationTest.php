@@ -2,10 +2,18 @@
 
 namespace Tests\Feature\Auth;
 
+use App\Enums\TeamRole;
+use App\Models\Team;
+use App\Models\TeamInvitation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Inertia\Testing\AssertableInertia as Assert;
 use Laravel\Fortify\Features;
+/* @chisel-passkeys */
+use Laravel\Passkeys\Contracts\PasskeyLoginResponse;
+/* @end-chisel-passkeys */
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -22,6 +30,29 @@ class AuthenticationTest extends TestCase
     }
 
     #[Test]
+    public function login_screen_includes_team_invitation_context(): void
+    {
+        $owner = User::factory()->create();
+        $team = Team::factory()->create(['name' => 'Laravel Team']);
+        $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
+
+        $invitation = TeamInvitation::factory()->create([
+            'team_id' => $team->id,
+            'email' => 'invited@example.com',
+            'invited_by' => $owner->id,
+        ]);
+
+        $response = $this->get(route('login', ['invitation' => $invitation->code]));
+
+        $response->assertOk();
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('auth/Login')
+            ->where('teamInvitation.code', $invitation->code)
+            ->where('teamInvitation.teamName', 'Laravel Team'),
+        );
+    }
+
+    #[Test]
     public function users_can_authenticate_using_the_login_screen(): void
     {
         $user = User::factory()->create();
@@ -32,8 +63,29 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard'));
+        $response->assertRedirect(route('dashboard', absolute: false));
     }
+
+    /* @chisel-passkeys */
+    #[Test]
+    public function passkey_login_response_redirects_to_the_current_team_dashboard(): void
+    {
+        $user = User::factory()->create();
+
+        $request = Request::create(route('login', absolute: false), 'GET', server: [
+            'HTTP_ACCEPT' => 'application/json',
+        ]);
+        $request->setLaravelSession($this->app['session.store']);
+        $request->setUserResolver(fn () => $user);
+
+        $jsonResponse = app(PasskeyLoginResponse::class)->toResponse($request);
+
+        $this->assertSame(
+            route('dashboard', ['current_team' => $user->personalTeam()->slug]),
+            $jsonResponse->getData()->redirect,
+        );
+    }
+    /* @end-chisel-passkeys */
 
     #[Test]
     public function users_with_two_factor_enabled_are_redirected_to_two_factor_challenge(): void
@@ -45,22 +97,15 @@ class AuthenticationTest extends TestCase
             'confirmPassword' => true,
         ]);
 
-        $user = User::factory()->create();
-
-        $user->forceFill([
-            'two_factor_secret' => encrypt('test-secret'),
-            'two_factor_recovery_codes' => encrypt(json_encode(['code1', 'code2'])),
-            'two_factor_confirmed_at' => now(),
-        ])->save();
+        $user = User::factory()->withTwoFactor()->create();
 
         $response = $this->post(route('login'), [
             'email' => $user->email,
             'password' => 'password',
         ]);
 
-        $response
-            ->assertRedirect(route('two-factor.login'))
-            ->assertSessionHas('login.id', $user->id);
+        $response->assertRedirect(route('two-factor.login'));
+        $response->assertSessionHas('login.id', $user->id);
         $this->assertGuest();
     }
 
@@ -86,8 +131,8 @@ class AuthenticationTest extends TestCase
             ->actingAs($user)
             ->post(route('logout'));
 
-        $this->assertGuest();
         $response->assertRedirect(route('home'));
+        $this->assertGuest();
     }
 
     #[Test]

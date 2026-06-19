@@ -22,7 +22,7 @@ setLayoutProps({
         <Heading
             variant="small"
             title="Appearance settings"
-            description="Update your account's appearance settings"
+            description="Update the appearance settings for your account"
         />
         <AppearanceTabs />
     </div>

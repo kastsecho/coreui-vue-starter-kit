@@ -49,7 +49,7 @@ function handleOpenChange(value: boolean) {
         >
             <DialogHeader class="d-grid" :close-button="false">
                 <DialogTitle>Cancel invitation</DialogTitle>
-                <DialogDescription>
+                <DialogDescription text-color="body-secondary">
                     Are you sure you want to cancel the invitation for
                     <strong>{{ props.invitation?.email }}</strong
                     >?

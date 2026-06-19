@@ -9,6 +9,7 @@ use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Attributes\Controllers\Authorize;
+use Inertia\Inertia;
 
 class TeamMemberController extends Controller
 {
@@ -25,6 +26,8 @@ class TeamMemberController extends Controller
             ->firstOrFail()
             ->update(['role' => $newRole]);
 
+        Inertia::toast(__('Member role updated.'), 'success');
+
         return to_route('teams.edit', ['team' => $team->slug]);
     }
 
@@ -34,7 +37,7 @@ class TeamMemberController extends Controller
     #[Authorize('removeMember', 'team')]
     public function destroy(Team $team, User $user): RedirectResponse
     {
-        abort_if($team->owner()?->is($user), 403, 'The team owner cannot be removed.');
+        abort_if($team->owner()?->is($user), 403, __('The team owner cannot be removed.'));
 
         $team->memberships()
             ->where('user_id', $user->id)
@@ -43,6 +46,8 @@ class TeamMemberController extends Controller
         if ($user->isCurrentTeam($team)) {
             $user->switchTeam($user->personalTeam());
         }
+
+        Inertia::toast(__('Member removed.'), 'success');
 
         return to_route('teams.edit', ['team' => $team->slug]);
     }

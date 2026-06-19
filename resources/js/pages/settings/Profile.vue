@@ -1,12 +1,8 @@
 <script setup lang="ts">
-import {
-    Form,
-    Head,
-    Link,
-    router,
-    setLayoutProps,
-    usePage,
-} from '@inertiajs/vue3';
+import { Form, Head, router, setLayoutProps, usePage } from '@inertiajs/vue3';
+/* @chisel-email-verification */
+import { Link } from '@inertiajs/vue3';
+/* @end-chisel-email-verification */
 import { computed, ref } from 'vue';
 import DeleteUser from '@/components/DeleteUser.vue';
 import Heading from '@/components/Heading.vue';
@@ -18,7 +14,9 @@ import { getInitials } from '@/composables/useInitials';
 import { edit } from '@/routes/profile';
 import { destroy } from '@/routes/profile-photo';
 import { update } from '@/routes/user-profile-information';
+/* @chisel-email-verification */
 import { send } from '@/routes/verification';
+/* @end-chisel-email-verification */
 
 defineProps<{
     mustVerifyEmail: boolean;
@@ -28,7 +26,7 @@ defineProps<{
 setLayoutProps({
     breadcrumbs: [
         {
-            title: 'Profile settings',
+            title: 'Profile',
             href: edit(),
         },
     ],
@@ -172,7 +170,7 @@ const deletePhoto = () => {
                         class="btn btn-link link-body-emphasis"
                         :tabindex="5"
                     >
-                        Click here to resend the verification email.
+                        Click here to re-send the verification email.
                     </Link>
                 </div>
 

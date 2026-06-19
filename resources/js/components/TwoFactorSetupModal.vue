@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cilBarcode, cilCheck, cilCopy } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import { Form } from '@inertiajs/vue3';
 import { useClipboard } from '@vueuse/core';
@@ -22,6 +21,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Spinner } from '@/components/ui/spinner';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
+import { cilBarcode, cilCheck, cilCopy } from '@/icons';
 import { confirm } from '@/routes/two-factor';
 import type { TwoFactorConfigContent } from '@/types';
 
@@ -118,7 +118,7 @@ watch(
         >
             <CIcon :icon="cilBarcode" size="xl" />
             <DialogTitle>{{ modalConfig.title }}</DialogTitle>
-            <DialogDescription class="text-center" text-color="secondary">
+            <DialogDescription class="text-center" text-color="body-secondary">
                 {{ modalConfig.description }}
             </DialogDescription>
         </DialogHeader>
@@ -147,7 +147,11 @@ watch(
                         </div>
 
                         <div class="d-flex align-items-center w-100 gap-3">
-                            <Button class="w-100" @click="handleModalNextStep">
+                            <Button
+                                color="primary"
+                                class="w-100"
+                                @click="handleModalNextStep"
+                            >
                                 {{ modalConfig.buttonText }}
                             </Button>
                         </div>
@@ -240,6 +244,7 @@ watch(
                             <Button
                                 type="submit"
                                 class="flex-grow-1"
+                                color="primary"
                                 :disabled="processing || code.length < 6"
                             >
                                 Confirm

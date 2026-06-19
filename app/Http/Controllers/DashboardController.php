@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\TeamInvitation;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Inertia\Response;
@@ -14,28 +14,32 @@ class DashboardController extends Controller
 {
     /**
      * Handle the incoming request.
-     *
-     * @throws Throwable
      */
     public function __invoke(Request $request): Response
     {
-        $user = $request->user();
+        $email = strtolower($request->user()->email);
 
-        $users = User::selectRaw('
-            COUNT(*) as total,
-            COUNT(email_verified_at) as verified,
-            COUNT(*) - COUNT(email_verified_at) as unverified
-        ')->first()->withoutAppends();
-
-        $recentUsers = $user->currentTeam->members()
-            ->latest('id')
-            ->limit(5)
-            ->get();
+        $pendingInvitations = TeamInvitation::query()
+            ->with(['inviter', 'team'])
+            ->whereRaw('LOWER(email) = ?', [$email])
+            ->whereNull('accepted_at')
+            ->where(fn ($query) => $query
+                ->whereNull('expires_at')
+                ->orWhere('expires_at', '>=', now()))
+            ->latest()
+            ->get()
+            ->map(fn (TeamInvitation $invitation) => [
+                'code' => $invitation->code,
+                'inviterName' => $invitation->inviter->name,
+                'team' => [
+                    'name' => $invitation->team->name,
+                    'slug' => $invitation->team->slug,
+                ],
+            ]);
 
         return inertia('Dashboard', [
             'status' => session('status'),
-            'recentUsers' => $recentUsers->toResourceCollection(),
-            'users' => $users,
+            'pendingInvitations' => $pendingInvitations,
         ]);
     }
 }

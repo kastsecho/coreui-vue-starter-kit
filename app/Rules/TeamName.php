@@ -20,12 +20,14 @@ class TeamName implements ValidationRule
         $name = strtolower(trim($value));
 
         if (in_array($name, $this->reservedNames(), true)) {
-            $fail('This team name is reserved and cannot be used.');
+            $fail(__('This team name is reserved and cannot be used.'));
         }
     }
 
     /**
      * Get a list of all reserved names.
+     *
+     * @return array<int, string>
      */
     protected function reservedNames(): array
     {
@@ -368,6 +370,8 @@ class TeamName implements ValidationRule
 
     /**
      * Get a list of reserved names from the application's route prefixes.
+     *
+     * @return array<int, string>
      */
     protected function routesPrefixes(): array
     {

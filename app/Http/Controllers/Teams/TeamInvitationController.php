@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Teams;
 
 use App\Enums\TeamRole;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Teams\AcceptTeamInvitationRequest;
 use App\Http\Requests\Teams\CreateTeamInvitationRequest;
+use App\Http\Requests\Teams\RespondToTeamInvitationRequest;
 use App\Models\Team;
 use App\Models\TeamInvitation;
 use App\Notifications\Teams\TeamInvitation as TeamInvitationNotification;
@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Notification;
+use Inertia\Inertia;
 use Throwable;
 
 class TeamInvitationController extends Controller
@@ -34,6 +35,8 @@ class TeamInvitationController extends Controller
         Notification::route('mail', $invitation->email)
             ->notify(new TeamInvitationNotification($invitation));
 
+        Inertia::toast(__('Invitation sent.'), 'success');
+
         return to_route('teams.edit', ['team' => $team->slug]);
     }
 
@@ -48,6 +51,8 @@ class TeamInvitationController extends Controller
 
         $invitation->delete();
 
+        Inertia::toast(__('Invitation cancelled.'), 'success');
+
         return to_route('teams.edit', ['team' => $team->slug]);
     }
 
@@ -56,24 +61,36 @@ class TeamInvitationController extends Controller
      *
      * @throws Throwable
      */
-    public function accept(AcceptTeamInvitationRequest $request, TeamInvitation $invitation): RedirectResponse
+    public function accept(RespondToTeamInvitationRequest $request, TeamInvitation $invitation): RedirectResponse
     {
         $user = $request->user();
 
         DB::transaction(function () use ($user, $invitation) {
             $team = $invitation->team;
 
-            $membership = $team->memberships()->firstOrCreate(
+            $team->memberships()->firstOrCreate(
                 ['user_id' => $user->id],
                 ['role' => $invitation->role],
             );
-
-            $wasRecentlyCreated = $membership->wasRecentlyCreated;
 
             $invitation->update(['accepted_at' => now()]);
 
             $user->switchTeam($team);
         });
+
+        Inertia::toast(__('Invitation accepted.'), 'success');
+
+        return to_route('dashboard');
+    }
+
+    /**
+     * Decline the invitation.
+     */
+    public function decline(RespondToTeamInvitationRequest $request, TeamInvitation $invitation): RedirectResponse
+    {
+        $invitation->delete();
+
+        Inertia::toast(__('Invitation declined.'), 'success');
 
         return to_route('dashboard');
     }

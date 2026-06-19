@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { cilPencil, cilPlus } from '@coreui/icons';
 import { CIcon, CIconSvg } from '@coreui/icons-vue';
 import { Head, setLayoutProps } from '@inertiajs/vue3';
+import { ref } from 'vue';
 import CreateTeamModal from '@/components/CreateTeamModal.vue';
 import Heading from '@/components/Heading.vue';
 import BiEye from '@/components/icon/biEye.vue';
+import LeaveTeamModal from '@/components/LeaveTeamModal.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ListGroup, ListGroupItem } from '@/components/ui/list-group';
 import { Tooltip } from '@/components/ui/tooltip';
+import { cilAccountLogout, cilPencil, cilPlus } from '@/icons';
 import { edit, index } from '@/routes/teams';
 import type { Team } from '@/types';
 
@@ -25,6 +27,16 @@ setLayoutProps({
         },
     ],
 });
+
+const leaveTeamDialogOpen = ref(false);
+const teamLeaving = ref<Team | null>(null);
+
+const canLeaveTeam = (team: Team) => !team.isPersonal && team.role !== 'owner';
+
+const openLeaveTeamDialog = (team: Team) => {
+    teamLeaving.value = team;
+    leaveTeamDialogOpen.value = true;
+};
 </script>
 
 <template>
@@ -67,39 +79,60 @@ setLayoutProps({
                     </span>
                 </div>
 
-                <Tooltip
-                    v-if="team.role === 'member'"
-                    v-slot="{ id, on }"
-                    class="nav-link icon-link"
-                    content="View team"
-                    placement="top"
-                >
-                    <TextLink
-                        v-on="on"
-                        :href="edit(team.slug)"
-                        :aria-describedby="id"
+
+                <div class="d-flex align-items-center gap-2">
+                    <Tooltip
+                        v-if="canLeaveTeam(team)"
+                        v-slot="{ id, on }"
+                        class="nav-link icon-link"
+                        content="Leave team"
+                        placement="top"
                     >
-                        <span class="visually-hidden">View team</span>
-                        <CIconSvg>
-                            <biEye />
-                        </CIconSvg>
-                    </TextLink>
-                </Tooltip>
-                <Tooltip
-                    v-else
-                    v-slot="{ id, on }"
-                    content="Edit team"
-                    placement="top"
-                >
-                    <TextLink
-                        v-on="on"
-                        :href="edit(team.slug)"
-                        :aria-describedby="id"
+                        <Button
+                            data-test="team-leave-button"
+                            v-on="on"
+                            :aria-describedby="id"
+                            @click="openLeaveTeamDialog(team)"
+                        >
+                            <span class="visually-hidden">Leave team</span>
+                            <CIcon :icon="cilAccountLogout" />
+                        </Button>
+                    </Tooltip>
+
+                    <Tooltip
+                        v-if="team.role === 'member'"
+                        v-slot="{ id, on }"
+                        class="nav-link icon-link"
+                        content="View team"
+                        placement="top"
                     >
-                        <span class="visually-hidden">Edit team</span>
-                        <CIcon :icon="cilPencil" />
-                    </TextLink>
-                </Tooltip>
+                        <TextLink
+                            v-on="on"
+                            :href="edit(team.slug)"
+                            :aria-describedby="id"
+                        >
+                            <span class="visually-hidden">View team</span>
+                            <CIconSvg>
+                                <biEye />
+                            </CIconSvg>
+                        </TextLink>
+                    </Tooltip>
+                    <Tooltip
+                        v-else
+                        v-slot="{ id, on }"
+                        content="Edit team"
+                        placement="top"
+                    >
+                        <TextLink
+                            v-on="on"
+                            :href="edit(team.slug)"
+                            :aria-describedby="id"
+                        >
+                            <span class="visually-hidden">Edit team</span>
+                            <CIcon :icon="cilPencil" />
+                        </TextLink>
+                    </Tooltip>
+                </div>
             </ListGroupItem>
         </ListGroup>
 
@@ -107,4 +140,6 @@ setLayoutProps({
             You don't belong to any teams yet.
         </p>
     </div>
+
+    <LeaveTeamModal v-model:open="leaveTeamDialogOpen" :team="teamLeaving" />
 </template>
