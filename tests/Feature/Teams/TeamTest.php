@@ -6,6 +6,7 @@ use App\Enums\TeamRole;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -23,6 +24,11 @@ class TeamTest extends TestCase
             ->get(route('teams.index'));
 
         $response->assertOk();
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('teams/Edit')
+            ->where('members.0.role', TeamRole::Owner->value)
+            ->where('members.0.role_label', TeamRole::Owner->label()),
+        );
     }
 
     #[Test]

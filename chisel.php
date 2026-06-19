@@ -13,7 +13,6 @@ function chiselRun(array $command, string $label): void
 {
     $process = task(
         label: $label,
-        keepSummary: true,
         callback: function (Logger $logger) use ($command) {
             $process = new Process($command);
             $process->run(function ($type, $line) use ($logger) {
@@ -32,6 +31,7 @@ function chiselRun(array $command, string $label): void
 
             return $process;
         },
+        keepSummary: true,
     );
 
     if (! $process->isSuccessful()) {
@@ -183,6 +183,7 @@ return Chisel::script(__DIR__)
                 'config/fortify.php',
                 'app/Providers/FortifyServiceProvider.php',
                 'app/Http/Controllers/Settings/SecurityController.php',
+                'routes/settings.php',
                 'tests/Feature/Auth/AuthenticationTest.php',
                 'tests/Feature/Settings/SecurityTest.php',
                 $paths['security'],
@@ -201,6 +202,7 @@ return Chisel::script(__DIR__)
                 'config/fortify.php',
                 'app/Providers/FortifyServiceProvider.php',
                 'app/Http/Controllers/Settings/SecurityController.php',
+                'routes/settings.php',
                 'tests/Feature/Auth/AuthenticationTest.php',
                 'tests/Feature/Settings/SecurityTest.php',
                 $paths['security'],

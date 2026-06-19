@@ -55,3 +55,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('teams.invitations.destroy');
     });
 });
+
+/* @chisel-passkeys */
+Route::get('.well-known/passkey-endpoints', function () {
+    return response()->json([
+        'enroll' => route('security.edit'),
+        'manage' => route('security.edit'),
+    ]);
+})->name('well-known.passkeys');
+/* @end-chisel-passkeys */
