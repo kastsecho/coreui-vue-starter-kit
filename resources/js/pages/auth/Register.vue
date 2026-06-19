@@ -12,6 +12,10 @@ import { Spinner } from '@/components/ui/spinner';
 import { login } from '@/routes';
 import { store } from '@/routes/register';
 
+defineProps<{
+    passwordRules: string;
+}>();
+
 setLayoutProps({
     title: 'Create an account',
     description: 'Enter your details below to create your account',
@@ -68,6 +72,7 @@ setLayoutProps({
                     :tabindex="3"
                     autocomplete="new-password"
                     placeholder="Password"
+                    :passwordrules="passwordRules"
                     :invalid="!!errors.password"
                 />
                 <InputFeedback :message="errors.password" invalid />
@@ -82,6 +87,7 @@ setLayoutProps({
                     :tabindex="4"
                     autocomplete="new-password"
                     placeholder="Confirm password"
+                    :passwordrules="passwordRules"
                     :invalid="!!errors.password_confirmation"
                 />
                 <InputFeedback

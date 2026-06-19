@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { cilHamburgerMenu } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import { CHeaderToggler } from '@coreui/vue';
 import type { HTMLAttributes } from 'vue';
 import { useSidebar } from '@/components/ui/sidebar';
+import { cilHamburgerMenu } from '@/icons';
 
 const props = defineProps<{
     class?: HTMLAttributes['class'];

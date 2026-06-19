@@ -1,12 +1,19 @@
 <script setup lang="ts">
 import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
+/* @chisel-passkeys */
+import {
+    index as confirmOptions,
+    store as confirmStore,
+} from '@/actions/Laravel/Passkeys/Http/Controllers/PasskeyConfirmationController';
+import PasskeyVerify from '@/components/PasskeyVerify.vue';
+/* @end-chisel-passkeys */
 import { Button } from '@/components/ui/button';
 import { InputFeedback, Label, PasswordInput } from '@/components/ui/form';
 import { Spinner } from '@/components/ui/spinner';
 import { store } from '@/routes/password/confirm';
 
 setLayoutProps({
-    title: 'Confirm your password',
+    title: 'Confirm password',
     description:
         'This is a secure area of the application. Please confirm your password before continuing.',
 });
@@ -14,6 +21,18 @@ setLayoutProps({
 
 <template>
     <Head title="Confirm password" />
+
+    <!-- @chisel-passkeys -->
+    <PasskeyVerify
+        :routes="{
+            options: confirmOptions(),
+            submit: confirmStore(),
+        }"
+        label="Confirm with passkey"
+        loading-label="Confirming..."
+        separator="Or confirm with password"
+    />
+    <!-- @end-chisel-passkeys -->
 
     <Form
         v-bind="store.form()"

@@ -22,7 +22,7 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
     as: 'button',
-    color: 'primary',
+    color: 'dark',
     type: 'button',
 });
 

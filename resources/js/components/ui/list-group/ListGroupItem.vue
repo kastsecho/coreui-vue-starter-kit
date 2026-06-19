@@ -48,6 +48,7 @@ const delegatedProps = reactiveOmit(props, 'href', 'class');
         data-slot="list-group-item"
         v-bind="delegatedProps"
         :href="props.href ? toUrl(props.href) : undefined"
+        :class="props.class"
     >
         <slot />
     </CListGroupItem>

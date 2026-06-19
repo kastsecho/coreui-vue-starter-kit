@@ -22,7 +22,7 @@ class PasswordResetTest extends TestCase
     }
 
     #[Test]
-    public function reset_password_link_screen_can_be_rendered()
+    public function reset_password_link_screen_can_be_rendered(): void
     {
         $response = $this->get(route('password.request'));
 
@@ -30,7 +30,7 @@ class PasswordResetTest extends TestCase
     }
 
     #[Test]
-    public function reset_password_link_can_be_requested()
+    public function reset_password_link_can_be_requested(): void
     {
         Notification::fake();
 
@@ -42,7 +42,7 @@ class PasswordResetTest extends TestCase
     }
 
     #[Test]
-    public function reset_password_screen_can_be_rendered()
+    public function reset_password_screen_can_be_rendered(): void
     {
         Notification::fake();
 
@@ -60,7 +60,7 @@ class PasswordResetTest extends TestCase
     }
 
     #[Test]
-    public function password_can_be_reset_with_valid_token()
+    public function password_can_be_reset_with_valid_token(): void
     {
         Notification::fake();
 

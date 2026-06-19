@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cilExternalLink } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -11,10 +10,13 @@ import {
     NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 import { Column, Container, Row } from '@/components/ui/skeleton';
-import { dashboard, login, register } from '@/routes';
+import { cilExternalLink } from '@/icons';
+import { dashboard, login } from '@/routes';
+/* @chisel-registration */
+import { register } from '@/routes';
+/* @end-chisel-registration */
 
 defineProps<{
-    hasLogin: boolean;
     laravel: string;
 }>();
 
@@ -27,12 +29,7 @@ const auth = computed(() => page.props.auth);
     <div
         class="d-flex flex-column align-items-center justify-content-center vh-100"
     >
-        <NavigationMenu
-            v-if="hasLogin"
-            placement="fixed-top"
-            container
-            expand="md"
-        >
+        <NavigationMenu placement="fixed-top" container expand="md">
             <NavigationMenuList class="ms-auto gap-3">
                 <template v-if="!auth.user">
                     <Button
@@ -43,6 +40,7 @@ const auth = computed(() => page.props.auth);
                     >
                         Log in
                     </Button>
+                    <!-- @chisel-registration -->
                     <Button
                         as="Link"
                         color="dark"
@@ -51,6 +49,7 @@ const auth = computed(() => page.props.auth);
                     >
                         Register
                     </Button>
+                    <!-- @end-chisel-registration -->
                 </template>
                 <Button
                     v-else
@@ -83,9 +82,9 @@ const auth = computed(() => page.props.auth);
                                         </small>
                                     </h1>
                                     <p class="fw-medium text-center">
-                                        Laravel has an incredibly rich
-                                        ecosystem. We suggest starting with the
-                                        following.
+                                        Let's get started. With so many options
+                                        available to you, we suggest you start
+                                        with the following.
                                     </p>
                                 </Column>
                                 <Column
@@ -113,6 +112,18 @@ const auth = computed(() => page.props.auth);
                                         target="_blank"
                                     >
                                         Watch tutorials at Laracasts
+                                        <CIcon :icon="cilExternalLink" />
+                                    </Button>
+
+                                    <Button
+                                        as="a"
+                                        color="danger"
+                                        href="https://github.com/laravel/framework/blob/13.x/CHANGELOG.md"
+                                        shape="rounded-pill"
+                                        variant="outline"
+                                        target="_blank"
+                                    >
+                                        View changelog
                                         <CIcon :icon="cilExternalLink" />
                                     </Button>
 

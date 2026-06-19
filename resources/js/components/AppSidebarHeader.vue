@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cilApplications } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import { usePage } from '@inertiajs/vue3';
 import { computed, onMounted, ref } from 'vue';
@@ -21,6 +20,7 @@ import { Container } from '@/components/ui/skeleton';
 import UserMenuContent from '@/components/UserMenuContent.vue';
 import { useCurrentUrl } from '@/composables/useCurrentUrl';
 import { getInitials } from '@/composables/useInitials';
+import { cilApplications } from '@/icons';
 import { cn } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
@@ -84,32 +84,8 @@ onMounted(() => {
                 </template>
             </SidebarMenuHeaderList>
 
-            <SidebarMenuHeaderList class="align-items-center ms-auto">
+            <SidebarMenuHeaderList class="ms-auto">
                 <AppearanceSwitcher icon-class="icon icon-lg" />
-                <DropdownMenu
-                    v-if="auth.user"
-                    :alignment="{ md: 'end' }"
-                    variant="nav-item"
-                >
-                    <DropdownMenuTrigger class="nav-link" :caret="false">
-                        <AvatarImage
-                            v-if="auth.user.avatar"
-                            :src="auth.user.avatar"
-                            :alt="auth.user.name"
-                            status="success"
-                        />
-                        <AvatarFallback
-                            v-else
-                            class="fw-semibold"
-                            status="success"
-                        >
-                            {{ getInitials(auth.user.name) }}
-                        </AvatarFallback>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent class="rounded-4 min-w-50">
-                        <UserMenuContent :user="auth.user" />
-                    </DropdownMenuContent>
-                </DropdownMenu>
             </SidebarMenuHeaderList>
         </Container>
 

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cilApplications, cilFlip, cibGit } from '@coreui/icons';
 import { Link, usePage } from '@inertiajs/vue3';
 import simplebar from 'simplebar-vue';
 import { computed, markRaw } from 'vue';
@@ -15,6 +14,7 @@ import {
     SidebarMenuButton,
     SidebarRail,
 } from '@/components/ui/sidebar';
+import { cilApplications, cilFlip, cibGit } from '@/icons';
 import { dashboard, home } from '@/routes';
 import type { NavItem } from '@/types';
 
@@ -61,16 +61,16 @@ const footerNavItems: NavItem[] = [
                 />
             </Link>
             <SidebarMenuButton class="d-lg-none" dark />
+            <SidebarRail class="d-sidebar-narrow-none" />
         </SidebarHeader>
 
         <SidebarContent :as="simplebarRef">
             <NavMain :items="mainNavItems" />
             <NavFooter class="mt-auto" :items="footerNavItems" />
-            <NavUser />
         </SidebarContent>
 
         <SidebarFooter>
-            <SidebarRail />
+            <NavUser />
         </SidebarFooter>
     </Sidebar>
     <slot />

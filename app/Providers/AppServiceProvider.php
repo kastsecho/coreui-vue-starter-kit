@@ -13,6 +13,9 @@ use Inertia\ResponseFactory;
 
 class AppServiceProvider extends ServiceProvider
 {
+    /**
+     * @var array<int>
+     */
     protected array $statusCodes = [401, 402, 403, 404, 418, 419, 429, 500, 503];
 
     /**
@@ -31,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDefaults();
 
         Inertia::macro('toast', function (string $message, string $type): ResponseFactory {
-            return $this->flash('toast', compact('message', 'type'));
+            return Inertia::flash('toast', compact('type', 'message'));
         });
 
         Inertia::handleExceptionsUsing(function (ExceptionResponse $response) {
