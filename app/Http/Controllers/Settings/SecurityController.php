@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Settings;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Settings\TwoFactorAuthenticationRequest;
+/* @chisel-password-confirmation */
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
+/* @end-chisel-password-confirmation */
 use Illuminate\Validation\Rules\Password;
 use Inertia\Response;
 use Laravel\Fortify\Features;
