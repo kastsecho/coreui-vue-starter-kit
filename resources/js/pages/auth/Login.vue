@@ -3,6 +3,7 @@ import { Form, Head, setLayoutProps } from '@inertiajs/vue3';
 /* @chisel-passkeys */
 import PasskeyVerify from '@/components/PasskeyVerify.vue';
 /* @end-chisel-passkeys */
+import TeamInvitationAlert from '@/components/TeamInvitationAlert.vue';
 import TextLink from '@/components/TextLink.vue';
 import { Alert } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -19,16 +20,18 @@ import { register } from '@/routes';
 /* @end-chisel-registration */
 import { store } from '@/routes/login';
 import { request } from '@/routes/password';
+import type { TeamInvitationContext } from '@/types';
+
+defineProps<{
+    status?: string;
+    canResetPassword: boolean;
+    teamInvitation?: TeamInvitationContext | null;
+}>();
 
 setLayoutProps({
     title: 'Log in to your account',
     description: 'Enter your email and password below to log in',
 });
-
-defineProps<{
-    status?: string;
-    canResetPassword: boolean;
-}>();
 </script>
 
 <template>
@@ -41,6 +44,12 @@ defineProps<{
     >
         {{ status }}
     </Alert>
+
+    <TeamInvitationAlert
+        v-if="teamInvitation"
+        :invitation="teamInvitation"
+        action="Log in"
+    />
 
     <!-- @chisel-passkeys -->
     <PasskeyVerify />
@@ -118,7 +127,19 @@ defineProps<{
         <!-- @chisel-registration -->
         <div class="text-muted text-center">
             Don't have an account?
-            <TextLink :href="register()" :tabindex="5">Sign up</TextLink>
+            <TextLink
+                :href="
+                    register({
+                        query: {
+                            invitation: teamInvitation?.code,
+                        },
+                    })
+                "
+                :tabindex="5"
+                data-test="register-link"
+            >
+                Sign up
+            </TextLink>
         </div>
         <!-- @end-chisel-registration -->
     </Form>

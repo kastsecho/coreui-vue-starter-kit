@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
         $this->configureDefaults();
 
         Inertia::macro('toast', function (string $message, string $type): ResponseFactory {
-            return $this->flash('toast', compact('message', 'type'));
+            return $this->flash('toast', compact('type', 'message'));
         });
 
         Inertia::handleExceptionsUsing(function (ExceptionResponse $response) {

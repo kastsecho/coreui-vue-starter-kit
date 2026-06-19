@@ -6,6 +6,7 @@ use App\Enums\TeamRole;
 use App\Models\Team;
 use App\Models\TeamInvitation;
 use App\Models\User;
+use App\Notifications\Teams\TeamInvitation as TeamInvitationNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
 use PHPUnit\Framework\Attributes\Test;
@@ -39,6 +40,47 @@ class TeamInvitationTest extends TestCase
             'email' => 'invited@example.com',
             'role' => TeamRole::Member->value,
         ]);
+    }
+
+    #[Test]
+    public function invitation_email_for_existing_users_uses_login_route(): void
+    {
+        $owner = User::factory()->create();
+        $invitedUser = User::factory()->create(['email' => 'invited@example.com']);
+        $team = Team::factory()->create();
+
+        $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
+
+        $invitation = TeamInvitation::factory()->create([
+            'team_id' => $team->id,
+            'email' => $invitedUser->email,
+            'invited_by' => $owner->id,
+        ]);
+
+        $mail = (new TeamInvitationNotification($invitation))->toMail($invitedUser);
+
+        $this->assertSame(route('login', ['invitation' => $invitation->code]), $mail->actionUrl);
+        $this->assertStringContainsString('dashboard', implode(' ', $mail->introLines));
+    }
+
+    #[Test]
+    public function invitation_email_for_unknown_users_uses_login_route(): void
+    {
+        $owner = User::factory()->create();
+        $team = Team::factory()->create();
+
+        $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
+
+        $invitation = TeamInvitation::factory()->create([
+            'team_id' => $team->id,
+            'email' => 'unknown@example.com',
+            'invited_by' => $owner->id,
+        ]);
+
+        $mail = (new TeamInvitationNotification($invitation))->toMail((object) []);
+
+        $this->assertSame(route('login', ['invitation' => $invitation->code]), $mail->actionUrl);
+        $this->assertStringContainsString('log in', strtolower(implode(' ', $mail->introLines)));
     }
 
     #[Test]
@@ -175,9 +217,88 @@ class TeamInvitationTest extends TestCase
             ->get(route('invitations.accept', $invitation));
 
         $response->assertRedirect(route('dashboard'));
+        $response->assertInertiaFlash('toast', ['type' => 'success', 'message' => 'Invitation accepted.']);
 
         $this->assertTrue($invitedUser->fresh()->belongsToTeam($team));
         $this->assertNotNull($invitation->fresh()->accepted_at);
+    }
+
+    #[Test]
+    public function team_invitations_can_be_declined_by_the_invited_user(): void
+    {
+        $owner = User::factory()->create();
+        $invitedUser = User::factory()->create(['email' => 'invited@example.com']);
+        $team = Team::factory()->create();
+
+        $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
+
+        $invitation = TeamInvitation::factory()->create([
+            'team_id' => $team->id,
+            'email' => 'invited@example.com',
+            'invited_by' => $owner->id,
+        ]);
+
+        $response = $this
+            ->actingAs($invitedUser)
+            ->delete(route('invitations.decline', $invitation));
+
+        $response->assertRedirect(route('dashboard'));
+
+        $this->assertDatabaseMissing('team_invitations', [
+            'id' => $invitation->id,
+        ]);
+    }
+
+    #[Test]
+    public function team_invitations_cannot_be_declined_by_uninvited_user(): void
+    {
+        $owner = User::factory()->create();
+        $uninvitedUser = User::factory()->create(['email' => 'uninvited@example.com']);
+        $team = Team::factory()->create();
+
+        $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
+
+        $invitation = TeamInvitation::factory()->create([
+            'team_id' => $team->id,
+            'email' => 'invited@example.com',
+            'invited_by' => $owner->id,
+        ]);
+
+        $response = $this
+            ->actingAs($uninvitedUser)
+            ->delete(route('invitations.decline', $invitation));
+
+        $response->assertInvalid('invitation');
+
+        $this->assertDatabaseHas('team_invitations', [
+            'id' => $invitation->id,
+        ]);
+    }
+
+    #[Test]
+    public function accepted_team_invitations_cannot_be_declined(): void
+    {
+        $owner = User::factory()->create();
+        $invitedUser = User::factory()->create(['email' => 'invited@example.com']);
+        $team = Team::factory()->create();
+
+        $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
+
+        $invitation = TeamInvitation::factory()->accepted()->create([
+            'team_id' => $team->id,
+            'email' => 'invited@example.com',
+            'invited_by' => $owner->id,
+        ]);
+
+        $response = $this
+            ->actingAs($invitedUser)
+            ->delete(route('invitations.decline', $invitation));
+
+        $response->assertInvalid('invitation');
+
+        $this->assertDatabaseHas('team_invitations', [
+            'id' => $invitation->id,
+        ]);
     }
 
     #[Test]

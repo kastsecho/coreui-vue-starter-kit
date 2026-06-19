@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { Head, setLayoutProps, usePage } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
+import PendingInvitationsModal from '@/components/PendingInvitationsModal.vue';
 import PlaceholderPattern from '@/components/PlaceholderPattern.vue';
 import { Alert } from '@/components/ui/alert';
 import { Column, Container, Row } from '@/components/ui/skeleton';
 import { dashboard } from '@/routes';
+import type { DashboardInvitation } from '@/types';
 
-defineProps<{
+const props = defineProps<{
     status?: string;
+    pendingInvitations?: DashboardInvitation[];
 }>();
 
 const page = usePage();
@@ -28,6 +31,11 @@ setLayoutProps({
 
 <template>
     <Head title="Dashboard" />
+
+    <PendingInvitationsModal
+        v-if="pendingInvitations && pendingInvitations.length > 0"
+        :invitations="pendingInvitations"
+    />
 
     <Container>
         <Row class="justify-content-center row-gap-3">

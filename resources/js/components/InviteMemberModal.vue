@@ -48,7 +48,7 @@ function handleOpenChange(value: boolean) {
         >
             <DialogHeader class="d-grid" :close-button="false">
                 <DialogTitle>Invite a team member</DialogTitle>
-                <DialogDescription>
+                <DialogDescription text-color="body-secondary">
                     Send an invitation to join this team.
                 </DialogDescription>
             </DialogHeader>
@@ -102,6 +102,7 @@ function handleOpenChange(value: boolean) {
 
                 <Button
                     type="submit"
+                    color="primary"
                     data-test="create-team-submit"
                     :disabled="processing"
                 >

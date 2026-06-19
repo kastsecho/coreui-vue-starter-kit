@@ -2,8 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Enums\TeamRole;
+use App\Models\Team;
+use App\Models\TeamInvitation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -31,5 +35,122 @@ class DashboardTest extends TestCase
             ->actingAs($user)
             ->get(route('dashboard'));
         $response->assertOk();
+    }
+
+    #[Test]
+    public function dashboard_includes_pending_invitations_for_the_authenticated_user(): void
+    {
+        $owner = User::factory()->create(['name' => 'Taylor Otwell']);
+        $invitedUser = User::factory()->create(['email' => 'invited@example.com']);
+        $team = Team::factory()->create(['name' => 'Laravel Team']);
+
+        $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
+
+        $invitation = TeamInvitation::factory()->create([
+            'team_id' => $team->id,
+            'email' => 'invited@example.com',
+            'invited_by' => $owner->id,
+        ]);
+
+        $response = $this
+            ->actingAs($invitedUser)
+            ->get(route('dashboard'));
+
+        $response->assertOk();
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Dashboard')
+            ->has('pendingInvitations', 1)
+            ->where('pendingInvitations.0.code', $invitation->code)
+            ->where('pendingInvitations.0.inviterName', 'Taylor Otwell')
+            ->where('pendingInvitations.0.team.name', 'Laravel Team')
+            ->where('pendingInvitations.0.team.slug', $team->slug)
+            ->missing('pendingInvitations.0.teamName'),
+        );
+    }
+
+    #[Test]
+    public function dashboard_does_not_include_accepted_invitations(): void
+    {
+        $owner = User::factory()->create();
+        $invitedUser = User::factory()->create(['email' => 'invited@example.com']);
+        $team = Team::factory()->create();
+
+        $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
+
+        TeamInvitation::factory()->accepted()->create([
+            'team_id' => $team->id,
+            'email' => 'invited@example.com',
+            'invited_by' => $owner->id,
+        ]);
+
+        $response = $this
+            ->actingAs($invitedUser)
+            ->get(route('dashboard'));
+
+        $response->assertOk();
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Dashboard')
+            ->has('pendingInvitations', 0),
+        );
+    }
+
+    #[Test]
+    public function dashboard_excludes_expired_invitations_without_deleting_them(): void
+    {
+        $owner = User::factory()->create();
+        $invitedUser = User::factory()->create(['email' => 'invited@example.com']);
+        $team = Team::factory()->create();
+
+        $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
+
+        $invitation = TeamInvitation::factory()->expired()->create([
+            'team_id' => $team->id,
+            'email' => 'invited@example.com',
+            'invited_by' => $owner->id,
+        ]);
+
+        $response = $this
+            ->actingAs($invitedUser)
+            ->get(route('dashboard'));
+
+        $response->assertOk();
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Dashboard')
+            ->has('pendingInvitations', 0),
+        );
+
+        $this->assertDatabaseHas('team_invitations', [
+            'id' => $invitation->id,
+        ]);
+    }
+
+    #[Test]
+    public function dashboard_does_not_include_or_delete_other_users_invitations(): void
+    {
+        $owner = User::factory()->create();
+        $invitedUser = User::factory()->create(['email' => 'invited@example.com']);
+        $team = Team::factory()->create();
+
+        $team->members()->attach($owner, ['role' => TeamRole::Owner->value]);
+
+        $invitation = TeamInvitation::factory()->expired()->create([
+            'team_id' => $team->id,
+            'email' => 'someone@example.com',
+            'invited_by' => $owner->id,
+        ]);
+
+        $response = $this
+            ->actingAs($invitedUser)
+            ->get(route('dashboard'));
+
+        $response->assertOk();
+        $response->assertInertia(fn (Assert $page) => $page
+            ->component('Dashboard')
+            ->has('pendingInvitations', 0),
+        );
+
+        $this->assertDatabaseHas('team_invitations', [
+            'id' => $invitation->id,
+        ]);
     }
 }

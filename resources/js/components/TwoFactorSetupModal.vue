@@ -118,7 +118,7 @@ watch(
         >
             <CIcon :icon="cilBarcode" size="xl" />
             <DialogTitle>{{ modalConfig.title }}</DialogTitle>
-            <DialogDescription class="text-center" text-color="secondary">
+            <DialogDescription class="text-center" text-color="body-secondary">
                 {{ modalConfig.description }}
             </DialogDescription>
         </DialogHeader>
@@ -147,7 +147,7 @@ watch(
                         </div>
 
                         <div class="d-flex align-items-center w-100 gap-3">
-                            <Button class="w-100" @click="handleModalNextStep">
+                            <Button color="primary" class="w-100" @click="handleModalNextStep">
                                 {{ modalConfig.buttonText }}
                             </Button>
                         </div>
@@ -240,6 +240,7 @@ watch(
                             <Button
                                 type="submit"
                                 class="flex-grow-1"
+                                color="primary"
                                 :disabled="processing || code.length < 6"
                             >
                                 Confirm
