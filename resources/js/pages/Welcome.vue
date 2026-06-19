@@ -22,6 +22,9 @@ defineProps<{
 
 const page = usePage();
 const auth = computed(() => page.props.auth);
+const dashboardUrl = computed(() =>
+    page.props.currentTeam ? dashboard(page.props.currentTeam.slug).url : '/',
+);
 </script>
 
 <template>
@@ -55,7 +58,7 @@ const auth = computed(() => page.props.auth);
                     v-else
                     as="Link"
                     color="dark"
-                    :href="dashboard()"
+                    :href="dashboardUrl"
                     shape="rounded-pill"
                 >
                     Dashboard
