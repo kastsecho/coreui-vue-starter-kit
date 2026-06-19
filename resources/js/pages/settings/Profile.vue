@@ -28,7 +28,7 @@ defineProps<{
 setLayoutProps({
     breadcrumbs: [
         {
-            title: 'Profile settings',
+            title: 'Profile',
             href: edit(),
         },
     ],
@@ -172,7 +172,7 @@ const deletePhoto = () => {
                         class="btn btn-link link-body-emphasis"
                         :tabindex="5"
                     >
-                        Click here to resend the verification email.
+                        Click here to re-send the verification email.
                     </Link>
                 </div>
 

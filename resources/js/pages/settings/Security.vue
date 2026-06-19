@@ -18,9 +18,10 @@ type Props = {
     canManageTwoFactor?: boolean;
     requiresConfirmation?: boolean;
     twoFactorEnabled?: boolean;
+    passwordRules: string;
 };
 
-withDefaults(defineProps<Props>(), {
+const props = withDefaults(defineProps<Props>(), {
     canManageTwoFactor: false,
     requiresConfirmation: false,
     twoFactorEnabled: false,
@@ -86,6 +87,7 @@ onUnmounted(() => clearTwoFactorAuthData());
                     :tabindex="2"
                     autocomplete="new-password"
                     placeholder="New password"
+                    :passwordrules="props.passwordRules"
                     :invalid="!!errors.password"
                 />
                 <InputFeedback :message="errors.password" invalid />
@@ -99,6 +101,7 @@ onUnmounted(() => clearTwoFactorAuthData());
                     :tabindex="3"
                     autocomplete="new-password"
                     placeholder="Confirm password"
+                    :passwordrules="props.passwordRules"
                     :invalid="!!errors.password_confirmation"
                 />
                 <InputFeedback
@@ -115,7 +118,7 @@ onUnmounted(() => clearTwoFactorAuthData());
                     data-test="update-password-button"
                 >
                     <Spinner v-if="processing" />
-                    Save password
+                    Save
                 </Button>
             </div>
         </Form>

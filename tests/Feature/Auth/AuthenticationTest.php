@@ -32,7 +32,7 @@ class AuthenticationTest extends TestCase
         ]);
 
         $this->assertAuthenticated();
-        $response->assertRedirect(route('dashboard'));
+        $response->assertRedirect(route('dashboard', absolute: false));
     }
 
     #[Test]
@@ -45,22 +45,15 @@ class AuthenticationTest extends TestCase
             'confirmPassword' => true,
         ]);
 
-        $user = User::factory()->create();
-
-        $user->forceFill([
-            'two_factor_secret' => encrypt('test-secret'),
-            'two_factor_recovery_codes' => encrypt(json_encode(['code1', 'code2'])),
-            'two_factor_confirmed_at' => now(),
-        ])->save();
+        $user = User::factory()->withTwoFactor()->create();
 
         $response = $this->post(route('login'), [
             'email' => $user->email,
             'password' => 'password',
         ]);
 
-        $response
-            ->assertRedirect(route('two-factor.login'))
-            ->assertSessionHas('login.id', $user->id);
+        $response->assertRedirect(route('two-factor.login'));
+        $response->assertSessionHas('login.id', $user->id);
         $this->assertGuest();
     }
 
@@ -86,8 +79,8 @@ class AuthenticationTest extends TestCase
             ->actingAs($user)
             ->post(route('logout'));
 
-        $this->assertGuest();
         $response->assertRedirect(route('home'));
+        $this->assertGuest();
     }
 
     #[Test]
