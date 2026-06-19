@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cilExternalLink } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import { computed } from 'vue';
@@ -11,6 +10,7 @@ import {
     NavigationMenuList,
 } from '@/components/ui/navigation-menu';
 import { Column, Container, Row } from '@/components/ui/skeleton';
+import { cilExternalLink } from '@/icons';
 import { dashboard, login, register } from '@/routes';
 
 defineProps<{

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { cilContrast, cilMoon, cilSun } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import { TabGroup, TabItem, TabList } from '@/components/ui/tab';
 import { useAppearance } from '@/composables/useAppearance';
 import { cn } from '@/lib/utils';
+import { cilContrast, cilMoon, cilSun } from '@/icons';
 
 const { appearance, updateAppearance } = useAppearance();
 

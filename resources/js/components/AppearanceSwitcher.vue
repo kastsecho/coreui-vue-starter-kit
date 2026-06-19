@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cilContrast, cilMoon, cilSun } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import { computed } from 'vue';
 import type { HTMLAttributes } from 'vue';
@@ -12,6 +11,7 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useAppearance } from '@/composables/useAppearance';
+import { cilContrast, cilMoon, cilSun } from '@/icons';
 
 defineProps<{
     iconClass?: HTMLAttributes['class'];

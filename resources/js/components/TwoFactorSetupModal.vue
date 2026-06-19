@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cilBarcode, cilCheck, cilCopy } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import { Form } from '@inertiajs/vue3';
 import { useClipboard } from '@vueuse/core';
@@ -22,6 +21,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Spinner } from '@/components/ui/spinner';
 import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
+import { cilBarcode, cilCheck, cilCopy } from '@/icons';
 import { confirm } from '@/routes/two-factor';
 import type { TwoFactorConfigContent } from '@/types';
 

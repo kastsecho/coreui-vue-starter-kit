@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { cilHome } from '@coreui/icons';
 import { CIcon } from '@coreui/icons-vue';
 import type { Colors } from '@coreui/vue/src/types';
 import { Head } from '@inertiajs/vue3';
@@ -8,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Container, Column, Row } from '@/components/ui/skeleton';
 import { Spinner } from '@/components/ui/spinner';
+import { cilHome } from '@/icons';
 import { home } from '@/routes';
 
 const props = defineProps<{

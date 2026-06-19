@@ -16,7 +16,7 @@ type Props = {
 
 const props = withDefaults(defineProps<Props>(), {
     color: 'secondary',
-    shape: 'rounded-circle',
+    shape: 'rounded-3',
     textColor: 'white',
 });
 
