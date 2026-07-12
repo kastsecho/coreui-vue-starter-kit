@@ -15,7 +15,7 @@
         "@coreui/icons": "^3.1.0",
         "@coreui/icons-vue": "^2.2.0",
         "@coreui/vue": "^5.9.0",
-        "@inertiajs/vite": "^3.5.0",
+        "@inertiajs/vite": "^3.6.0",
         "@inertiajs/vue3": "^3.5.0",
         "@laravel/passkeys": "^0.2.0",
         "@vueuse/core": "^14.3.0",
